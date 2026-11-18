@@ -1,0 +1,29 @@
+Handing an application to other people takes four steps. wdyapppack does each of them; the order matters.
+
+  1. wdyapppack build                                     create the bundle
+  2. wdyapppack sign <app> --identity <Developer ID>       sign it
+  3. wdyapppack notarize <app> --keychain-profile <p>      have Apple notarize it, staple the ticket
+  4. wdyapppack dmg <app>   or   wdyapppack zip <app>      wrap it for download
+
+Steps 2 and 3 need macOS. Steps 1 and 4 (zip) work everywhere, so a Linux build server can build the bundle and a Mac sign and notarize it.
+
+ONLY FOR YOURSELF
+
+To run the bundle on your own Mac, an ad hoc signature is enough:
+
+  wdyapppack sign "dist/My Tool.app" --adhoc
+  open "dist/My Tool.app"
+
+DISK IMAGE OR ZIP?
+
+A disk image (.dmg) opens as a window with the application and a link to the Applications folder; installing is dragging one onto the other. It is what Mac users expect from a download. It needs hdiutil, so macOS.
+
+A zip archive (.zip) is unpacked by a double click; the user moves the application wherever they like. It is written in Go, on every system, and keeps symbolic links and permissions intact, which a generic zip tool would not.
+
+WHAT TO NOTARIZE
+
+Either notarize the bundle (step 3) and then wrap it — the bundle inside carries its stapled ticket. Or wrap it first, sign the disk image (wdyapppack dmg <app> --sign-identity <Developer ID>) and notarize the image: then the ticket is stapled to the image. Notarizing the bundle first is simplest and works for both formats.
+
+ON A BUILD SERVER
+
+  wdyapppack help ci

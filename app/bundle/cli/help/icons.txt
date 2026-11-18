@@ -1,0 +1,33 @@
+The icon is shown in the Finder, the Dock, Launchpad and the application switcher, at sizes from 16 to 1024 pixels. wdyapppack makes every one of them from a single image, without any tool from Apple, so this works on Linux build servers too.
+
+WHAT TO GIVE
+
+  --icon assets/icon.png        a PNG image (recommended)
+  --icon assets/icon.jpg        a JPEG image (no transparency)
+  --icon AppIcon.icns           an .icns file, used as it is
+  --icon AppIcon.iconset        an icon set directory, as used by Apple's iconutil
+
+The image must be square. Use 1024×1024 pixels: smaller images are scaled up for the largest sizes and look soft (a note below 1024, an error below 512).
+
+WHAT IS PRODUCED
+
+Contents/Resources/AppIcon.icns with ten images: 16, 32, 128, 256 and 512 pixels, each also at double resolution for Retina displays (up to 1024). They are the entries Apple's iconutil writes, all as PNG, scaled with a Lanczos filter.
+
+THE SHAPE ON MACOS 26
+
+Since macOS 26 (Tahoe), application icons follow one shape: a rounded square on a transparent background. An icon that does not — whose corners are visible — is shrunk and put inside a grey rounded frame. build notes this when the corners of your image are not transparent (WAP-ICON-SHAPE).
+
+Two ways to fix it:
+
+- Draw the icon in the shape yourself: Apple's grid puts an 824×824 rounded square on a 1024×1024 canvas, with a transparent margin of 100 pixels.
+
+- Let wdyapppack cut it: --icon-shape squircle (or "shape": "squircle" in the configuration file) scales the whole image to 824×824, centres it on a 1024×1024 canvas and cuts the corners to the rounded square. This works best with artwork that fills the square edge to edge.
+
+The default is none: the image is used exactly as given. The shape cannot be applied to an .icns file or an icon set, which are used as they are.
+
+Icons with the layered "Liquid Glass" effects of macOS 26 are made with Apple's Icon Composer and compiled by Xcode into an asset catalogue; wdyapppack does not produce those.
+
+ONLY THE ICON
+
+  wdyapppack icon assets/logo.png --out AppIcon.icns
+  wdyapppack icon assets/logo.png --shape squircle --iconset

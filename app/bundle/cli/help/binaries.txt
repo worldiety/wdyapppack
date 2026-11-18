@@ -1,0 +1,41 @@
+wdyapppack packages programs that are already compiled. It does not build them; it checks them and puts them into the bundle unchanged.
+
+ONLY MACOS PROGRAMS
+
+macOS runs Mach-O programs. A program built for Linux (ELF) or Windows (PE) is refused, and so is a script or a library. With Go:
+
+  GOOS=darwin GOARCH=arm64 go build -o dist/mytool-arm64 .     Apple silicon
+  GOOS=darwin GOARCH=amd64 go build -o dist/mytool-amd64 .     Intel
+
+Programs using cgo need a C compiler for macOS and are easiest built on a Mac. With Rust: cargo build --release --target aarch64-apple-darwin (and x86_64-apple-darwin).
+
+ARCHITECTURES
+
+The architectures are read from the program. --binary arm64=path states one; it is checked, so that two programs cannot be swapped by accident. Several programs, or one per architecture, are merged into a universal program (see: wdyapppack help architectures).
+
+MINIMUM MACOS
+
+A program records the oldest macOS it was built for. build uses that as LSMinimumSystemVersion unless --min-macos says otherwise, and refuses a lower one: macOS would accept the bundle and then fail to start the program. A program that records nothing gets 11.0, the first macOS for Apple silicon.
+
+SIGNATURES ON APPLE SILICON
+
+macOS does not start an arm64 program that carries no signature at all. Go adds an ad hoc signature itself when it builds for darwin/arm64; other toolchains, and cross compilers, may not. build notes an unsigned arm64 program (WAP-ARM64-UNSIGNED). Signing the bundle fixes it:
+
+  wdyapppack sign 'dist/My Tool.app' --adhoc
+
+LIBRARIES FROM OUTSIDE MACOS
+
+A program may load dynamic libraries. Those under /usr/lib and /System ship with macOS; those reached through @rpath, @executable_path or @loader_path travel with the program. Anything else — /opt/homebrew/..., /usr/local/... — exists only on machines that installed it, and the program will not start on other Macs. build notes each one (WAP-DYLIB-EXTERNAL).
+
+wdyapppack does not rewrite the program to fix this: rewriting changes the program and breaks its signature. Instead, when you build it:
+
+- link the library statically, or
+- copy it into the bundle with --framework path/to/libfoo.dylib and make the program look for it in @executable_path/../Frameworks (with install_name_tool -change, or the linker's -rpath).
+
+PROGRAMS WITHOUT A WINDOW
+
+macOS starts the program directly when the bundle is opened. A command line tool or a server then runs invisibly: there is no terminal, and its output goes nowhere. Such programs are better handed out as they are, or should open a window or a browser themselves. A program that should not show in the Dock can use --agent.
+
+HELPERS
+
+Further programs go into Contents/Helpers with --helper. They are checked like the main program and signed with it.

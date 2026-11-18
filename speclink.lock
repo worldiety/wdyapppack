@@ -1,0 +1,1218 @@
+{
+  "version": 8,
+  "types": {},
+  "requirements": {
+    "R-BINARY-ARCH-DETECT": {
+      "text": "7b81cab9bfcb72c3fd7171b852c313f7e63e7867acc241e476efd45e7748313f",
+      "title": "Architectures",
+      "from": "requirements/_sources/wdyapppack/product.md#62-architectures",
+      "reviewedBy": "Timo"
+    },
+    "R-BINARY-ARM64-SIGNED": {
+      "text": "ba202a2a43ea06dfe6a0c24e7ddfd7262f7ac493ac2749499a4dd3382191b018",
+      "title": "Signature on Apple silicon",
+      "from": "requirements/_sources/wdyapppack/product.md#64-signature-on-apple-silicon",
+      "reviewedBy": "Timo"
+    },
+    "R-BINARY-DYLIB-EXTERNAL": {
+      "text": "686a4628965b38e6fd3a6933e6c612bef771bc73b9cf0ddbb82d72ff7c5ac6ad",
+      "title": "Libraries outside the system",
+      "from": "requirements/_sources/wdyapppack/product.md#65-libraries-outside-the-system",
+      "reviewedBy": "Timo"
+    },
+    "R-BINARY-MACHO-ONLY": {
+      "text": "dd544eec449cb04cbe27ec5db60103e91b6ec930071ce47eb9b9fccbbc1775ff",
+      "title": "Only macOS programs",
+      "from": "requirements/_sources/wdyapppack/product.md#61-only-macos-programs",
+      "reviewedBy": "Timo"
+    },
+    "R-BINARY-MINOS": {
+      "text": "c25aeabd55f4a6b0a63f06ae2fdac7cf6ddd6ed474f59353da5f36689548183b",
+      "title": "Minimum macOS version",
+      "from": "requirements/_sources/wdyapppack/product.md#63-minimum-macos-version",
+      "reviewedBy": "Timo"
+    },
+    "R-BINARY-UNIVERSAL": {
+      "text": "a64f1d7d55c16db16068c1fa31d1f6c089a78be59b1d7c675d04f7dcec974b49",
+      "title": "Universal programs",
+      "from": "requirements/_sources/wdyapppack/product.md#66-universal-programs",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-CATEGORY": {
+      "text": "f1c3ef8fe0bb40d0f2f9c0f1ce3fa4d2c9503ee39a6705650f2b5ab918f2d123",
+      "title": "Application category",
+      "from": "requirements/_sources/wdyapppack/product.md#54-application-category",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-LAYOUT": {
+      "text": "fc26e3f88552cfacc1f5b89417e7a93823b1e25ac896f93fd6432ec37a902c5e",
+      "title": "Bundle layout",
+      "from": "requirements/_sources/wdyapppack/product.md#51-bundle-layout",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-METADATA-REQUIRED": {
+      "text": "09dd25fbbb1ca7781256faa708cfae043cdbac67093ca4b708d3c9cdc6365f91",
+      "title": "Required metadata",
+      "from": "requirements/_sources/wdyapppack/product.md#52-required-metadata",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-PAYLOAD": {
+      "text": "d1b360050595906fcd4f5407d22354691e85d74a6badf7527d0eff75043c2cab",
+      "title": "Resources, libraries and helpers",
+      "from": "requirements/_sources/wdyapppack/product.md#57-resources-libraries-and-helpers",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-PLIST-CUSTOM": {
+      "text": "146fdb4f76aaba87aeb592842010b763d9cde5dee4f900c13cab5df352d6a9a0",
+      "title": "Additional metadata",
+      "from": "requirements/_sources/wdyapppack/product.md#55-additional-metadata",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-PLIST-DEFAULTS": {
+      "text": "2caee282869245c63939afd9c4120e19ef4db7f51c43c1dad0b2515ff95c3cb3",
+      "title": "Default metadata",
+      "from": "requirements/_sources/wdyapppack/product.md#53-default-metadata",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-PLIST-PROTECTED": {
+      "text": "c751e68a87f55ee27360fc077466225385c716e79463338db9955d8262144fa3",
+      "title": "Protected keys",
+      "from": "requirements/_sources/wdyapppack/product.md#56-protected-keys",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-REPRODUCIBLE": {
+      "text": "533979cc37eef01f1d7e08c6b6f8af8f64765cf1e30147d6d48e0a9174167a1d",
+      "title": "Reproducible output",
+      "from": "requirements/_sources/wdyapppack/product.md#59-reproducible-output",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-SAFE-WRITE": {
+      "text": "dfed5e4fd39199f010ecbacda4e6e1bb1b84c1ca44d626054cbba635aca46c65",
+      "title": "Safe writing",
+      "from": "requirements/_sources/wdyapppack/product.md#58-safe-writing",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-SELF-CHECK": {
+      "text": "77e4abd19aa6cfe07437eb9e41c01c33c23fbc804aa42d2f9c0022ca80dd5d9b",
+      "title": "Self-check",
+      "from": "requirements/_sources/wdyapppack/product.md#510-self-check",
+      "reviewedBy": "Timo"
+    },
+    "R-BUNDLE-STRICT": {
+      "text": "e351576a4e1990e5e52dd21b93bff90dd8125f16c1370b25cb628f5317c3ee33",
+      "title": "Notes and strict mode",
+      "from": "requirements/_sources/wdyapppack/product.md#511-notes-and-strict-mode",
+      "reviewedBy": "Timo"
+    },
+    "R-CONFIG-ENV": {
+      "text": "2ad5cc501d39c8f64309d8d292cf593a03c8ea1f39cf8bec6b0f3dad25622e8d",
+      "title": "Environment variables",
+      "from": "requirements/_sources/wdyapppack/product.md#44-environment-variables",
+      "reviewedBy": "Timo"
+    },
+    "R-CONFIG-FILE": {
+      "text": "427e3c6ef670caf495b0b2e185be83d63dd4d23715c935cf5baf17651464dd5d",
+      "title": "Configuration file",
+      "from": "requirements/_sources/wdyapppack/product.md#41-configuration-file",
+      "reviewedBy": "Timo"
+    },
+    "R-CONFIG-INIT": {
+      "text": "1b7251fd2927c8d40984f447430fb10831488531f13043647c3fb11ab9d171b6",
+      "title": "Starter configuration",
+      "from": "requirements/_sources/wdyapppack/product.md#45-starter-configuration",
+      "reviewedBy": "Timo"
+    },
+    "R-CONFIG-OVERRIDE": {
+      "text": "68d181d9e7eaa16d97288b2234deb9d2b301c13d2ec3b531fcc65b2c31c09c34",
+      "title": "Options override the file",
+      "from": "requirements/_sources/wdyapppack/product.md#42-options-override-the-file",
+      "reviewedBy": "Timo"
+    },
+    "R-CONFIG-SCHEMA": {
+      "text": "3fb22b64b83d562004695bafef302e9eafd0f580126a723b4e8aceb18132090d",
+      "title": "Schema of the configuration",
+      "from": "requirements/_sources/wdyapppack/product.md#46-schema",
+      "reviewedBy": "Timo"
+    },
+    "R-CONFIG-STRICT": {
+      "text": "d3726355da4321ccfc336ff8068141457adff80f041a33fa189181c72eb1dca5",
+      "title": "Unknown fields are refused",
+      "from": "requirements/_sources/wdyapppack/product.md#43-unknown-fields-are-refused",
+      "reviewedBy": "Timo"
+    },
+    "R-CST-APPLE-TOOLS-FOR-SIGNING": {
+      "text": "e1a37d7dc5f66153ce551ca31fa800a14bf1b545393ebecf70437cb8ccbb4879",
+      "title": "Apple's tools for signing, notarization and disk images",
+      "from": "requirements/_sources/wdyapppack/product.md#26-apples-tools-where-only-apples-tools-will-do",
+      "reviewedBy": "Timo"
+    },
+    "R-CST-STDLIB-ONLY": {
+      "text": "66e8cd4660251df171c9d524622fd552f84b820ec008492071de0ee6ca075585",
+      "title": "Standard library only",
+      "from": "requirements/_sources/wdyapppack/product.md#24-standard-library-only",
+      "reviewedBy": "Timo"
+    },
+    "R-DEC-CLI-RUNS-AS-SYSTEM": {
+      "text": "006f0aa5c6c924e572db117fa9fc8d8b7696471b4309a181f93675961ab0b00c",
+      "title": "Use cases run as the system subject",
+      "from": "requirements/_sources/wdyapppack/product.md#91-who-runs-it",
+      "reviewedBy": "Timo"
+    },
+    "R-DEC-DIRECT-LAUNCH-ONLY": {
+      "text": "f04d7d421ebd02cae8726dbca4559ef3950666f34597b696419c9093dd41d368",
+      "title": "Programs are started directly",
+      "from": "requirements/_sources/wdyapppack/product.md#512-start-behaviour",
+      "reviewedBy": "Timo"
+    },
+    "R-DEC-HELP-SINGLE-SOURCE": {
+      "text": "796095f33af82c627092eee4a0d08e1786c8bea00ed26f5b90f0f22cc37b5eaa",
+      "title": "Help and options come from one declaration",
+      "from": "requirements/_sources/wdyapppack/product.md#33-help-for-every-command",
+      "reviewedBy": "Timo"
+    },
+    "R-DEC-JSON-CONFIG": {
+      "text": "648b1b7b997f962d1eb1c18a6843bdbf8ff9bae01189953b6f39f837b138b06b",
+      "title": "The configuration file is JSON",
+      "from": "requirements/_sources/wdyapppack/product.md#41-configuration-file",
+      "reviewedBy": "Timo"
+    },
+    "R-DEC-NO-LOADPATH-REWRITE": {
+      "text": "c16120cfa81c12c1bfc1ccfd7692e4252c1c20d1b2273c07afba8077174a4cd7",
+      "title": "Library load paths are not rewritten",
+      "from": "requirements/_sources/wdyapppack/product.md#65-libraries-outside-the-system",
+      "reviewedBy": "Timo"
+    },
+    "R-DEC-PURE-GO-ICNS": {
+      "text": "ff31251a8d5f785abfa8244e113524a6e30d9fb996d221753a58a11254058c3f",
+      "title": "Icons are produced in Go",
+      "from": "requirements/_sources/wdyapppack/product.md#72-sizes",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-DMG": {
+      "text": "0c489e4fd7c49447d1f43838fb635342cbe5f633086db12a5e41ac7c2215fd53",
+      "title": "Disk images",
+      "from": "requirements/_sources/wdyapppack/product.md#89-disk-images",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-NOTARIZE": {
+      "text": "e5570250f0daa18ca00fa04ec4c0b03d8d791a5881aaff26da6930e1637a7f78",
+      "title": "Notarization",
+      "from": "requirements/_sources/wdyapppack/product.md#85-notarization",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-NOTARIZE-LOG": {
+      "text": "037f5d514faa003730584b5fd0461e9e61f4e984b273c8fa625d8d319ef531ad",
+      "title": "Rejections",
+      "from": "requirements/_sources/wdyapppack/product.md#87-rejections",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-NOTARIZE-SECRETS": {
+      "text": "9e1973e92b4a8c71d8fdfccfe1f53cb379716c7a5b33bbf914db250bcc9e5c39",
+      "title": "Secrets",
+      "from": "requirements/_sources/wdyapppack/product.md#86-secrets",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-PLATFORM": {
+      "text": "ae89ee2cb6cca93d69d8f41b97b502a81d626f45edde9960899984348a4ce759",
+      "title": "Commands that need macOS",
+      "from": "requirements/_sources/wdyapppack/product.md#811-platform",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-SIGN-ADHOC": {
+      "text": "6a778c673f6fd0e926e8892e34b3e46cdebbf06145cf7528bbba48d527610424",
+      "title": "Ad hoc signing",
+      "from": "requirements/_sources/wdyapppack/product.md#81-ad-hoc-signing",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-SIGN-IDENTITY": {
+      "text": "91b9e14a75e43816306136b044b700792348220fee14fbba0b00a2f82fd56652",
+      "title": "Developer ID signing",
+      "from": "requirements/_sources/wdyapppack/product.md#82-developer-id-signing",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-SIGN-ORDER": {
+      "text": "f31176e2712813e15e0de5cccfd33c701a3c8b1f1fb75904207ed75dc77915b7",
+      "title": "Signing order",
+      "from": "requirements/_sources/wdyapppack/product.md#83-signing-order",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-SIGN-VERIFY": {
+      "text": "e9e365c0a67a0a9d261d54b1ae36922b4a365e17ec0fc50123ca5b7d919a9169",
+      "title": "Signature verification",
+      "from": "requirements/_sources/wdyapppack/product.md#84-signature-verification",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-STAPLE": {
+      "text": "83a9d826ed044413b21d43167f7ba1a386dc83a0217d17282fa20e285a523f86",
+      "title": "Stapling",
+      "from": "requirements/_sources/wdyapppack/product.md#88-stapling",
+      "reviewedBy": "Timo"
+    },
+    "R-DIST-ZIP": {
+      "text": "a305c96b0945ccb1568ae1a700f75462fb280462f3b539322de8c3c27caa848c",
+      "title": "Zip archives",
+      "from": "requirements/_sources/wdyapppack/product.md#810-zip-archives",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-COMMAND-HELP": {
+      "text": "0dad6cc7d3825f6969070b49180746742861e8849b9a3f5b81c634ef86624187",
+      "title": "Help for every command",
+      "from": "requirements/_sources/wdyapppack/product.md#33-help-for-every-command",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-DRY-RUN": {
+      "text": "0c064a5b7d4965690db398a0ef24b534a1b6174c39b92702f24b2f7ba6c8df19",
+      "title": "Dry run",
+      "from": "requirements/_sources/wdyapppack/product.md#311-trying-without-writing",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-EXIT-CODES": {
+      "text": "4d374feb9b5caee0e1092fff441287a1dab63cc046a1f9a50341fea8dd170e7e",
+      "title": "Exit codes",
+      "from": "requirements/_sources/wdyapppack/product.md#37-exit-codes",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-HELP-TOPICS": {
+      "text": "fc83309896554f724fd290691613351c2fce9b25537f0ba2ea13ad320136306d",
+      "title": "Help topics",
+      "from": "requirements/_sources/wdyapppack/product.md#32-help-topics",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-JSON": {
+      "text": "ed4e6f7536f7d6a32da15684793f3e54b423dc931e797de2d6e12ed6b597fc9b",
+      "title": "Machine readable output",
+      "from": "requirements/_sources/wdyapppack/product.md#36-machine-readable-output",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-MESSAGES": {
+      "text": "9fab054a42b42797c1c909ffdc4e8ef3f1f6dec0a5bb828354c7fba0dccaaea0",
+      "title": "Messages that say what to do",
+      "from": "requirements/_sources/wdyapppack/product.md#34-messages-that-say-what-to-do",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-NEXT-STEPS": {
+      "text": "426f20f8bc202fbb67ff94a2476e1090887c611b082c8c12a7559ba3c98c6b04",
+      "title": "Next steps",
+      "from": "requirements/_sources/wdyapppack/product.md#38-next-steps",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-NO-ARGS": {
+      "text": "75935b841bd6c393cdf81125da1fd2542bdc536f0cb0735e151f04bfb531c407",
+      "title": "Help without arguments",
+      "from": "requirements/_sources/wdyapppack/product.md#31-help-without-arguments",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-NO-OVERWRITE": {
+      "text": "ffac6326a017d345ec3c975b9dbe7d078694111f5c888d9dd54b38e108689821",
+      "title": "Nothing is overwritten unasked",
+      "from": "requirements/_sources/wdyapppack/product.md#312-nothing-is-overwritten-unasked",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-REQUIREMENTS": {
+      "text": "3ab6e35781ddb6b92a13b40c9e0a304c3e7829ad647a3078846000690021ca04",
+      "title": "Requirements in the help",
+      "from": "requirements/_sources/wdyapppack/product.md#39-why-it-behaves-as-it-does",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-SUGGEST": {
+      "text": "18c296496146ecb7a4187eb6b82deb3d796db0fc58e5eee64e155578e6dacd2d",
+      "title": "Suggestions for mistakes",
+      "from": "requirements/_sources/wdyapppack/product.md#35-suggestions-for-mistakes",
+      "reviewedBy": "Timo"
+    },
+    "R-GUIDE-VERSION": {
+      "text": "d742a3c19ac089a98fb06cb4a3c8cf5576d2e8cbc83fb4e1031a535696488970",
+      "title": "Version",
+      "from": "requirements/_sources/wdyapppack/product.md#310-version",
+      "reviewedBy": "Timo"
+    },
+    "R-ICON-FORMATS": {
+      "text": "d24d6527d04d5a770cc6dbe61b6cc89266b671a472f5cc4054bdac78eae92403",
+      "title": "Accepted images",
+      "from": "requirements/_sources/wdyapppack/product.md#71-accepted-images",
+      "reviewedBy": "Timo"
+    },
+    "R-ICON-ICONSET": {
+      "text": "228df115ebb86bd470247df4b3ef295e1b506af6452632ccbef09d65615f44eb",
+      "title": "Icon sets",
+      "from": "requirements/_sources/wdyapppack/product.md#75-icon-sets",
+      "reviewedBy": "Timo"
+    },
+    "R-ICON-SHAPE": {
+      "text": "623968744d28609221b9b279a1db202204ab0fa6b3d6d869bb5f3c4cc7eb6c2c",
+      "title": "Shape for macOS 26",
+      "from": "requirements/_sources/wdyapppack/product.md#74-shape-for-macos-26",
+      "reviewedBy": "Timo"
+    },
+    "R-ICON-SIZES": {
+      "text": "5d13f512239c8349dcfd7da546dd3f3063013a3f946f84c818f5a6edf80302bb",
+      "title": "Icon sizes",
+      "from": "requirements/_sources/wdyapppack/product.md#72-sizes",
+      "reviewedBy": "Timo"
+    },
+    "R-ICON-SQUARE": {
+      "text": "cf28c012e728a4fd6843a7957038f1f02010ebaa9d284015af130063072f4152",
+      "title": "Square images",
+      "from": "requirements/_sources/wdyapppack/product.md#73-square-images",
+      "reviewedBy": "Timo"
+    },
+    "R-NFR-CROSS-PLATFORM-CORE": {
+      "text": "783e485223d0ddc5c8394fe865ab9de9d4513bfdc4da925c2f661e1576d0db0b",
+      "title": "Core works on every operating system",
+      "from": "requirements/_sources/wdyapppack/product.md#25-works-on-every-operating-system",
+      "reviewedBy": "Timo"
+    },
+    "R-NFR-ENGLISH": {
+      "text": "b878c538c36b02e48803e5c5746c65b97d57ae9981a42fafe80ef239e1cb5c3e",
+      "title": "English",
+      "from": "requirements/_sources/wdyapppack/product.md#22-english",
+      "reviewedBy": "Timo"
+    },
+    "R-NFR-NON-INTERACTIVE": {
+      "text": "299ddfb0d821d49bff2557c722d3df493938c8002dcb44cbfd21c8c37a091290",
+      "title": "Never interactive",
+      "from": "requirements/_sources/wdyapppack/product.md#23-never-interactive",
+      "reviewedBy": "Timo"
+    },
+    "R-NFR-SELF-EXPLAINING": {
+      "text": "eb6e1d70d474ac54007c9b99e0401b38ac18a98ae0596ffc85cc5d98d65c542c",
+      "title": "Self-explaining",
+      "from": "requirements/_sources/wdyapppack/product.md#21-self-explaining",
+      "reviewedBy": "Timo"
+    }
+  },
+  "sources": {
+    "requirements/_sources/wdyapppack/product.md#1-purpose": {
+      "fingerprint": "c6a170472d0f8b418d7290e9a9501a9fd59242180769b02bc31e47d6baef6b70",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#10-out-of-scope": {
+      "fingerprint": "4819208617edaa3e1154c0b2f52ee4e4350337806b66e5b740b5894de5e8cbcc",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#2-principles": {
+      "fingerprint": "2f1be9662b1fc65976679012a25b2c59075939712280eb30576ace10ea1c7c1c",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#21-self-explaining": {
+      "fingerprint": "518ee514307e8f5a260e4f58c2c6c3001d41e3339bc203a393c84224ccec6845",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#22-english": {
+      "fingerprint": "98abe59565b4fbcd29b2c38b80cdeabd2719085033172c40bb8811122d171775",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#23-never-interactive": {
+      "fingerprint": "534543291d38f6590dbcd1dac354a6a3e8f9b0280649d3bd054fc8bef4a1bd74",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#24-standard-library-only": {
+      "fingerprint": "6032397a6303dcd66c54de929787bd5df0bbb22eb79c9be27d3ff9dc56529046",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#25-works-on-every-operating-system": {
+      "fingerprint": "cef36b5927090c5046e7439e2b79bd9320a547dcd5f1733a494a79d55b8d0166",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#26-apples-tools-where-only-apples-tools-will-do": {
+      "fingerprint": "a1069bd94a638784dd91d324fe97078ece3caecce8387b87d13004ecd88aefa6",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#3-guidance": {
+      "fingerprint": "de84d3bc8ecae1472e0480c9cedd143eba01cead6539a8614b00e00988802f5b",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#31-help-without-arguments": {
+      "fingerprint": "3a19abab960ba0b46880a9cb904786d90437f80653e8f615935224d6d414a170",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#310-version": {
+      "fingerprint": "dc61b8646d08bf02db9e9e62f63f550103ab55aefde66636e5d6464f0e8be06f",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#311-trying-without-writing": {
+      "fingerprint": "d82e75593c1b7f26db94019c38b89834f2fe4a453b1480dbcf790d60224bf227",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#312-nothing-is-overwritten-unasked": {
+      "fingerprint": "28f5a07f91ac77f1fcda649c3cb1e7fda15a24ec4a157a6a2834a1142089ecbf",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#32-help-topics": {
+      "fingerprint": "1302a8b333686d5461f30e11d2408899226acfb0e63c365db340bb989e12f925",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#33-help-for-every-command": {
+      "fingerprint": "b1172a3e8a26d76ea15fcdf6aa45a1e7cee5697cfe3fc953b7f081bd9170fdde",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#34-messages-that-say-what-to-do": {
+      "fingerprint": "78b0c125787ab5e8da83aa58c8972a820f339b2d05953ed41f939c9cb50b52bf",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#35-suggestions-for-mistakes": {
+      "fingerprint": "9d5f34e2597dafb4395b54e911e2696bd3f708452f598bbc8d8929c7973c340b",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#36-machine-readable-output": {
+      "fingerprint": "9c45cc65c5d634477b5c6d7fbce6db26be427e07ec699538c6ebb58a95e2cdcc",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#37-exit-codes": {
+      "fingerprint": "e2f98e42a60f0cd63cb70605a6812d18f4a9815175722c9f3751ed3a536c18cc",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#38-next-steps": {
+      "fingerprint": "0096aac3c9992d1d96595afabdb925f3c163c93c0792ac4eece07e6968c6c8bc",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#39-why-it-behaves-as-it-does": {
+      "fingerprint": "0f16c149fe2e043c5e6c74e10baa68d11dc341ef526777b8d404ede92cb68e9b",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#4-configuration": {
+      "fingerprint": "494c39b8268f97dd064470d2b5d183ff198ed816ee131b7bd485c3d12afd107b",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#41-configuration-file": {
+      "fingerprint": "18cd9ab8cfe21016a0df1998d27c773821dcd0549d059ca3db7952cc30d661a2",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#42-options-override-the-file": {
+      "fingerprint": "4a6309435f34b3f7a9499d4d6222dc5a4feada11d02b7c2182bcf88cda9db1e4",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#43-unknown-fields-are-refused": {
+      "fingerprint": "5bf4d4dc1db45633d99927eb9cb362faf21906cfc0289eb6b52fc69243606620",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#44-environment-variables": {
+      "fingerprint": "fd40e1096062ce69ee2ffec3a1edd38f6ab14fd0dd1775b25aeab176b77ead65",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#45-starter-configuration": {
+      "fingerprint": "033305c000c2cff5382c348eafee08f2cab50517ef6446b00ad5e0302cda408d",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#46-schema": {
+      "fingerprint": "8afd2e320e1f12da3b986b5ca7c6f5d3e448a4d47ac71ca58f74685b64422491",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#5-building-a-bundle": {
+      "fingerprint": "b66c7de23e5145734f15a6fdaa32c4388f3687b4846b2b80dd4abd0cabf552ec",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#51-bundle-layout": {
+      "fingerprint": "3d960fabed5520cc65c471964ee10f9b8e0a1c603af8a601fe343de9e4d97abd",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#510-self-check": {
+      "fingerprint": "ab45e7c2572995dcc38ead3fb51ec670e993860492c7d5e2a2df418e502fb42d",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#511-notes-and-strict-mode": {
+      "fingerprint": "2ba48da85e010c7db62ec2ecc04c4d46f79a1f06f4fe635b7df6921787aa778e",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#512-start-behaviour": {
+      "fingerprint": "46565a4f24ea0a04d72736c4a799d48a5be087f2d5c45880c2995119900dbe3e",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#52-required-metadata": {
+      "fingerprint": "08a935ad22de81c0ed2fe6237773bbce1341b08559f6948ddb4130711d7ac1cc",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#53-default-metadata": {
+      "fingerprint": "f1b982788376a6ebd05e74eca3e65d89ed84ae85c0ec0cd402cfff4fea1d7438",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#54-application-category": {
+      "fingerprint": "c1f13808bf3aaa97e6d0208a0641962bbb460e6e0c6975470008d21788b8b956",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#55-additional-metadata": {
+      "fingerprint": "13fb025f0c4597266d246f84fc039489235a46afbca3526fdd58a0328850dbdd",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#56-protected-keys": {
+      "fingerprint": "4a34c4e3a493abb2423b8ad95460b97b603d0a3efca23a3e58dce4deb23642e0",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#57-resources-libraries-and-helpers": {
+      "fingerprint": "2c2540d83278b89760fee0283a67100f9798bc91742c53b47194285ea2483fd5",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#58-safe-writing": {
+      "fingerprint": "87649f247957661a3f92c72328ac01419fbbaa9f7dc350550c5935b139db979f",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#59-reproducible-output": {
+      "fingerprint": "982cbdbef7bbf2006c70a6003fed998e2449af6ef1b61890ba22a4ea5800fde0",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#6-programs": {
+      "fingerprint": "d3a8450f476f08b26fb2bdc67b8e7aa83fc5a4bb31e954570fe145e1ca8dc2d0",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#61-only-macos-programs": {
+      "fingerprint": "2c58d0c4dac29871fdc4038da97ab73ebef7455449d46273fcb0350f92c60241",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#62-architectures": {
+      "fingerprint": "cbaf5f696957da550ebb86f9cb7a2c93c722b0d8a003e0b3d503d08185ec87a5",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#63-minimum-macos-version": {
+      "fingerprint": "e1c12ed6a6b80d6e820bcc6526fde24097bbda787be203cc0eab16bf9629abad",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#64-signature-on-apple-silicon": {
+      "fingerprint": "09026d8334cbb61ff5d68252bd6ca5d3fa76402c794a7e9c8c922c8712e72f40",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#65-libraries-outside-the-system": {
+      "fingerprint": "b8739748e78271dca21f02fabe091780d0443f167fe6965ecc574fb1030f4dd2",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#66-universal-programs": {
+      "fingerprint": "d540f408935fb1fa2a6b84799d33a771cb746beb2c620496f9e73cfae5a2c0c7",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#7-icons": {
+      "fingerprint": "7d038d16705a884349d0cc9513b31616f0ed5b8575b4fce85086e5980881b891",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#71-accepted-images": {
+      "fingerprint": "07a5f5b1bf7c097b19b42674e55474b76c43a862bea097ec68777955b4b93a0b",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#72-sizes": {
+      "fingerprint": "35354b0dc12adf4f7a7e03a4c0b0daeb6f166aedbe8c621e83ac8af3eeee031f",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#73-square-images": {
+      "fingerprint": "5f40fb6e1f48bb05c9c617994f84ed2411077ddd9e064327a435dc8037bd056e",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#74-shape-for-macos-26": {
+      "fingerprint": "e78893942cb5680a55909b6816714bb473d37d31188bb26629e3e456b17ff2f2",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#75-icon-sets": {
+      "fingerprint": "a2e8eb8ab5f21b20d75048fcfc285c01026bd61595f9475a5f4cee79ba5cf604",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#8-distribution": {
+      "fingerprint": "bffb719a9abe770c6f1c24812328694df20b3331a46b9b70c5c63b3cfdadcb63",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#81-ad-hoc-signing": {
+      "fingerprint": "a318a1761694079dafed4d67ea45eb27c2b59db069b9e69099fe322374ea552f",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#810-zip-archives": {
+      "fingerprint": "dca1a226e6b250ca0440c44e1f0e66ba08e6fabd09c4097cc1612e4ee1b257d4",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#811-platform": {
+      "fingerprint": "a6608a11a15ad0a123c5a8c8e736be6868f1a762e34531214f8bc5ba7d1a3ea1",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#82-developer-id-signing": {
+      "fingerprint": "fd60a08bfb4fd5bb6320635041e22cda120e77ff0e26c4568b9f7bb6b1cc6252",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#83-signing-order": {
+      "fingerprint": "3209b23ac2cfbf976725dd48c0bc8879acd09defbed4193a3c0e51f58649ed62",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#84-signature-verification": {
+      "fingerprint": "f8355fc1e68b613f019a90c51405805358eea2ebf9ac2fc6cd84fc5049323dfd",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#85-notarization": {
+      "fingerprint": "e2b7b513666ac5ba5d22076dd9ebf6eeb521da63b86d3a17983f06cf44829b0b",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#86-secrets": {
+      "fingerprint": "af8cc7429772cf8921fa7f33dcdfb8037523dc3c311c8fc375f1f5a37951236f",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#87-rejections": {
+      "fingerprint": "b0c82e0f2bd778e5197b0e8a5e859c8767bf11c800726d334d428edcd9eeb47e",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#88-stapling": {
+      "fingerprint": "a6c0be83818b25bcfb00873c1b61d8dfebcab87c9269dde8a9486fcb87bd0b4d",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#89-disk-images": {
+      "fingerprint": "c8deea340ea9094ef41f0ec153475c560f1ecf7091fc954238f1a836fccec12d",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#9-operation": {
+      "fingerprint": "5207743cce72b322777f39decaa2bd1b53105518c28782860bcdbb5bdfebd867",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#91-who-runs-it": {
+      "fingerprint": "0d42fe93bdf3058efcacf78f7c61150436958ce9f675f224e858a78b747d9e1c",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#wdyapppack": {
+      "fingerprint": "3c0e63901e5e6f0af00b8faca591f6bc11ba30efc862dd08a7a56d81ff94a178",
+      "kind": "markdown"
+    }
+  },
+  "channels": {
+    "init, build, icon, universal (operator → app/bundle/cli)": {
+      "contract": {
+        "type": "github.com/worldiety/wdyapppack/app/bundle.Config",
+        "shape": "{$schema:string,name:string,displayName:string,identifier:string,version:string,buildNumber:string,binaries:[]{arch:string,path:string},executableName:string,icon:{path:string,shape:string},minimumMacOS:string,category:string,copyright:string,agent:bool,backgroundOnly:bool,resources:[]{from:string,to:string},frameworks:[]string,helpers:[]string,urlSchemes:[]string,usageDescriptions:map[string]string,environment:map[string]string,plist:map[string]any,plistFile:string,out:string,sign:string,notarize:string,dmg:string}",
+        "fields": [
+          {
+            "name": "Schema",
+            "wire": "$schema",
+            "shape": "string"
+          },
+          {
+            "name": "Name",
+            "wire": "name",
+            "shape": "string"
+          },
+          {
+            "name": "DisplayName",
+            "wire": "displayName",
+            "shape": "string"
+          },
+          {
+            "name": "Identifier",
+            "wire": "identifier",
+            "shape": "string"
+          },
+          {
+            "name": "Version",
+            "wire": "version",
+            "shape": "string"
+          },
+          {
+            "name": "BuildNumber",
+            "wire": "buildNumber",
+            "shape": "string"
+          },
+          {
+            "name": "Binaries",
+            "wire": "binaries",
+            "shape": "[]{arch:string,path:string}"
+          },
+          {
+            "name": "ExecutableName",
+            "wire": "executableName",
+            "shape": "string"
+          },
+          {
+            "name": "Icon",
+            "wire": "icon",
+            "shape": "{path:string,shape:string}"
+          },
+          {
+            "name": "MinimumMacOS",
+            "wire": "minimumMacOS",
+            "shape": "string"
+          },
+          {
+            "name": "Category",
+            "wire": "category",
+            "shape": "string"
+          },
+          {
+            "name": "Copyright",
+            "wire": "copyright",
+            "shape": "string"
+          },
+          {
+            "name": "Agent",
+            "wire": "agent",
+            "shape": "bool"
+          },
+          {
+            "name": "BackgroundOnly",
+            "wire": "backgroundOnly",
+            "shape": "bool"
+          },
+          {
+            "name": "Resources",
+            "wire": "resources",
+            "shape": "[]{from:string,to:string}"
+          },
+          {
+            "name": "Frameworks",
+            "wire": "frameworks",
+            "shape": "[]string"
+          },
+          {
+            "name": "Helpers",
+            "wire": "helpers",
+            "shape": "[]string"
+          },
+          {
+            "name": "URLSchemes",
+            "wire": "urlSchemes",
+            "shape": "[]string"
+          },
+          {
+            "name": "UsageDescriptions",
+            "wire": "usageDescriptions",
+            "shape": "map[string]string"
+          },
+          {
+            "name": "Environment",
+            "wire": "environment",
+            "shape": "map[string]string"
+          },
+          {
+            "name": "Plist",
+            "wire": "plist",
+            "shape": "map[string]any"
+          },
+          {
+            "name": "PlistFile",
+            "wire": "plistFile",
+            "shape": "string"
+          },
+          {
+            "name": "Out",
+            "wire": "out",
+            "shape": "string"
+          },
+          {
+            "name": "Sign",
+            "wire": "sign",
+            "shape": "string"
+          },
+          {
+            "name": "Notarize",
+            "wire": "notarize",
+            "shape": "string"
+          },
+          {
+            "name": "DMG",
+            "wire": "dmg",
+            "shape": "string"
+          }
+        ]
+      }
+    }
+  },
+  "verifications": {
+    "R-BINARY-ARCH-DETECT": [
+      {
+        "test": "TestArchitecturesAreRecognisedAndChecked",
+        "text": "7b81cab9bfcb72c3fd7171b852c313f7e63e7867acc241e476efd45e7748313f"
+      }
+    ],
+    "R-BINARY-ARM64-SIGNED": [
+      {
+        "test": "TestUnsignedAppleSiliconProgramIsNoted",
+        "text": "ba202a2a43ea06dfe6a0c24e7ddfd7262f7ac493ac2749499a4dd3382191b018"
+      }
+    ],
+    "R-BINARY-DYLIB-EXTERNAL": [
+      {
+        "test": "TestTheProgramIsPackagedAsItIs",
+        "text": "686a4628965b38e6fd3a6933e6c612bef771bc73b9cf0ddbb82d72ff7c5ac6ad"
+      }
+    ],
+    "R-BINARY-MACHO-ONLY": [
+      {
+        "test": "TestOnlyMacOSProgramsArePackaged",
+        "text": "dd544eec449cb04cbe27ec5db60103e91b6ec930071ce47eb9b9fccbbc1775ff"
+      }
+    ],
+    "R-BINARY-MINOS": [
+      {
+        "test": "TestMinimumMacOS",
+        "text": "c25aeabd55f4a6b0a63f06ae2fdac7cf6ddd6ed474f59353da5f36689548183b"
+      }
+    ],
+    "R-BINARY-UNIVERSAL": [
+      {
+        "test": "TestMergeKeepsEverySliceByteForByte",
+        "text": "a64f1d7d55c16db16068c1fa31d1f6c089a78be59b1d7c675d04f7dcec974b49"
+      },
+      {
+        "test": "TestUniversalProgramFromTwo",
+        "text": "a64f1d7d55c16db16068c1fa31d1f6c089a78be59b1d7c675d04f7dcec974b49"
+      }
+    ],
+    "R-BUNDLE-CATEGORY": [
+      {
+        "test": "TestCategoryShortAndFull",
+        "text": "f1c3ef8fe0bb40d0f2f9c0f1ce3fa4d2c9503ee39a6705650f2b5ab918f2d123"
+      }
+    ],
+    "R-BUNDLE-LAYOUT": [
+      {
+        "test": "TestBuildWritesTheLayoutMacOSExpects",
+        "text": "fc26e3f88552cfacc1f5b89417e7a93823b1e25ac896f93fd6432ec37a902c5e"
+      }
+    ],
+    "R-BUNDLE-METADATA-REQUIRED": [
+      {
+        "test": "TestRequiredMetadataIsReportedTogether",
+        "text": "09dd25fbbb1ca7781256faa708cfae043cdbac67093ca4b708d3c9cdc6365f91"
+      }
+    ],
+    "R-BUNDLE-PAYLOAD": [
+      {
+        "test": "TestResourcesFrameworksAndHelpers",
+        "text": "d1b360050595906fcd4f5407d22354691e85d74a6badf7527d0eff75043c2cab"
+      }
+    ],
+    "R-BUNDLE-PLIST-CUSTOM": [
+      {
+        "test": "TestAdditionalMetadataWithTypes",
+        "text": "146fdb4f76aaba87aeb592842010b763d9cde5dee4f900c13cab5df352d6a9a0"
+      }
+    ],
+    "R-BUNDLE-PLIST-DEFAULTS": [
+      {
+        "test": "TestInfoPlistHasEveryKeyAnApplicationNeeds",
+        "text": "2caee282869245c63939afd9c4120e19ef4db7f51c43c1dad0b2515ff95c3cb3"
+      }
+    ],
+    "R-BUNDLE-PLIST-PROTECTED": [
+      {
+        "test": "TestProtectedKeysAreRefused",
+        "text": "c751e68a87f55ee27360fc077466225385c716e79463338db9955d8262144fa3"
+      }
+    ],
+    "R-BUNDLE-REPRODUCIBLE": [
+      {
+        "test": "TestSameInputSameBundle",
+        "text": "533979cc37eef01f1d7e08c6b6f8af8f64765cf1e30147d6d48e0a9174167a1d"
+      }
+    ],
+    "R-BUNDLE-SAFE-WRITE": [
+      {
+        "test": "TestTreesAreMovedIntoPlaceWhole",
+        "text": "dfed5e4fd39199f010ecbacda4e6e1bb1b84c1ca44d626054cbba635aca46c65"
+      }
+    ],
+    "R-BUNDLE-SELF-CHECK": [
+      {
+        "test": "TestTheBundleIsReadBack",
+        "text": "77e4abd19aa6cfe07437eb9e41c01c33c23fbc804aa42d2f9c0022ca80dd5d9b"
+      }
+    ],
+    "R-BUNDLE-STRICT": [
+      {
+        "test": "TestNotesFailOnlyInStrictMode",
+        "text": "e351576a4e1990e5e52dd21b93bff90dd8125f16c1370b25cb628f5317c3ee33"
+      }
+    ],
+    "R-CONFIG-ENV": [
+      {
+        "test": "TestEnvironmentVariables",
+        "text": "2ad5cc501d39c8f64309d8d292cf593a03c8ea1f39cf8bec6b0f3dad25622e8d"
+      },
+      {
+        "test": "TestSettingsFromTheConfigurationFile",
+        "text": "2ad5cc501d39c8f64309d8d292cf593a03c8ea1f39cf8bec6b0f3dad25622e8d"
+      }
+    ],
+    "R-CONFIG-FILE": [
+      {
+        "test": "TestLoadConfigResolvesPathsAgainstTheFile",
+        "text": "427e3c6ef670caf495b0b2e185be83d63dd4d23715c935cf5baf17651464dd5d"
+      },
+      {
+        "test": "TestSettingsFromTheConfigurationFile",
+        "text": "427e3c6ef670caf495b0b2e185be83d63dd4d23715c935cf5baf17651464dd5d"
+      }
+    ],
+    "R-CONFIG-INIT": [
+      {
+        "test": "TestStarterConfiguration",
+        "text": "1b7251fd2927c8d40984f447430fb10831488531f13043647c3fb11ab9d171b6"
+      }
+    ],
+    "R-CONFIG-OVERRIDE": [
+      {
+        "test": "TestOptionsOverrideTheFileOnlyWhenGiven",
+        "text": "68d181d9e7eaa16d97288b2234deb9d2b301c13d2ec3b531fcc65b2c31c09c34"
+      }
+    ],
+    "R-CONFIG-SCHEMA": [
+      {
+        "test": "TestSchemaDescribesTheStarterConfiguration",
+        "text": "3fb22b64b83d562004695bafef302e9eafd0f580126a723b4e8aceb18132090d"
+      }
+    ],
+    "R-CONFIG-STRICT": [
+      {
+        "test": "TestSettingsFromTheConfigurationFile",
+        "text": "d3726355da4321ccfc336ff8068141457adff80f041a33fa189181c72eb1dca5"
+      },
+      {
+        "test": "TestUnknownFieldsAreRefused",
+        "text": "d3726355da4321ccfc336ff8068141457adff80f041a33fa189181c72eb1dca5"
+      }
+    ],
+    "R-CST-APPLE-TOOLS-FOR-SIGNING": [
+      {
+        "test": "TestCodesignIsAskedToSign",
+        "text": "e1a37d7dc5f66153ce551ca31fa800a14bf1b545393ebecf70437cb8ccbb4879"
+      }
+    ],
+    "R-CST-STDLIB-ONLY": [
+      {
+        "test": "TestStandardLibraryOnly",
+        "text": "66e8cd4660251df171c9d524622fd552f84b820ec008492071de0ee6ca075585"
+      }
+    ],
+    "R-DEC-CLI-RUNS-AS-SYSTEM": [
+      {
+        "test": "TestUseCasesRunAsTheSystem",
+        "text": "006f0aa5c6c924e572db117fa9fc8d8b7696471b4309a181f93675961ab0b00c"
+      }
+    ],
+    "R-DEC-DIRECT-LAUNCH-ONLY": [
+      {
+        "test": "TestTheProgramIsPackagedAsItIs",
+        "text": "f04d7d421ebd02cae8726dbca4559ef3950666f34597b696419c9093dd41d368"
+      }
+    ],
+    "R-DEC-HELP-SINGLE-SOURCE": [
+      {
+        "test": "TestCommandHelpComesFromTheDeclaration",
+        "text": "796095f33af82c627092eee4a0d08e1786c8bea00ed26f5b90f0f22cc37b5eaa"
+      }
+    ],
+    "R-DEC-JSON-CONFIG": [
+      {
+        "test": "TestLoadConfigResolvesPathsAgainstTheFile",
+        "text": "648b1b7b997f962d1eb1c18a6843bdbf8ff9bae01189953b6f39f837b138b06b"
+      }
+    ],
+    "R-DEC-NO-LOADPATH-REWRITE": [
+      {
+        "test": "TestTheProgramIsPackagedAsItIs",
+        "text": "c16120cfa81c12c1bfc1ccfd7692e4252c1c20d1b2273c07afba8077174a4cd7"
+      }
+    ],
+    "R-DEC-PURE-GO-ICNS": [
+      {
+        "test": "TestEveryIconSizeInGo",
+        "text": "ff31251a8d5f785abfa8244e113524a6e30d9fb996d221753a58a11254058c3f"
+      }
+    ],
+    "R-DIST-DMG": [
+      {
+        "test": "TestDiskImage",
+        "text": "0c489e4fd7c49447d1f43838fb635342cbe5f633086db12a5e41ac7c2215fd53"
+      }
+    ],
+    "R-DIST-NOTARIZE": [
+      {
+        "test": "TestNotarization",
+        "text": "e5570250f0daa18ca00fa04ec4c0b03d8d791a5881aaff26da6930e1637a7f78"
+      }
+    ],
+    "R-DIST-NOTARIZE-LOG": [
+      {
+        "test": "TestRejectionsShowApplesReasons",
+        "text": "037f5d514faa003730584b5fd0461e9e61f4e984b273c8fa625d8d319ef531ad"
+      }
+    ],
+    "R-DIST-NOTARIZE-SECRETS": [
+      {
+        "test": "TestPasswordsComeFromTheEnvironment",
+        "text": "9e1973e92b4a8c71d8fdfccfe1f53cb379716c7a5b33bbf914db250bcc9e5c39"
+      }
+    ],
+    "R-DIST-PLATFORM": [
+      {
+        "test": "TestWhereAppleToolsAreMissingItSaysSo",
+        "text": "ae89ee2cb6cca93d69d8f41b97b502a81d626f45edde9960899984348a4ce759"
+      }
+    ],
+    "R-DIST-SIGN-ADHOC": [
+      {
+        "test": "TestAdHocSigning",
+        "text": "6a778c673f6fd0e926e8892e34b3e46cdebbf06145cf7528bbba48d527610424"
+      }
+    ],
+    "R-DIST-SIGN-IDENTITY": [
+      {
+        "test": "TestDeveloperIDSigning",
+        "text": "91b9e14a75e43816306136b044b700792348220fee14fbba0b00a2f82fd56652"
+      }
+    ],
+    "R-DIST-SIGN-ORDER": [
+      {
+        "test": "TestSigningOrderIsInsideOut",
+        "text": "f31176e2712813e15e0de5cccfd33c701a3c8b1f1fb75904207ed75dc77915b7"
+      }
+    ],
+    "R-DIST-SIGN-VERIFY": [
+      {
+        "test": "TestSignatureIsVerified",
+        "text": "e9e365c0a67a0a9d261d54b1ae36922b4a365e17ec0fc50123ca5b7d919a9169"
+      }
+    ],
+    "R-DIST-STAPLE": [
+      {
+        "test": "TestStapling",
+        "text": "83a9d826ed044413b21d43167f7ba1a386dc83a0217d17282fa20e285a523f86"
+      }
+    ],
+    "R-DIST-ZIP": [
+      {
+        "test": "TestLinksAndPermissionsSurvive",
+        "text": "a305c96b0945ccb1568ae1a700f75462fb280462f3b539322de8c3c27caa848c"
+      },
+      {
+        "test": "TestZipArchive",
+        "text": "a305c96b0945ccb1568ae1a700f75462fb280462f3b539322de8c3c27caa848c"
+      }
+    ],
+    "R-GUIDE-COMMAND-HELP": [
+      {
+        "test": "TestCommandHelpComesFromTheDeclaration",
+        "text": "0dad6cc7d3825f6969070b49180746742861e8849b9a3f5b81c634ef86624187"
+      }
+    ],
+    "R-GUIDE-DRY-RUN": [
+      {
+        "test": "TestDryRunWritesNothing",
+        "text": "0c064a5b7d4965690db398a0ef24b534a1b6174c39b92702f24b2f7ba6c8df19"
+      },
+      {
+        "test": "TestNotarization",
+        "text": "0c064a5b7d4965690db398a0ef24b534a1b6174c39b92702f24b2f7ba6c8df19"
+      }
+    ],
+    "R-GUIDE-EXIT-CODES": [
+      {
+        "test": "TestExitCodes",
+        "text": "4d374feb9b5caee0e1092fff441287a1dab63cc046a1f9a50341fea8dd170e7e"
+      }
+    ],
+    "R-GUIDE-HELP-TOPICS": [
+      {
+        "test": "TestHelpTopicsCoverTheBackground",
+        "text": "fc83309896554f724fd290691613351c2fce9b25537f0ba2ea13ad320136306d"
+      },
+      {
+        "test": "TestTopicsAreHelp",
+        "text": "fc83309896554f724fd290691613351c2fce9b25537f0ba2ea13ad320136306d"
+      }
+    ],
+    "R-GUIDE-JSON": [
+      {
+        "test": "TestJSONForResultsErrorsAndHelp",
+        "text": "ed4e6f7536f7d6a32da15684793f3e54b423dc931e797de2d6e12ed6b597fc9b"
+      }
+    ],
+    "R-GUIDE-MESSAGES": [
+      {
+        "test": "TestMessagesSayWhatWhyAndHow",
+        "text": "9fab054a42b42797c1c909ffdc4e8ef3f1f6dec0a5bb828354c7fba0dccaaea0"
+      }
+    ],
+    "R-GUIDE-NEXT-STEPS": [
+      {
+        "test": "TestNextStepsFollowASuccess",
+        "text": "426f20f8bc202fbb67ff94a2476e1090887c611b082c8c12a7559ba3c98c6b04"
+      }
+    ],
+    "R-GUIDE-NO-ARGS": [
+      {
+        "test": "TestNoArgumentsPrintsTheOverview",
+        "text": "75935b841bd6c393cdf81125da1fd2542bdc536f0cb0735e151f04bfb531c407"
+      }
+    ],
+    "R-GUIDE-NO-OVERWRITE": [
+      {
+        "test": "TestNothingIsOverwrittenUnasked",
+        "text": "ffac6326a017d345ec3c975b9dbe7d078694111f5c888d9dd54b38e108689821"
+      }
+    ],
+    "R-GUIDE-REQUIREMENTS": [
+      {
+        "test": "TestRequirementsAreListed",
+        "text": "3ab6e35781ddb6b92a13b40c9e0a304c3e7829ad647a3078846000690021ca04"
+      }
+    ],
+    "R-GUIDE-SUGGEST": [
+      {
+        "test": "TestMistakesGetSuggestions",
+        "text": "18c296496146ecb7a4187eb6b82deb3d796db0fc58e5eee64e155578e6dacd2d"
+      }
+    ],
+    "R-GUIDE-VERSION": [
+      {
+        "test": "TestVersion",
+        "text": "d742a3c19ac089a98fb06cb4a3c8cf5576d2e8cbc83fb4e1031a535696488970"
+      }
+    ],
+    "R-ICON-FORMATS": [
+      {
+        "test": "TestIconFormats",
+        "text": "d24d6527d04d5a770cc6dbe61b6cc89266b671a472f5cc4054bdac78eae92403"
+      }
+    ],
+    "R-ICON-ICONSET": [
+      {
+        "test": "TestConvertIconToIcnsAndIconset",
+        "text": "228df115ebb86bd470247df4b3ef295e1b506af6452632ccbef09d65615f44eb"
+      }
+    ],
+    "R-ICON-SHAPE": [
+      {
+        "test": "TestIconShape",
+        "text": "623968744d28609221b9b279a1db202204ab0fa6b3d6d869bb5f3c4cc7eb6c2c"
+      }
+    ],
+    "R-ICON-SIZES": [
+      {
+        "test": "TestEveryIconSizeInGo",
+        "text": "5d13f512239c8349dcfd7da546dd3f3063013a3f946f84c818f5a6edf80302bb"
+      },
+      {
+        "test": "TestIconHasEverySize",
+        "text": "5d13f512239c8349dcfd7da546dd3f3063013a3f946f84c818f5a6edf80302bb"
+      }
+    ],
+    "R-ICON-SQUARE": [
+      {
+        "test": "TestIconMustBeSquareAndLarge",
+        "text": "cf28c012e728a4fd6843a7957038f1f02010ebaa9d284015af130063072f4152"
+      }
+    ],
+    "R-NFR-CROSS-PLATFORM-CORE": [
+      {
+        "test": "TestFromAGoProgramToABundleOnAnySystem",
+        "text": "783e485223d0ddc5c8394fe865ab9de9d4513bfdc4da925c2f661e1576d0db0b"
+      }
+    ],
+    "R-NFR-ENGLISH": [
+      {
+        "test": "TestEnglishOnly",
+        "text": "b878c538c36b02e48803e5c5746c65b97d57ae9981a42fafe80ef239e1cb5c3e"
+      }
+    ],
+    "R-NFR-NON-INTERACTIVE": [
+      {
+        "test": "TestNeverAsks",
+        "text": "299ddfb0d821d49bff2557c722d3df493938c8002dcb44cbfd21c8c37a091290"
+      }
+    ],
+    "R-NFR-SELF-EXPLAINING": [
+      {
+        "test": "TestTheProgramExplainsItself",
+        "text": "eb6e1d70d474ac54007c9b99e0401b38ac18a98ae0596ffc85cc5d98d65c542c"
+      }
+    ]
+  }
+}

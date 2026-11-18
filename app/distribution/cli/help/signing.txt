@@ -1,0 +1,46 @@
+A signature tells macOS who made an application and that it has not been changed since. Without one, an arm64 program does not start at all, and Gatekeeper refuses a downloaded application.
+
+TWO KINDS
+
+Ad hoc (--adhoc): a signature without a certificate. It proves nothing about who made the application, but it satisfies the requirement that every arm64 program be signed. The bundle starts on the Mac it was built on. On other Macs, a downloaded ad hoc bundle is blocked by Gatekeeper.
+
+Developer ID (--identity): a signature with a "Developer ID Application" certificate from an Apple Developer Program membership. Together with notarization, a downloaded bundle opens on any Mac without warnings.
+
+FINDING YOUR IDENTITY
+
+  security find-identity -v -p codesigning
+
+lists the identities in your keychain:
+
+  1) ABCDEF0123456789ABCDEF0123456789ABCDEF01 "Developer ID Application: Example GmbH (TEAM123456)"
+
+--identity accepts the full name, a part of it that only one identity contains ("Example GmbH"), or the 40 character fingerprint. If none matches, wdyapppack lists the available ones. Certificates are created in your account at developer.apple.com and installed with Xcode (Settings, Accounts, Manage Certificates).
+
+WHAT SIGN DOES
+
+1. It checks the bundle and resolves the identity.
+
+2. It signs from the inside out: Contents/Frameworks (libraries and frameworks), Contents/Helpers, further programs in Contents/MacOS, the program, and finally the bundle. Signing a container seals the signatures of what is inside, so the inside has to be signed first.
+
+3. With a Developer ID, it adds the hardened runtime (--options runtime) and a secure timestamp from Apple (--timestamp). Notarization requires both. --hardened-runtime=false switches the runtime off.
+
+4. It verifies the result with codesign --verify --deep --strict.
+
+ENTITLEMENTS
+
+The hardened runtime forbids things some programs need: just-in-time compilation, loading unsigned libraries, debugging. Entitlements grant them back. They are an XML property list:
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+  <plist version="1.0">
+  <dict>
+    <key>com.apple.security.cs.allow-jit</key>
+    <true/>
+  </dict>
+  </plist>
+
+Pass it with --entitlements file. It is applied to the program and the bundle, not to libraries and helpers. Go programs need no entitlements.
+
+AFTER SIGNING
+
+Do not change anything inside the bundle: any change breaks the seal. Notarize it next (see: wdyapppack help notarization), then wrap it into a disk image or a zip archive.

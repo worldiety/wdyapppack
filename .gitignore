@@ -1,0 +1,10 @@
+# Build output. speclink.lock and go.sum are records, not output: both are
+# committed.
+/wdyapppack
+/dist/
+/build/
+cover.out
+
+# Finder metadata. speclink would read one under requirements/_sources as a
+# source document and report it.
+.DS_Store

@@ -1,0 +1,55 @@
+This topic is for AI agents and scripts that drive wdyapppack. Everything here also holds for people.
+
+DISCOVER
+
+  wdyapppack help --format json
+
+returns the whole interface as one JSON document: every command with its options (name, type, default, enum values, the configuration field it overrides), arguments, examples and platforms; every help topic with its text; every error code; the exit codes; and every configuration field ("extra.configFields"). Read it once instead of parsing help text.
+
+RUN
+
+1. Always pass --format json. Standard output then holds exactly one JSON document, also when the command fails. Standard error holds only --verbose logging.
+
+2. Try commands that write with --dry-run first. The result describes what would be written or which Apple tool would be called.
+
+3. Nothing ever waits for input. A missing value is an error that names it.
+
+4. Nothing that exists is replaced without --force. Remove the output or pass --force deliberately.
+
+READ THE RESULT
+
+Success:
+
+  {"version":1,"ok":true,"command":"build","dryRun":false,
+   "result":{...},"notes":[...],"next":["wdyapppack sign ..."]}
+
+"result" depends on the command. "notes" are problems that did not prevent the result; act on them if the goal requires it (for example WAP-ARM64-UNSIGNED means: sign the bundle). "next" lists the commands that usually follow.
+
+Failure:
+
+  {"version":1,"ok":false,"command":"build","exitCode":2,
+   "errors":[{"code":"WAP-IDENTIFIER-INVALID","severity":"error",
+              "what":"...","why":"...","how":"...","see":"info-plist"}]}
+
+All errors of one run are reported together. For each: "how" is usually the literal fix; "see" names the help topic with the background (wdyapppack help <see> --format json). Codes are stable; the list is in: wdyapppack help errors.
+
+EXIT CODES
+
+  0  success
+  1  the operation failed or its input cannot be used: fix the input
+  2  wrong call: fix the command line or the configuration
+  3  a tool or operating system is missing: run the step on macOS, or install the tool named
+
+A TYPICAL SESSION
+
+  wdyapppack init --binary dist/mytool --identifier com.example.mytool --format json
+  # replace every CHANGE-ME in wdyapppack.json
+  wdyapppack build --dry-run --format json
+  wdyapppack build --format json
+  wdyapppack sign "dist/My Tool.app" --adhoc --format json          (macOS)
+
+To hand the bundle to others, see: wdyapppack help distribution.
+
+WHAT NEEDS MACOS
+
+sign, notarize and dmg call Apple's tools and end with exit code 3 and code WAP-PLATFORM-MACOS elsewhere. init, build, icon, universal, zip, schema and help work everywhere.

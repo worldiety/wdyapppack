@@ -1,0 +1,30 @@
+Macs have two kinds of processors: Apple silicon (arm64) since 2020, and Intel (x86_64, also called amd64) before. A program is built for one of them. A universal program contains one program for each, and macOS starts the one that fits — natively, without translation.
+
+WHEN YOU NEED ONE
+
+When the application should run on every Mac. Intel Macs cannot run arm64 programs at all; Apple silicon Macs run x86_64 programs only through Rosetta, which may not be installed.
+
+HOW
+
+Build the program twice, then give both to build:
+
+  GOOS=darwin GOARCH=arm64 go build -o dist/mytool-arm64 .
+  GOOS=darwin GOARCH=amd64 go build -o dist/mytool-amd64 .
+  wdyapppack build --binary dist/mytool-arm64 --binary dist/mytool-amd64 ...
+
+In the configuration file:
+
+  "binaries": [
+    { "arch": "arm64", "path": "dist/mytool-arm64" },
+    { "arch": "amd64", "path": "dist/mytool-amd64" }
+  ]
+
+Or merge them on their own, like Apple's lipo:
+
+  wdyapppack universal --in arm64=dist/mytool-arm64 --in amd64=dist/mytool-amd64 --out dist/mytool
+
+The architecture prefix is optional; when given it is checked against the program. Each architecture may appear once. A program that is already universal may be combined with a thin one for a missing architecture.
+
+The programs are copied into the universal one byte for byte, aligned the way lipo aligns them, so a signature each of them carries stays valid. Everything happens in Go, so this works on Linux build servers too.
+
+The minimum macOS of the bundle is the highest of the programs' own.

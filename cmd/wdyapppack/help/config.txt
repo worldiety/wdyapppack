@@ -1,0 +1,32 @@
+Everything a build needs can be written into a JSON file, so that a build can be repeated, reviewed and run on a server. wdyapppack reads wdyapppack.json in the current directory, or the file named by --config or the environment variable WDYAPPPACK_CONFIG.
+
+  wdyapppack init --binary dist/mytool         write a complete starter file
+  wdyapppack schema > wdyapppack.schema.json   completion and checks in your editor
+
+RULES
+
+- Paths in the file are relative to the file.
+- An option on the command line wins over the file: a single value replaces it, a repeated option replaces a list, and --usage, --env and --plist add or override single keys.
+- A field wdyapppack does not know is refused, with the closest known field suggested: a misspelled field silently ignored would be a setting you believe in and do not have.
+- Text values may refer to environment variables as ${NAME}, for example "version": "${VERSION}" on a build server. A variable that is not set is an error.
+- JSON allows no comments and no trailing commas. A syntax error is reported with its line.
+- The sections sign, notarize and dmg are read by those commands; build ignores them.
+
+EXAMPLE
+
+  {
+    "$schema": "wdyapppack.schema.json",
+    "name": "My Tool",
+    "identifier": "com.example.mytool",
+    "version": "${VERSION}",
+    "binaries": [
+      { "arch": "arm64", "path": "dist/mytool-darwin-arm64" },
+      { "arch": "amd64", "path": "dist/mytool-darwin-amd64" }
+    ],
+    "icon": { "path": "assets/icon.png", "shape": "squircle" },
+    "category": "developer-tools",
+    "copyright": "© 2026 Example GmbH",
+    "sign": { "identity": "Developer ID Application: Example GmbH (TEAM123456)" },
+    "notarize": { "keychainProfile": "wdyapppack" },
+    "dmg": { "volumeName": "My Tool" }
+  }

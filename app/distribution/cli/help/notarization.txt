@@ -1,0 +1,52 @@
+Notarization is Apple scanning your signed application for malicious content and recording that it did. Gatekeeper opens a downloaded application without warnings only when it is signed with a Developer ID and notarized.
+
+REQUIREMENTS
+
+- An Apple Developer Program membership.
+- The bundle signed with a Developer ID Application certificate, with the hardened runtime and a secure timestamp: wdyapppack sign <app> --identity <Developer ID> does all three. notarize checks this before uploading anything.
+- macOS with Xcode 13 or later, or its command line tools (xcode-select --install).
+
+CREDENTIALS
+
+notarytool reaches Apple's service in one of three ways; give exactly one.
+
+1. A keychain profile (recommended). Store your credentials once:
+
+  xcrun notarytool store-credentials wdyapppack --apple-id dev@example.com --team-id TEAM123456
+
+notarytool asks for the app specific password and keeps it in the keychain. Then:
+
+  wdyapppack notarize "dist/My Tool.app" --keychain-profile wdyapppack
+
+2. An App Store Connect API key, best for build servers:
+
+  wdyapppack notarize "dist/My Tool.app" --key AuthKey_ABC123.p8 --key-id ABC123 --issuer <issuer uuid>
+
+3. An Apple ID with an app specific password (made at account.apple.com). The password is never accepted as an option, because options end up in the shell history and the process list. Put it into an environment variable and name the variable:
+
+  export AC_PASSWORD=abcd-efgh-ijkl-mnop
+  wdyapppack notarize "dist/My Tool.app" --apple-id dev@example.com --team-id TEAM123456 --password-env AC_PASSWORD
+
+All of these can also be written into the notarize section of the configuration file (see: wdyapppack help config).
+
+WHAT NOTARIZE DOES
+
+1. A bundle is zipped for the upload; a disk image or zip archive is uploaded as it is.
+
+2. notarytool submits it and waits for the verdict, usually a few minutes.
+
+3. If Apple accepts it, the ticket is stapled to the bundle or disk image (xcrun stapler staple), so that Gatekeeper can check it without a network connection. A zip archive cannot carry a ticket; notarize the bundle, then zip it.
+
+4. If Apple rejects it, wdyapppack fetches Apple's log and shows each reason with the file it concerns.
+
+COMMON REJECTIONS
+
+- "The executable does not have the hardened runtime enabled": sign with --identity, which adds it, or do not pass --hardened-runtime=false.
+- "The signature does not include a secure timestamp": sign with --identity on a machine that can reach Apple's timestamp server.
+- "The binary is not signed with a valid Developer ID certificate": an Apple Development or ad hoc signature was used.
+- A library or helper inside the bundle is unsigned: sign signs everything in Contents/Frameworks and Contents/Helpers; files added elsewhere are not code to codesign.
+
+CHECKING THE RESULT
+
+  spctl --assess --type execute --verbose "dist/My Tool.app"
+  xcrun stapler validate "dist/My Tool.app"

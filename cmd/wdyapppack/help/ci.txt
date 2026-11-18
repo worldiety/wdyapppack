@@ -1,0 +1,48 @@
+On a build server, wdyapppack runs without questions, reads its settings from wdyapppack.json and the environment, and reports through exit codes and, with --format json, through one JSON document.
+
+SPLIT THE WORK
+
+Building the bundle needs nothing from Apple, so it can run on Linux. Signing, notarization and disk images need macOS. A typical pipeline builds on Linux and signs on a macOS runner, or does everything on macOS.
+
+REPRODUCIBLE BUNDLES
+
+Set SOURCE_DATE_EPOCH to the time of the last commit; every file of the bundle and every zip entry then carries that time, and two builds of the same commit are identical:
+
+  export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
+
+FAIL ON EVERYTHING
+
+--strict turns notes (an unsigned arm64 program, a library from Homebrew, a small icon) into errors.
+
+SECRETS
+
+Never put a password into the configuration or onto the command line. For notarization on a server, use an App Store Connect API key (--key, --key-id, --issuer), or an Apple ID with the password in an environment variable named by --password-env. The signing certificate has to be imported into a keychain on the runner first.
+
+EXAMPLE: GITHUB ACTIONS
+
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-go@v5
+        - run: go install github.com/worldiety/wdyapppack/cmd/wdyapppack@latest
+        - run: GOOS=darwin GOARCH=arm64 go build -o dist/mytool-arm64 .
+        - run: GOOS=darwin GOARCH=amd64 go build -o dist/mytool-amd64 .
+        - run: wdyapppack build --strict --version "${GITHUB_REF_NAME#v}"
+        - uses: actions/upload-artifact@v4
+          with: { name: bundle, path: dist/*.app }
+    sign:
+      needs: build
+      runs-on: macos-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/download-artifact@v4
+          with: { name: bundle, path: dist }
+        # import the Developer ID certificate into a keychain here
+        - run: go install github.com/worldiety/wdyapppack/cmd/wdyapppack@latest
+        - run: wdyapppack sign "dist/My Tool.app"
+        - run: wdyapppack notarize "dist/My Tool.app" --key AuthKey.p8 --key-id "$KEY_ID" --issuer "$ISSUER"
+        - run: wdyapppack dmg "dist/My Tool.app"
+
+An artifact upload may drop executable permissions; zip the bundle with wdyapppack zip before uploading it, and unzip it on the next runner, to keep them.

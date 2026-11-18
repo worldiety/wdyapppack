@@ -1,0 +1,41 @@
+An application bundle is a directory whose name ends in .app. The Finder shows it as a single icon and starts the program inside it when it is opened. Everything macOS needs to know about the application — its name, identifier, version, icon and the program to start — is in the bundle, so it can be copied, dragged into the Applications folder and deleted as one thing.
+
+wdyapppack writes this layout:
+
+  My Tool.app/
+    Contents/
+      Info.plist          name, identifier, version, which program to start, ...
+      PkgInfo             "APPL????", an old marker macOS still reads
+      MacOS/
+        mytool            your program, executable (CFBundleExecutable)
+      Resources/
+        AppIcon.icns      the icon in every size (CFBundleIconFile)
+        ...               files added with --resource
+      Frameworks/         libraries added with --framework
+      Helpers/            further programs added with --helper
+      _CodeSignature/     created by: wdyapppack sign
+
+HOW A BUNDLE IS BUILT
+
+1. Everything is checked first: the program must be a macOS executable, the name, identifier and version well formed, the icon square and large enough. All problems are reported at once, and nothing is written while there are any.
+
+2. The bundle is assembled in a hidden directory next to its destination and moved into place only when complete. An interrupted build never leaves half a bundle behind, and an existing bundle is replaced only with --force.
+
+3. The bundle is read back and checked: Info.plist parses and is complete, the program is there and executable, the icon it names exists.
+
+The program is copied byte for byte and started directly by macOS. A program for several architectures, or several programs given with --binary, become one universal program (see: wdyapppack help architectures).
+
+WHAT A BUNDLE DOES NOT CHANGE
+
+A program without a window of its own — a command line tool, a server — still runs when the bundle is opened, but invisibly: there is no terminal for its output. Programs that open a window or a browser themselves work as expected.
+
+wdyapppack does not rewrite the program. If it loads libraries from outside macOS, for example from Homebrew, build notes each one; see: wdyapppack help binaries.
+
+AFTER BUILDING
+
+  wdyapppack sign 'dist/My Tool.app' --adhoc       start it on this Mac
+  wdyapppack sign 'dist/My Tool.app' --identity "Developer ID Application: …"
+  wdyapppack notarize 'dist/My Tool.app' --keychain-profile <profile>
+  wdyapppack dmg 'dist/My Tool.app'                 a disk image to hand out
+
+See: wdyapppack help distribution

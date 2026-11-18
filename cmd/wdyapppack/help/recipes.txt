@@ -1,0 +1,51 @@
+Complete command sequences. Each works as written once the paths are yours.
+
+A GO PROGRAM, FOR YOUR OWN MAC
+
+  GOOS=darwin GOARCH=arm64 go build -o dist/mytool .
+  wdyapppack build --binary dist/mytool --name "My Tool" --identifier com.example.mytool --version 1.0.0 --icon icon.png
+  wdyapppack sign "dist/My Tool.app" --adhoc
+  open "dist/My Tool.app"
+
+To keep it: drag "dist/My Tool.app" into the Applications folder.
+
+A UNIVERSAL APPLICATION FOR EVERY MAC, HANDED OUT AS A DISK IMAGE
+
+  GOOS=darwin GOARCH=arm64 go build -o dist/mytool-arm64 .
+  GOOS=darwin GOARCH=amd64 go build -o dist/mytool-amd64 .
+  wdyapppack init --binary dist/mytool-arm64 --identifier com.example.mytool
+
+Edit wdyapppack.json: set the name, add the amd64 program to "binaries", set "icon", and in "sign" your Developer ID. Then:
+
+  wdyapppack build
+  wdyapppack sign "dist/My Tool.app"
+  wdyapppack notarize "dist/My Tool.app" --keychain-profile wdyapppack
+  wdyapppack dmg "dist/My Tool.app"
+
+The keychain profile is stored once with: xcrun notarytool store-credentials wdyapppack
+
+A MENU BAR TOOL
+
+  wdyapppack build --binary dist/tray --name Tray --identifier com.example.tray --version 1.0.0 --agent --icon tray.png --icon-shape squircle
+
+--agent keeps it out of the Dock and the application switcher.
+
+AN APPLICATION THAT USES THE CAMERA AND OPENS ITS OWN LINKS
+
+  wdyapppack build ... --usage "camera=Scans QR codes." --url-scheme mytool
+
+AN ICON ONLY
+
+  wdyapppack icon logo.png --out AppIcon.icns
+  wdyapppack icon logo.png --shape squircle --iconset
+
+A UNIVERSAL PROGRAM ONLY
+
+  wdyapppack universal --in arm64=dist/mytool-arm64 --in amd64=dist/mytool-amd64 --out dist/mytool
+
+CHECK BEFORE WRITING
+
+Every command that writes accepts --dry-run and shows what it would do:
+
+  wdyapppack build --dry-run
+  wdyapppack sign "dist/My Tool.app" --adhoc --dry-run

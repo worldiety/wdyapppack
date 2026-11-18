@@ -1,0 +1,54 @@
+Info.plist is the metadata of the bundle. wdyapppack writes it as an XML property list with its keys in sorted order, so that the same input always gives the same file.
+
+KEYS WDYAPPPACK WRITES
+
+  CFBundleName                   --name
+  CFBundleDisplayName            --display-name (default: the name)
+  CFBundleIdentifier             --identifier
+  CFBundleShortVersionString     --version
+  CFBundleVersion                --build-number (default: the version)
+  CFBundleExecutable             --executable-name (default: the program's file name)
+  CFBundleIconFile               AppIcon, when an icon is given
+  CFBundlePackageType            APPL
+  CFBundleInfoDictionaryVersion  6.0
+  CFBundleSupportedPlatforms     MacOSX
+  CFBundleDevelopmentRegion      en
+  LSMinimumSystemVersion         --min-macos (default: the program's own, else 11.0)
+  NSHighResolutionCapable        true (may be overridden with --plist)
+  LSApplicationCategoryType      --category
+  NSHumanReadableCopyright       --copyright
+  LSUIElement                    --agent
+  LSBackgroundOnly               --background-only
+  LSEnvironment                  --env KEY=VALUE
+  CFBundleURLTypes               --url-scheme
+
+The keys above that have an option can only be set through that option. Setting them with --plist or --plist-file is refused, because the metadata would then contradict the bundle (WAP-PLIST-PROTECTED).
+
+THE IDENTIFIER
+
+Reverse domain notation: letters, digits, dots and hyphens, at least one dot, e.g. com.example.mytool. Keep it the same across versions: macOS attaches preferences, granted permissions and the signature's designated requirement to it.
+
+VERSIONS
+
+The version and the build number are one to three numbers separated by dots: 1, 1.2 or 1.2.3. Text such as v1.2 or 1.2-beta is refused, because macOS compares versions number by number.
+
+USAGE DESCRIPTIONS
+
+Before macOS lets an application use the camera, the microphone or similar, it asks the user and shows the text given for that kind of access. Without the text, the application is not allowed to ask at all. Give it with --usage kind=text, or under "usageDescriptions" in the configuration file. The kinds:
+
+%USAGE%
+
+FURTHER KEYS
+
+Any other key can be set with its type:
+
+  --plist NSSupportsAutomaticGraphicsSwitching:bool=true
+  --plist LSMultipleInstancesProhibited:bool=true
+  --plist MyBuildCount:int=42
+  --plist MyRatio:real=1.5
+  --plist MyTags:array=a,b,c
+  --plist MyText=hello                  (string is the default type)
+
+In the configuration file, "plist" holds the keys with JSON values: text, true/false, numbers (a whole number becomes an integer, others a real), arrays and objects. A whole partial property list can be merged in with --plist-file; its keys are overridden by --plist and the "plist" field.
+
+Apple's reference of every key: "Information Property List Key Reference" in Apple's developer documentation.
