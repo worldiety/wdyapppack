@@ -28,3 +28,19 @@ The architecture prefix is optional; when given it is checked against the progra
 The programs are copied into the universal one byte for byte, aligned the way lipo aligns them, so a signature each of them carries stays valid. Everything happens in Go, so this works on Linux build servers too.
 
 The minimum macOS of the bundle is the highest of the programs' own.
+
+HELPERS
+
+A helper must be built for every architecture of the main program, because the program starts it on every Mac it runs on. A helper missing one is refused (WAP-HELPER-ARCH-MISSING). Give it once per architecture, and the programs are merged into one universal helper like the main program:
+
+  wdyapppack build --binary dist/mytool-arm64 --binary dist/mytool-amd64 --helper dist/agent-arm64 --helper dist/agent-amd64 ...
+
+Values of --helper with the same name are one helper. The name is the file name without architecture suffix, here agent, unless given in front: --helper mytool-agent=arm64=dist/agent-arm64. In the configuration file:
+
+  "helpers": [
+    { "name": "mytool-agent",
+      "binaries": [
+        { "arch": "arm64", "path": "dist/agent-arm64" },
+        { "arch": "amd64", "path": "dist/agent-amd64" }
+      ] }
+  ]

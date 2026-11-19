@@ -14,7 +14,7 @@ var _ = spec.For[BuildBundle](
 	spec.Satisfies(
 		rbundle.RBundleLayout, rbundle.RBundleMetadataRequired, rbundle.RBundlePlistDefaults,
 		rbundle.RBundleCategory, rbundle.RBundlePlistCustom, rbundle.RBundlePlistProtected,
-		rbundle.RBundlePayload, rbundle.RBundleSafeWrite, rbundle.RBundleReproducible,
+		rbundle.RBundlePayload, rbundle.RBundleHelperArchs, rbundle.RBundleSafeWrite, rbundle.RBundleReproducible,
 		rbundle.RBundleSelfCheck, rbundle.RBundleStrict,
 		binary.RBinaryMachoOnly, binary.RBinaryArchDetect, binary.RBinaryMinos,
 		binary.RBinaryArm64Signed, binary.RBinaryDylibExternal, binary.RBinaryUniversal,

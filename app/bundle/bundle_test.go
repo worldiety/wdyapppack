@@ -214,7 +214,7 @@ func TestResourcesFrameworksAndHelpers(t *testing.T) {
 	cfg := validConfig()
 	cfg.Resources = []Resource{{From: "assets/data"}, {From: "assets/data/a.txt", To: "x/renamed.txt"}}
 	cfg.Frameworks = []string{"libs/libfoo.dylib"}
-	cfg.Helpers = []string{"dist/helper"}
+	cfg.Helpers = []Helper{{Binaries: []Binary{{Path: "dist/helper"}}}}
 	res, err := buildWith(m, cfg)
 	if err != nil {
 		t.Fatal(err)
@@ -228,7 +228,7 @@ func TestResourcesFrameworksAndHelpers(t *testing.T) {
 		t.Error("the unsigned helper was not checked like the program")
 	}
 
-	cfg.Helpers = []string{"dist/notaprogram"}
+	cfg.Helpers = []Helper{{Binaries: []Binary{{Path: "dist/notaprogram"}}}}
 	cfg.Resources = []Resource{{From: "assets/data", To: "../escape"}}
 	_, err = buildWith(workspace(t), cfg)
 	wantCodes(t, err, "WAP-NAME-INVALID")
@@ -239,6 +239,78 @@ func TestResourcesFrameworksAndHelpers(t *testing.T) {
 	_, err = buildWith(m2, cfg)
 	wantCodes(t, err, "WAP-BINARY-NOT-MACHO")
 	spec.Verified(t, rbundle.RBundlePayload)
+}
+
+func TestHelpersPerArchitecture(t *testing.T) {
+	m := workspace(t)
+	m.put("dist/agent-darwin-arm64", arm64(), 0o755)
+	m.put("dist/agent-darwin-amd64", x86(), 0o755)
+	universal := validConfig()
+	universal.Binaries = []Binary{{Path: "dist/mytool-darwin-arm64"}, {Path: "dist/mytool-darwin-amd64"}}
+
+	// One program per architecture is merged into one universal helper, named
+	// after the file without its architecture suffix.
+	cfg := universal
+	cfg.Helpers = []Helper{{Binaries: []Binary{{Arch: "arm64", Path: "dist/agent-darwin-arm64"}, {Arch: "amd64", Path: "dist/agent-darwin-amd64"}}}}
+	if _, err := buildWith(m, cfg); err != nil {
+		t.Fatal(messagesOf(err))
+	}
+	data, err := m.Read(filepath.Join(app, "Contents/Helpers/agent"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if info, err := macho.Inspect(data); err != nil || info.Kind != macho.Universal || !slices.Equal(slices.Sorted(slices.Values(info.Archs())), []string{"arm64", "x86_64"}) {
+		t.Fatalf("the helper is not universal: %+v %v", info, err)
+	}
+
+	// One program is enough when it covers the main program, and keeps the
+	// name it is given.
+	cfg = validConfig()
+	cfg.Helpers = []Helper{{Name: "mytool-agent", Binaries: []Binary{{Path: "dist/agent-darwin-arm64"}}}}
+	if _, err := buildWith(workspace(t), cfg); err == nil || !strings.Contains(messagesOf(err), "WAP-FILE-NOT-FOUND") {
+		t.Fatalf("a missing helper was not reported: %v", err)
+	}
+	m2 := workspace(t)
+	m2.put("dist/agent-darwin-arm64", arm64(), 0o755)
+	if _, err := buildWith(m2, cfg); err != nil {
+		t.Fatal(messagesOf(err))
+	}
+	if st, _ := m2.Stat(filepath.Join(app, "Contents/Helpers/mytool-agent")); !st.Exists {
+		t.Fatal("the named helper is missing")
+	}
+
+	// A helper lacking an architecture of the main program is refused.
+	cfg = universal
+	cfg.Helpers = []Helper{{Binaries: []Binary{{Path: "dist/agent-darwin-arm64"}}}}
+	_, err = buildWith(m, cfg, func(r *BuildRequest) { r.Force = true })
+	wantCodes(t, err, "WAP-HELPER-ARCH-MISSING")
+	if !strings.Contains(messagesOf(err), "x86_64") {
+		t.Errorf("the missing architecture is not named: %s", messagesOf(err))
+	}
+
+	// Two programs of one helper for the same architecture, a stated
+	// architecture that does not match, two helpers of one name and a helper
+	// without a program are refused.
+	cfg = universal
+	cfg.Helpers = []Helper{
+		{Name: "a", Binaries: []Binary{{Path: "dist/agent-darwin-arm64"}, {Path: "dist/mytool-darwin-arm64"}}},
+		{Name: "b", Binaries: []Binary{{Arch: "amd64", Path: "dist/agent-darwin-arm64"}}},
+		{Binaries: []Binary{{Path: "dist/agent-darwin-arm64"}, {Path: "dist/agent-darwin-amd64"}}},
+		{Binaries: []Binary{{Path: "dist/mytool-darwin-arm64"}, {Path: "dist/mytool-darwin-amd64"}}, Name: "agent"},
+		{Name: "c"},
+		{Name: "../x", Binaries: []Binary{{Path: "dist/agent-darwin-arm64"}}},
+	}
+	_, err = buildWith(m, cfg, func(r *BuildRequest) { r.Force = true })
+	wantCodes(t, err, "WAP-ARCH-DUPLICATE", "WAP-ARCH-MISMATCH", "WAP-HELPER-DUPLICATE", "WAP-BINARY-MISSING", "WAP-NAME-INVALID")
+	spec.Verified(t, rbundle.RBundleHelperArchs)
+}
+
+func TestHelpersInTheFormerFormAreExplained(t *testing.T) {
+	_, err := decodeConfig("wdyapppack.json", []byte(`{"helpers": ["dist/helper"]}`), nil)
+	wantCodes(t, err, "WAP-CONFIG-TYPE")
+	if !strings.Contains(messagesOf(err), `{"binaries": [{"path": "dist/helper"}]}`) {
+		t.Fatalf("the new form is not shown: %s", messagesOf(err))
+	}
 }
 
 func TestSameInputSameBundle(t *testing.T) {

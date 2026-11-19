@@ -38,4 +38,4 @@ macOS starts the program directly when the bundle is opened. A command line tool
 
 HELPERS
 
-Further programs go into Contents/Helpers with --helper. They are checked like the main program and signed with it.
+Further programs go into Contents/Helpers with --helper, or under "helpers" in the configuration file. They are checked like the main program, signed with it, and must be built for every architecture it is built for: give a helper once per architecture and the programs are merged into one universal helper (see: wdyapppack help architectures). The main program finds a helper at ../Helpers/<name>, relative to its own directory.

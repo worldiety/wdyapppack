@@ -1,4 +1,4 @@
-# wdyapppack
+# helper-binaries-per-architecture-bace0c
 
 Derived from the source by `speclink generate`. Do not edit: every sentence here is written somewhere else, and the point of this file is that there is only one such place.
 
@@ -24,15 +24,16 @@ A chapter with nothing in it says which of two things happened. _Not declared_ m
 |  | measured | complete |
 |---|---:|---:|
 | Source segments accounted for | 63 | 100% |
-| Normative requirements covered | 68 | 100% |
-| … claimed by a test | 68 | 100% |
-| … demonstrated by a run | 68 | 100% |
-| … read by a person | 68 | 90% |
+| Normative requirements covered | 69 | 100% |
+| … claimed by a test | 69 | 100% |
+| … demonstrated by a run | 69 | 100% |
+| … read by a person | 69 | 88% |
 
 ## Gaps
 
 ### Requirements nobody has read
 
+- R-BUNDLE-HELPER-ARCHS
 - R-CONFIG-DEFAULT-BUNDLE
 - R-DEC-TEMPORARY-KEYCHAIN
 - R-DIST-API-KEY-ENV
@@ -47,9 +48,9 @@ A test that claims a requirement is a claim. Evidence that the test ran is somet
 
 |  | count | of normative |
 |---|---:|---:|
-| Normative requirements | 68 |  |
-| … a test claims | 68 | 100% |
-| … a run demonstrated | 68 | 100% |
+| Normative requirements | 69 |  |
+| … a test claims | 69 | 100% |
+| … a run demonstrated | 69 | 100% |
 
 ### How much of the code a run went through
 
@@ -59,7 +60,7 @@ _no coverage profile has been handed to speclink evidence, so nothing is known a
 
 | Document | Kind | Segments | Cited | Read | Drifted |
 |---|---|---:|---:|---:|---:|
-| `requirements/_sources/wdyapppack/product.md` | markdown | 63 | 63 | 57 | 0 |
+| `requirements/_sources/wdyapppack/product.md` | markdown | 63 | 63 | 56 | 0 |
 
 ## Themes
 
@@ -169,7 +170,7 @@ No package of one bounded context imports a package of another. The contexts are
 
 _use case_ — `app/bundle/uc_build_bundle.go:6–18`
 
-**Answers to** [R-BINARY-ARCH-DETECT](#req-R-BINARY-ARCH-DETECT), [R-BINARY-ARM64-SIGNED](#req-R-BINARY-ARM64-SIGNED), [R-BINARY-DYLIB-EXTERNAL](#req-R-BINARY-DYLIB-EXTERNAL), [R-BINARY-MACHO-ONLY](#req-R-BINARY-MACHO-ONLY), [R-BINARY-MINOS](#req-R-BINARY-MINOS), [R-BINARY-UNIVERSAL](#req-R-BINARY-UNIVERSAL), [R-BUNDLE-CATEGORY](#req-R-BUNDLE-CATEGORY), [R-BUNDLE-LAYOUT](#req-R-BUNDLE-LAYOUT), [R-BUNDLE-METADATA-REQUIRED](#req-R-BUNDLE-METADATA-REQUIRED), [R-BUNDLE-PAYLOAD](#req-R-BUNDLE-PAYLOAD), [R-BUNDLE-PLIST-CUSTOM](#req-R-BUNDLE-PLIST-CUSTOM), [R-BUNDLE-PLIST-DEFAULTS](#req-R-BUNDLE-PLIST-DEFAULTS), [R-BUNDLE-PLIST-PROTECTED](#req-R-BUNDLE-PLIST-PROTECTED), [R-BUNDLE-REPRODUCIBLE](#req-R-BUNDLE-REPRODUCIBLE), [R-BUNDLE-SAFE-WRITE](#req-R-BUNDLE-SAFE-WRITE), [R-BUNDLE-SELF-CHECK](#req-R-BUNDLE-SELF-CHECK), [R-BUNDLE-STRICT](#req-R-BUNDLE-STRICT), [R-DEC-DIRECT-LAUNCH-ONLY](#req-R-DEC-DIRECT-LAUNCH-ONLY), [R-DEC-NO-LOADPATH-REWRITE](#req-R-DEC-NO-LOADPATH-REWRITE), [R-DEC-PURE-GO-ICNS](#req-R-DEC-PURE-GO-ICNS), [R-GUIDE-DRY-RUN](#req-R-GUIDE-DRY-RUN), [R-GUIDE-NO-OVERWRITE](#req-R-GUIDE-NO-OVERWRITE), [R-ICON-FORMATS](#req-R-ICON-FORMATS), [R-ICON-SHAPE](#req-R-ICON-SHAPE), [R-ICON-SIZES](#req-R-ICON-SIZES), [R-ICON-SQUARE](#req-R-ICON-SQUARE), [R-NFR-CROSS-PLATFORM-CORE](#req-R-NFR-CROSS-PLATFORM-CORE)
+**Answers to** [R-BINARY-ARCH-DETECT](#req-R-BINARY-ARCH-DETECT), [R-BINARY-ARM64-SIGNED](#req-R-BINARY-ARM64-SIGNED), [R-BINARY-DYLIB-EXTERNAL](#req-R-BINARY-DYLIB-EXTERNAL), [R-BINARY-MACHO-ONLY](#req-R-BINARY-MACHO-ONLY), [R-BINARY-MINOS](#req-R-BINARY-MINOS), [R-BINARY-UNIVERSAL](#req-R-BINARY-UNIVERSAL), [R-BUNDLE-CATEGORY](#req-R-BUNDLE-CATEGORY), [R-BUNDLE-HELPER-ARCHS](#req-R-BUNDLE-HELPER-ARCHS), [R-BUNDLE-LAYOUT](#req-R-BUNDLE-LAYOUT), [R-BUNDLE-METADATA-REQUIRED](#req-R-BUNDLE-METADATA-REQUIRED), [R-BUNDLE-PAYLOAD](#req-R-BUNDLE-PAYLOAD), [R-BUNDLE-PLIST-CUSTOM](#req-R-BUNDLE-PLIST-CUSTOM), [R-BUNDLE-PLIST-DEFAULTS](#req-R-BUNDLE-PLIST-DEFAULTS), [R-BUNDLE-PLIST-PROTECTED](#req-R-BUNDLE-PLIST-PROTECTED), [R-BUNDLE-REPRODUCIBLE](#req-R-BUNDLE-REPRODUCIBLE), [R-BUNDLE-SAFE-WRITE](#req-R-BUNDLE-SAFE-WRITE), [R-BUNDLE-SELF-CHECK](#req-R-BUNDLE-SELF-CHECK), [R-BUNDLE-STRICT](#req-R-BUNDLE-STRICT), [R-DEC-DIRECT-LAUNCH-ONLY](#req-R-DEC-DIRECT-LAUNCH-ONLY), [R-DEC-NO-LOADPATH-REWRITE](#req-R-DEC-NO-LOADPATH-REWRITE), [R-DEC-PURE-GO-ICNS](#req-R-DEC-PURE-GO-ICNS), [R-GUIDE-DRY-RUN](#req-R-GUIDE-DRY-RUN), [R-GUIDE-NO-OVERWRITE](#req-R-GUIDE-NO-OVERWRITE), [R-ICON-FORMATS](#req-R-ICON-FORMATS), [R-ICON-SHAPE](#req-R-ICON-SHAPE), [R-ICON-SIZES](#req-R-ICON-SIZES), [R-ICON-SQUARE](#req-R-ICON-SQUARE), [R-NFR-CROSS-PLATFORM-CORE](#req-R-NFR-CROSS-PLATFORM-CORE)
 
 <a id="req-code-github-com-worldiety-wdyapppack-app-bundle-converticon"></a>
 #### ConvertIcon
@@ -327,7 +328,7 @@ A change to a recorded structure is reported the next run, which is the only war
 | `BackgroundOnly` | `backgroundOnly` | `bool` | yes |
 | `Resources` | `resources` | [\[\]Resource](#req-shape-github-com-worldiety-wdyapppack-app-bundle-resource) | yes |
 | `Frameworks` | `frameworks` | `[]string` | yes |
-| `Helpers` | `helpers` | `[]string` | yes |
+| `Helpers` | `helpers` | [\[\]Helper](#req-shape-github-com-worldiety-wdyapppack-app-bundle-helper) | yes |
 | `URLSchemes` | `urlSchemes` | `[]string` | yes |
 | `UsageDescriptions` | `usageDescriptions` | `map[string]string` | yes |
 | `Environment` | `environment` | `map[string]string` | yes |
@@ -385,6 +386,19 @@ Every structure the tables above pointed at, set out one field to a line. This i
 {
     from: string
     to: string
+}
+```
+
+<a id="req-shape-github-com-worldiety-wdyapppack-app-bundle-helper"></a>
+### Helper
+
+```
+{
+    name: string
+    binaries: []{
+        arch: string
+        path: string
+    }
 }
 ```
 
@@ -449,6 +463,7 @@ Every requirement that was read, and how far each one has got. A mark states wha
 | [R-BINARY-MINOS](#req-R-BINARY-MINOS) | functional | business | normative | yes | yes | yes | yes |
 | [R-BINARY-UNIVERSAL](#req-R-BINARY-UNIVERSAL) | functional | business | normative | yes | yes | yes | yes |
 | [R-BUNDLE-CATEGORY](#req-R-BUNDLE-CATEGORY) | functional | business | normative | yes | yes | yes | yes |
+| [R-BUNDLE-HELPER-ARCHS](#req-R-BUNDLE-HELPER-ARCHS) | functional | business | normative | yes | yes | yes | no |
 | [R-BUNDLE-LAYOUT](#req-R-BUNDLE-LAYOUT) | functional | business | normative | yes | yes | yes | yes |
 | [R-BUNDLE-METADATA-REQUIRED](#req-R-BUNDLE-METADATA-REQUIRED) | functional | business | normative | yes | yes | yes | yes |
 | [R-BUNDLE-PAYLOAD](#req-R-BUNDLE-PAYLOAD) | functional | business | normative | yes | yes | yes | yes |
@@ -619,6 +634,18 @@ _functional, business, normative._
   - [BuildBundle](#req-code-github-com-worldiety-wdyapppack-app-bundle-buildbundle) — `app/bundle/uc_build_bundle.go:6–18`
 - **Demonstrated by** TestCategoryShortAndFull
 - **Read by** Timo
+
+<a id="req-R-BUNDLE-HELPER-ARCHS"></a>
+### R-BUNDLE-HELPER-ARCHS — Helpers per architecture
+
+A helper MUST be accepted as one program or as one program per architecture, several programs of one helper MUST be merged into one universal helper, and a helper that lacks an architecture of the main program MUST be refused.
+
+_functional, business, normative._
+
+- **Asked for in** requirements/\_sources/wdyapppack/product.md#57-resources-libraries-and-helpers
+- **Implemented by**
+  - [BuildBundle](#req-code-github-com-worldiety-wdyapppack-app-bundle-buildbundle) — `app/bundle/uc_build_bundle.go:6–18`
+- **Demonstrated by** TestHelpersPerArchitecture
 
 <a id="req-R-BUNDLE-LAYOUT"></a>
 ### R-BUNDLE-LAYOUT — Bundle layout
@@ -1503,7 +1530,7 @@ What people wrote, and what became of each part of it.
 | 5.4 Application category | R-BUNDLE-CATEGORY |
 | 5.5 Additional metadata | R-BUNDLE-PLIST-CUSTOM |
 | 5.6 Protected keys | R-BUNDLE-PLIST-PROTECTED |
-| 5.7 Resources, libraries and helpers | R-BUNDLE-PAYLOAD |
+| 5.7 Resources, libraries and helpers | R-BUNDLE-HELPER-ARCHS, R-BUNDLE-PAYLOAD |
 | 5.8 Safe writing | R-BUNDLE-SAFE-WRITE |
 | 5.9 Reproducible output | R-BUNDLE-REPRODUCIBLE |
 | 5.10 Self-check | R-BUNDLE-SELF-CHECK |

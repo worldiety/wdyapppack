@@ -238,7 +238,11 @@ because a bundle whose metadata contradicts its contents does not start.
 ### 5.7 Resources, libraries and helpers
 
 Files and directories can be added as resources, libraries as frameworks and
-further programs as helpers. Helpers are checked like the main program.
+further programs as helpers. Helpers are checked like the main program. A
+helper is given as one program or as one program per architecture; several are
+merged into one universal helper, like the main program. A helper that lacks an
+architecture of the main program is refused, because it would not start on
+that architecture.
 
 ### 5.8 Safe writing
 

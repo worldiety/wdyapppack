@@ -44,6 +44,11 @@
       "from": "requirements/_sources/wdyapppack/product.md#54-application-category",
       "reviewedBy": "Timo"
     },
+    "R-BUNDLE-HELPER-ARCHS": {
+      "text": "001cdd1795e61ae66a7a2a44f0fcb1eb7085b2fdb7c7b4242c8a377eb13fe6c4",
+      "title": "Helpers per architecture",
+      "from": "requirements/_sources/wdyapppack/product.md#57-resources-libraries-and-helpers"
+    },
     "R-BUNDLE-LAYOUT": {
       "text": "fc26e3f88552cfacc1f5b89417e7a93823b1e25ac896f93fd6432ec37a902c5e",
       "title": "Bundle layout",
@@ -566,7 +571,7 @@
       "kind": "markdown"
     },
     "requirements/_sources/wdyapppack/product.md#57-resources-libraries-and-helpers": {
-      "fingerprint": "2c2540d83278b89760fee0283a67100f9798bc91742c53b47194285ea2483fd5",
+      "fingerprint": "c501f6f74e7eec325b224c5b5c6ecdb418187ebe62511c176d44ee7cc1c27859",
       "kind": "markdown"
     },
     "requirements/_sources/wdyapppack/product.md#58-safe-writing": {
@@ -706,7 +711,7 @@
     "init, build, icon, universal (operator → app/bundle/cli)": {
       "contract": {
         "type": "github.com/worldiety/wdyapppack/app/bundle.Config",
-        "shape": "{$schema:string,name:string,displayName:string,identifier:string,version:string,buildNumber:string,binaries:[]{arch:string,path:string},executableName:string,icon:{path:string,shape:string},minimumMacOS:string,category:string,copyright:string,agent:bool,backgroundOnly:bool,resources:[]{from:string,to:string},frameworks:[]string,helpers:[]string,urlSchemes:[]string,usageDescriptions:map[string]string,environment:map[string]string,plist:map[string]any,plistFile:string,out:string,sign:string,notarize:string,dmg:string}",
+        "shape": "{$schema:string,name:string,displayName:string,identifier:string,version:string,buildNumber:string,binaries:[]{arch:string,path:string},executableName:string,icon:{path:string,shape:string},minimumMacOS:string,category:string,copyright:string,agent:bool,backgroundOnly:bool,resources:[]{from:string,to:string},frameworks:[]string,helpers:[]{name:string,binaries:[]{arch:string,path:string}},urlSchemes:[]string,usageDescriptions:map[string]string,environment:map[string]string,plist:map[string]any,plistFile:string,out:string,sign:string,notarize:string,dmg:string}",
         "fields": [
           {
             "name": "Schema",
@@ -791,7 +796,7 @@
           {
             "name": "Helpers",
             "wire": "helpers",
-            "shape": "[]string"
+            "shape": "[]{name:string,binaries:[]{arch:string,path:string}}"
           },
           {
             "name": "URLSchemes",
@@ -887,6 +892,12 @@
       {
         "test": "TestCategoryShortAndFull",
         "text": "f1c3ef8fe0bb40d0f2f9c0f1ce3fa4d2c9503ee39a6705650f2b5ab918f2d123"
+      }
+    ],
+    "R-BUNDLE-HELPER-ARCHS": [
+      {
+        "test": "TestHelpersPerArchitecture",
+        "text": "001cdd1795e61ae66a7a2a44f0fcb1eb7085b2fdb7c7b4242c8a377eb13fe6c4"
       }
     ],
     "R-BUNDLE-LAYOUT": [

@@ -144,7 +144,7 @@ func build(files Files, req BuildRequest) (BuildResult, error) {
 
 	// Payload.
 	nodes := []Node{{Path: "Contents", Dir: true, Mode: 0o755}}
-	nodes = append(nodes, payload(files, cfg, &c)...)
+	nodes = append(nodes, payload(files, cfg, archs, &c)...)
 
 	if utf8Len(meta.name) > 15 {
 		c.Note(msg("WAP-NAME-LONG", fmt.Sprintf("The name %q has %d characters.", meta.name, utf8Len(meta.name))))
@@ -324,8 +324,10 @@ func checkProtected(custom map[string]any, source string, c *problem.Collector) 
 	}
 }
 
-// payload copies resources, frameworks and helpers.
-func payload(files Files, cfg Config, c *problem.Collector) []Node {
+// payload copies resources, frameworks and helpers. archs are the
+// architectures of the main program, which every helper must cover; nil when
+// the main program could not be read.
+func payload(files Files, cfg Config, archs []string, c *problem.Collector) []Node {
 	var nodes []Node
 	add := func(from, to, role string) {
 		st, err := files.Stat(from)
@@ -367,13 +369,65 @@ func payload(files Files, cfg Config, c *problem.Collector) []Node {
 	for _, f := range cfg.Frameworks {
 		add(f, "Contents/Frameworks/"+filepath.Base(f), "framework")
 	}
+	seen := map[string]bool{}
 	for _, h := range cfg.Helpers {
-		if p, ok := loadProgram(files, Binary{Path: h}, "helper", c); ok {
-			programNotes(p, c)
-			nodes = append(nodes, Node{Path: "Contents/Helpers/" + filepath.Base(h), Mode: 0o755, Data: p.data})
+		if n, ok := helper(files, h, archs, seen, c); ok {
+			nodes = append(nodes, n)
 		}
 	}
 	return nodes
+}
+
+// helper reads the programs of a helper, merges several into a universal one
+// and checks that it runs wherever the main program does.
+func helper(files Files, h Helper, archs []string, seen map[string]bool, c *problem.Collector) (Node, bool) {
+	if len(h.Binaries) == 0 {
+		what := "A helper names no program."
+		if h.Name != "" {
+			what = fmt.Sprintf("The helper %s names no program.", h.Name)
+		}
+		c.Error(problem.Usage, msgHow("WAP-BINARY-MISSING", what,
+			`Give its program under "binaries": [{"path": "dist/helper"}], one entry per architecture.`))
+		return Node{}, false
+	}
+	name := h.FileName()
+	if name == "" || name == "." || name == ".." || strings.ContainsAny(name, "/:") {
+		c.Error(problem.Usage, msgHow("WAP-NAME-INVALID", fmt.Sprintf("The helper name %q cannot be a file name in Contents/Helpers.", name),
+			"Choose a plain file name without / and :."))
+		return Node{}, false
+	}
+	if seen[name] {
+		c.Error(problem.Usage, msg("WAP-HELPER-DUPLICATE", fmt.Sprintf("Two helpers are named %s.", name)))
+		return Node{}, false
+	}
+	seen[name] = true
+
+	var progs []program
+	for _, b := range h.Binaries {
+		if p, ok := loadProgram(files, b, "helper", c); ok {
+			programNotes(p, c)
+			progs = append(progs, p)
+		}
+	}
+	if len(progs) != len(h.Binaries) {
+		return Node{}, false
+	}
+	data, helperArchs, _, ok := assemble(progs, c)
+	if !ok {
+		return Node{}, false
+	}
+	var missing []string
+	for _, a := range archs {
+		if !slices.Contains(helperArchs, a) {
+			missing = append(missing, a)
+		}
+	}
+	if len(missing) > 0 {
+		c.Error(problem.Failed, msg("WAP-HELPER-ARCH-MISSING",
+			fmt.Sprintf("The helper %s is built for %s, but the program is also built for %s.", name, joinArchs(helperArchs), joinArchs(missing))))
+		return Node{}, false
+	}
+	return Node{Path: "Contents/Helpers/" + name, Mode: 0o755, Data: data}, true
 }
 
 // normalizeTree adds the directories every entry needs, removes duplicates and
