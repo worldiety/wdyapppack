@@ -44,8 +44,8 @@ func (i Imager) Ready() error {
 	return nil
 }
 
-// Create stages the bundle with a link to /Applications and makes a
-// compressed, read only image of it.
+// Create stages the bundle with a link to /Applications and makes a read only
+// image of it, compressed as far as UDZO goes.
 func (i Imager) Create(spec distribution.DiskImageSpec) error {
 	stage, err := os.MkdirTemp("", "wdyapppack-dmg-*")
 	if err != nil {
@@ -69,7 +69,7 @@ func (i Imager) Create(spec distribution.DiskImageSpec) error {
 		return err
 	}
 	_, err = i.run.Run(nil, i.tools.Hdiutil, "create",
-		"-volname", spec.Volume, "-srcfolder", stage, "-fs", "HFS+", "-format", "UDZO", spec.Out)
+		"-volname", spec.Volume, "-srcfolder", stage, "-fs", "HFS+", "-format", "UDZO", "-imagekey", "zlib-level=9", spec.Out)
 	return err
 }
 

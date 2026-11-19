@@ -18,6 +18,9 @@ type NotarizeRequest struct {
 	PasswordEnv string
 	// Staple attaches the ticket afterwards.
 	Staple bool
+	// APIKey from the environment is used when Credentials names no way to
+	// reach the service.
+	APIKey *APIKey
 	DryRun bool
 }
 
@@ -27,13 +30,30 @@ type Notarized struct {
 	SubmissionID string `json:"submissionId,omitempty"`
 	Status       string `json:"status,omitempty"`
 	Stapled      bool   `json:"stapled"`
-	DryRun       bool   `json:"dryRun"`
+	// Credentials says how the service was reached, without any secret.
+	Credentials string `json:"credentials"`
+	DryRun      bool   `json:"dryRun"`
 	// Steps describes what is done, in order.
 	Steps []string `json:"steps"`
 	Report
 }
 
 func notarize(ws Workspace, signer Signer, notary Notary, req NotarizeRequest) (Notarized, error) {
+	var keyText []byte
+	if noCredentials(req.Credentials) && req.APIKey != nil && strings.TrimSpace(req.APIKey.Data) != "" {
+		if req.APIKey.KeyID == "" {
+			return Notarized{}, problem.Misuse(msg("WAP-API-KEY-INVALID",
+				fmt.Sprintf("%s holds a key, but %s is not set.", EnvAPIKey, EnvAPIKeyID)))
+		}
+		text, err := apiKeyText(*req.APIKey)
+		if err != nil {
+			return Notarized{}, problem.Misuse(msg("WAP-API-KEY-INVALID", fmt.Sprintf("%s cannot be used: %v.", EnvAPIKey, err)))
+		}
+		keyText = text
+		// The file is written only once something is sent; until then the
+		// placeholder only says which way was chosen.
+		req.Credentials = Credentials{Key: "AuthKey_" + req.APIKey.KeyID + ".p8", KeyID: req.APIKey.KeyID, Issuer: req.APIKey.Issuer}
+	}
 	if err := checkCredentials(req); err != nil {
 		return Notarized{}, err
 	}
@@ -68,7 +88,7 @@ func notarize(ws Workspace, signer Signer, notary Notary, req NotarizeRequest) (
 		notes.Note(msg("WAP-STAPLE-ZIP", fmt.Sprintf("%s is a zip archive; no ticket is stapled.", req.Path)))
 	}
 
-	res := Notarized{Path: req.Path, DryRun: req.DryRun, Report: Report{Notes: notes.Notes()}}
+	res := Notarized{Path: req.Path, DryRun: req.DryRun, Credentials: describeCredentials(req.Credentials, keyText != nil), Report: Report{Notes: notes.Notes()}}
 	upload := req.Path
 	if kind == ".app" {
 		res.Steps = append(res.Steps, "zip "+req.Path+" for the upload")
@@ -81,12 +101,19 @@ func notarize(ws Workspace, signer Signer, notary Notary, req NotarizeRequest) (
 		return res, nil
 	}
 
-	if kind == ".app" {
-		dir, cleanup, err := ws.TempDir()
-		if err != nil {
-			return Notarized{}, problem.Fail(msg("WAP-ZIP-FAILED", fmt.Sprintf("No scratch directory: %v.", err)))
+	dir, cleanup, err := ws.TempDir()
+	if err != nil {
+		return Notarized{}, problem.Fail(msg("WAP-ZIP-FAILED", fmt.Sprintf("No scratch directory: %v.", err)))
+	}
+	defer cleanup()
+	if keyText != nil {
+		key := filepath.Join(dir, req.Credentials.Key)
+		if err := ws.WriteFile(key, keyText, 0o600, true); err != nil {
+			return Notarized{}, problem.Fail(msg("WAP-API-KEY-INVALID", fmt.Sprintf("The key from %s could not be written to a private file: %v.", EnvAPIKey, err)))
 		}
-		defer cleanup()
+		req.Credentials.Key = key
+	}
+	if kind == ".app" {
 		upload = filepath.Join(dir, strings.TrimSuffix(filepath.Base(req.Path), ".app")+".zip")
 		if err := ws.Zip(req.Path, upload, ZipOptions{}); err != nil {
 			return Notarized{}, problem.Fail(msg("WAP-ZIP-FAILED", fmt.Sprintf("%s could not be zipped for the upload: %v.", req.Path, err)))
@@ -136,6 +163,24 @@ func developerID(sig Signature) bool {
 		}
 	}
 	return false
+}
+
+func noCredentials(c Credentials) bool {
+	return c.KeychainProfile == "" && c.Key == "" && c.KeyID == "" && c.AppleID == "" && c.TeamID == ""
+}
+
+// describeCredentials names the way to the service for the report, never a
+// secret.
+func describeCredentials(c Credentials, fromEnv bool) string {
+	switch {
+	case fromEnv:
+		return "API key " + c.KeyID + " from " + EnvAPIKey
+	case c.KeychainProfile != "":
+		return "keychain profile " + c.KeychainProfile
+	case c.Key != "":
+		return "API key " + c.KeyID
+	}
+	return "Apple ID " + c.AppleID
 }
 
 func checkCredentials(req NotarizeRequest) error {

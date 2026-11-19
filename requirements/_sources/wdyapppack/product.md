@@ -183,6 +183,12 @@ placeholder that a build refuses until it is replaced.
 wdyapppack can print a JSON Schema of the configuration file, including a
 description of every field, so that editors can complete and check it.
 
+### 4.7 The bundle from the configuration
+
+The commands that work on a finished bundle — signing, notarizing and
+wrapping it — use the bundle the configuration file describes when no bundle is
+named, so that the steps of a build server need no paths.
+
 ## 5. Building a bundle
 
 <!-- speclink:informative -->
@@ -374,9 +380,13 @@ bundle that is not signed for notarization is refused before anything is sent.
 
 ### 8.6 Secrets
 
-Passwords are never accepted as option values, because those end up in the
-shell history and the process list. They are read from the keychain or from an
-environment variable whose name is given.
+Certificates and keys are given as files or through environment variables,
+never as the content of an option. Passwords are read from the keychain or from
+environment variables, because option values end up in the shell history and
+the process list. The one exception is the password of a signing certificate:
+it may also be typed as an option at a terminal, and the help says that it then
+ends up in the shell history and names the environment variable that keeps it
+out.
 
 ### 8.7 Rejections
 
@@ -390,9 +400,9 @@ disk image, so that it can be checked without a network connection.
 
 ### 8.9 Disk images
 
-A bundle can be wrapped into a compressed disk image that contains a link to
-the Applications folder, so that installing means dragging one icon onto
-another.
+A bundle can be wrapped into a disk image, compressed as far as the format
+allows, that contains a link to the Applications folder, so that installing
+means dragging one icon onto another.
 
 ### 8.10 Zip archives
 
@@ -403,6 +413,35 @@ executable permissions, on every operating system.
 
 A command that needs Apple's tools explains, on any other operating system or
 when a tool is missing, what is missing and where to run the command instead.
+
+### 8.12 Signing on a build server
+
+A build server has no keychain with the signing certificate in it, and
+preparing one is a sequence of steps every project would otherwise script on
+its own. When the environment variable WDYAPPPACK_CERTIFICATE holds a
+Developer ID certificate as a base64 encoded PKCS#12 file, and
+WDYAPPPACK_CERTIFICATE_PASSWORD its password, every command that signs creates
+a temporary keychain for itself, imports the certificate, signs with it and
+deletes the keychain again — also when the command fails or is interrupted. At
+a terminal, the same works with options: the certificate as a .p12 file and its
+password given on the command line; an option wins over the environment.
+Nothing has to be prepared before and nothing cleaned up after. The identity to
+sign with is still named explicitly, and it must be one the certificate
+contains.
+
+### 8.13 Notarization key from the environment
+
+When no other way to reach the notary service is given, an App Store Connect
+API key is taken from the environment: the key itself from WDYAPPPACK_API_KEY,
+base64 encoded or as the text of the .p8 file, its ID from
+WDYAPPPACK_API_KEY_ID and, for a team key, its issuer from
+WDYAPPPACK_API_ISSUER. The key is written to a private temporary file only for
+as long as the command runs.
+
+### 8.14 Checksums
+
+Next to every disk image and zip archive, a SHA-256 checksum file is written in
+the format of shasum -a 256, so that whoever downloads it can check it.
 
 ## 9. Operation
 

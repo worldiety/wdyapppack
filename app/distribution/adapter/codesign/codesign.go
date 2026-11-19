@@ -3,7 +3,12 @@
 package codesign
 
 import (
+	"crypto/rand"
+	"encoding/hex"
+	"errors"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"regexp"
 	"runtime"
 	"strings"
@@ -49,9 +54,76 @@ func (s Signer) Ready() error {
 
 var identityLine = regexp.MustCompile(`^\s*\d+\)\s+([0-9A-Fa-f]{40})\s+"(.*)"\s*$`)
 
-// Identities lists valid code signing identities.
-func (s Signer) Identities() ([]distribution.Identity, error) {
-	res, err := s.run.Run(nil, s.tools.Security, "find-identity", "-v", "-p", "codesigning")
+// OpenKeychain creates a keychain in a private temporary directory, imports
+// the PKCS#12 certificate into it and allows codesign to use the key without
+// asking, exactly as a build server script would. The keychain gets a random
+// password nobody needs to know: it is deleted again when the function
+// returned is called, or when the process is interrupted.
+func (s Signer) OpenKeychain(p12 []byte, password string) (distribution.Keychain, func() error, error) {
+	dir, err := os.MkdirTemp("", "wdyapppack-keychain-*")
+	if err != nil {
+		return distribution.Keychain{}, nil, err
+	}
+	secret := make([]byte, 24)
+	if _, err := rand.Read(secret); err != nil {
+		os.RemoveAll(dir)
+		return distribution.Keychain{}, nil, err
+	}
+	kcPassword := hex.EncodeToString(secret)
+	keychain := filepath.Join(dir, "signing.keychain-db")
+	certFile := filepath.Join(dir, "certificate.p12")
+
+	var once bool
+	cleanup := func() error {
+		if once {
+			return nil
+		}
+		once = true
+		var errs []error
+		if _, err := os.Stat(keychain); err == nil {
+			if _, err := s.run.Run(nil, s.tools.Security, "delete-keychain", keychain); err != nil {
+				errs = append(errs, err)
+			}
+		}
+		if err := os.RemoveAll(dir); err != nil {
+			errs = append(errs, err)
+		}
+		return errors.Join(errs...)
+	}
+	unregister := run.OnInterrupt(func() { _ = cleanup() })
+	closeKC := func() error { unregister(); return cleanup() }
+
+	secrets := []string{kcPassword, password}
+	steps := [][]string{
+		{"create-keychain", "-p", kcPassword, keychain},
+		{"set-keychain-settings", "-lut", "21600", keychain},
+		{"unlock-keychain", "-p", kcPassword, keychain},
+		{"import", certFile, "-k", keychain, "-P", password, "-T", "/usr/bin/codesign", "-T", "/usr/bin/security"},
+		{"set-key-partition-list", "-S", "apple-tool:,apple:,codesign:", "-s", "-k", kcPassword, keychain},
+	}
+	if err := os.WriteFile(certFile, p12, 0o600); err != nil {
+		_ = closeKC()
+		return distribution.Keychain{}, nil, err
+	}
+	for _, args := range steps {
+		if _, err := s.run.Run(secrets, s.tools.Security, args...); err != nil {
+			_ = closeKC()
+			return distribution.Keychain{}, nil, err
+		}
+	}
+	// The certificate is in the keychain now; the file is not needed.
+	_ = os.Remove(certFile)
+	return distribution.Keychain{Path: keychain}, closeKC, nil
+}
+
+// Identities lists valid code signing identities, of one keychain or of the
+// user's keychains.
+func (s Signer) Identities(k distribution.Keychain) ([]distribution.Identity, error) {
+	args := []string{"find-identity", "-v", "-p", "codesigning"}
+	if k.Path != "" {
+		args = append(args, k.Path)
+	}
+	res, err := s.run.Run(nil, s.tools.Security, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,6 +149,9 @@ func (s Signer) Sign(path string, o distribution.SignOptions) error {
 	}
 	if o.Entitlements != "" {
 		args = append(args, "--entitlements", o.Entitlements)
+	}
+	if o.Keychain != "" {
+		args = append(args, "--keychain", o.Keychain)
 	}
 	args = append(args, path)
 	_, err := s.run.Run(nil, s.tools.Codesign, args...)

@@ -18,11 +18,17 @@ A UNIVERSAL APPLICATION FOR EVERY MAC, HANDED OUT AS A DISK IMAGE
 Edit wdyapppack.json: set the name, add the amd64 program to "binaries", set "icon", and in "sign" your Developer ID. Then:
 
   wdyapppack build
-  wdyapppack sign "dist/My Tool.app"
-  wdyapppack notarize "dist/My Tool.app" --keychain-profile wdyapppack
-  wdyapppack dmg "dist/My Tool.app"
+  wdyapppack sign
+  wdyapppack notarize --keychain-profile wdyapppack
+  wdyapppack dmg
+
+Without a path, these work on the bundle wdyapppack.json describes.
 
 The keychain profile is stored once with: xcrun notarytool store-credentials wdyapppack
+
+THE SAME ON A BUILD SERVER
+
+Set the secrets WDYAPPPACK_CERTIFICATE, WDYAPPPACK_CERTIFICATE_PASSWORD, WDYAPPPACK_API_KEY, WDYAPPPACK_API_KEY_ID and WDYAPPPACK_API_ISSUER, and run the same four commands, without --keychain-profile. See: wdyapppack help ci
 
 A MENU BAR TOOL
 

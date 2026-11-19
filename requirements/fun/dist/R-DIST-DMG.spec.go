@@ -9,7 +9,7 @@ var RDistDmg = spec.Declare(spec.Requirement{
 	Discipline: spec.Business,
 	Status:     spec.Normative,
 	Title:      "Disk images",
-	Text:       "A bundle MUST be wrappable into a compressed disk image that contains a link to the Applications folder.",
+	Text:       "A bundle MUST be wrappable into a disk image with the highest compression the format offers that contains a link to the Applications folder.",
 	Sources: []spec.Source{
 		{Doc: "requirements/_sources/wdyapppack/product.md", Anchor: "89-disk-images"},
 	},

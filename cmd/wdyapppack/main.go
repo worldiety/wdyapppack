@@ -8,6 +8,8 @@ package main
 import (
 	"io"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/worldiety/wdyapppack/app/bundle"
 	bundlefs "github.com/worldiety/wdyapppack/app/bundle/adapter/fs"
@@ -25,6 +27,16 @@ import (
 )
 
 func main() {
+	// A signal ends the process without running deferred functions, so what
+	// an adapter set up for this command — a temporary keychain holding a
+	// signing certificate — is removed here.
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-signals
+		run.Interrupted()
+		os.Exit(130)
+	}()
 	os.Exit(newApp(os.LookupEnv, os.Stderr).Run(os.Args[1:], os.Stdout, os.Stderr))
 }
 
@@ -48,6 +60,17 @@ func newApp(env func(string) (string, bool), log io.Writer) *cli.App {
 
 // describe builds the program's commands and topics from the use cases.
 func describe(b bundle.UseCases, d distribution.UseCases, env func(string) (string, bool)) *cli.App {
+	// The distribution commands work on the bundle the configuration
+	// describes when none is named. Only the bundle context knows how a
+	// configuration names a bundle, and this is the one place that knows both.
+	bundles := func(configPath string, optional bool) (string, error) {
+		loaded, err := b.LoadConfig(auth.System(), bundle.LoadConfigRequest{Path: configPath, Optional: optional, Lookup: env})
+		if err != nil || !loaded.Found || loaded.Config.Name == "" {
+			return "", err
+		}
+		return loaded.Config.BundlePath(), nil
+	}
+
 	app := &cli.App{
 		Name:      "wdyapppack",
 		Tagline:   "package prebuilt programs as macOS .app bundles",
@@ -61,10 +84,10 @@ func describe(b bundle.UseCases, d distribution.UseCases, env func(string) (stri
 			clibundle.Build(b.LoadConfig, b.BuildBundle, env),
 			clibundle.Icon(b.ConvertIcon, env),
 			clibundle.Universal(b.MergeUniversal),
-			clidistribution.Sign(d.LoadSettings, d.SignBundle, env),
-			clidistribution.Notarize(d.LoadSettings, d.NotarizeArtifact, env),
-			clidistribution.DMG(d.LoadSettings, d.CreateDiskImage, env),
-			clidistribution.Zip(d.CreateArchive, env),
+			clidistribution.Sign(d.LoadSettings, d.SignBundle, bundles, env),
+			clidistribution.Notarize(d.LoadSettings, d.NotarizeArtifact, bundles, env),
+			clidistribution.DMG(d.LoadSettings, d.CreateDiskImage, bundles, env),
+			clidistribution.Zip(d.CreateArchive, bundles, env),
 			schemaCommand(),
 			versionCommand(),
 		},

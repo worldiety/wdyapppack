@@ -1,8 +1,78 @@
-On a build server, wdyapppack runs without questions, reads its settings from wdyapppack.json and the environment, and reports through exit codes and, with --format json, through one JSON document.
+On a build server, wdyapppack needs nothing but itself and a few secrets in the environment. There is no keychain to prepare, no credentials to store and nothing to clean up: a pipeline lists the wdyapppack commands one after another.
 
-SPLIT THE WORK
+THE SECRETS
 
-Building the bundle needs nothing from Apple, so it can run on Linux. Signing, notarization and disk images need macOS. A typical pipeline builds on Linux and signs on a macOS runner, or does everything on macOS.
+  WDYAPPPACK_CERTIFICATE           the Developer ID Application certificate with its
+                                   private key, as .p12, base64 encoded
+  WDYAPPPACK_CERTIFICATE_PASSWORD  the password of the .p12 (may be empty, must be set)
+  WDYAPPPACK_API_KEY               an App Store Connect API key: the .p8 file,
+                                   as its text or base64 encoded
+  WDYAPPPACK_API_KEY_ID            the ID of that key
+  WDYAPPPACK_API_ISSUER            the issuer ID, for a team key
+
+Map your pipeline's own secrets onto these names; the names are fixed so that nothing has to be configured. At a terminal, options do the same and win over the environment: --certificate and --certificate-password for sign and dmg, --key, --key-id and --issuer for notarize.
+
+To make them, once, on a Mac:
+
+  # Keychain Access: export "Developer ID Application: ..." with its key as certificate.p12
+  base64 -i certificate.p12 | pbcopy          → WDYAPPPACK_CERTIFICATE
+  base64 -i AuthKey_ABC123.p8 | pbcopy        → WDYAPPPACK_API_KEY
+
+The API key is created in App Store Connect under Users and Access, Integrations, with the role Developer.
+
+WHAT HAPPENS
+
+sign and dmg find the certificate in the environment, create a temporary keychain for themselves, import the certificate, sign from it and delete the keychain before they end — also when they fail or are interrupted. The identity to sign with is still named, in the sign section of wdyapppack.json or with --identity, and must be one the certificate contains.
+
+notarize takes the API key from the environment when no other way to reach Apple is given. It writes the key to a private temporary file only while it runs.
+
+Without a path, sign, notarize, dmg and zip work on the bundle wdyapppack.json describes, so the steps need no paths either.
+
+THE CONFIGURATION
+
+  {
+    "name": "My Tool",
+    "identifier": "com.example.mytool",
+    "version": "${VERSION}",
+    "binaries": [
+      { "path": "dist/mytool-arm64" },
+      { "path": "dist/mytool-amd64" }
+    ],
+    "icon": { "path": "assets/icon.png" },
+    "sign": { "identity": "Developer ID Application: Example GmbH (TEAM123456)" },
+    "dmg": { "sign": true }
+  }
+
+EXAMPLE: GITHUB ACTIONS, ALL ON MACOS
+
+  jobs:
+    release:
+      runs-on: macos-latest
+      env:
+        WDYAPPPACK_CERTIFICATE: ${{ secrets.DEVELOPER_ID_P12_BASE64 }}
+        WDYAPPPACK_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_ID_P12_PASSWORD }}
+        WDYAPPPACK_API_KEY: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        WDYAPPPACK_API_KEY_ID: ABC123
+        WDYAPPPACK_API_ISSUER: 69a6de7e-0000-0000-0000-000000000000
+        VERSION: ${{ github.ref_name }}
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-go@v5
+        - run: go install github.com/worldiety/wdyapppack/cmd/wdyapppack@latest
+        - run: GOOS=darwin GOARCH=arm64 go build -o dist/mytool-arm64 .
+        - run: GOOS=darwin GOARCH=amd64 go build -o dist/mytool-amd64 .
+        - run: wdyapppack build --strict
+        - run: wdyapppack sign
+        - run: wdyapppack notarize
+        - run: wdyapppack dmg
+        - uses: actions/upload-artifact@v4
+          with: { name: release, path: "dist/*.dmg*" }
+
+The version in "${VERSION}" must be numbers only; strip a leading v from a tag before (VERSION=${GITHUB_REF_NAME#v}).
+
+BUILDING ON LINUX, SIGNING ON MACOS
+
+build, icon, universal and zip need nothing from Apple, so a Linux job can build the bundle. An artifact upload may drop executable permissions: zip it with wdyapppack zip, hand the zip over, and unzip it on the macOS job before sign.
 
 REPRODUCIBLE BUNDLES
 
@@ -14,35 +84,6 @@ FAIL ON EVERYTHING
 
 --strict turns notes (an unsigned arm64 program, a library from Homebrew, a small icon) into errors.
 
-SECRETS
+CHECKSUMS
 
-Never put a password into the configuration or onto the command line. For notarization on a server, use an App Store Connect API key (--key, --key-id, --issuer), or an Apple ID with the password in an environment variable named by --password-env. The signing certificate has to be imported into a keychain on the runner first.
-
-EXAMPLE: GITHUB ACTIONS
-
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-go@v5
-        - run: go install github.com/worldiety/wdyapppack/cmd/wdyapppack@latest
-        - run: GOOS=darwin GOARCH=arm64 go build -o dist/mytool-arm64 .
-        - run: GOOS=darwin GOARCH=amd64 go build -o dist/mytool-amd64 .
-        - run: wdyapppack build --strict --version "${GITHUB_REF_NAME#v}"
-        - uses: actions/upload-artifact@v4
-          with: { name: bundle, path: dist/*.app }
-    sign:
-      needs: build
-      runs-on: macos-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/download-artifact@v4
-          with: { name: bundle, path: dist }
-        # import the Developer ID certificate into a keychain here
-        - run: go install github.com/worldiety/wdyapppack/cmd/wdyapppack@latest
-        - run: wdyapppack sign "dist/My Tool.app"
-        - run: wdyapppack notarize "dist/My Tool.app" --key AuthKey.p8 --key-id "$KEY_ID" --issuer "$ISSUER"
-        - run: wdyapppack dmg "dist/My Tool.app"
-
-An artifact upload may drop executable permissions; zip the bundle with wdyapppack zip before uploading it, and unzip it on the next runner, to keep them.
+dmg and zip write <file>.sha256 next to the image or archive; publish it with the download. It is checked with: shasum -a 256 -c <file>.sha256

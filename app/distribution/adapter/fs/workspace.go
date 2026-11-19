@@ -84,7 +84,38 @@ func (Workspace) Zip(dir, out string, o distribution.ZipOptions) error {
 	return os.Rename(tmp.Name(), out)
 }
 
-// TempDir returns a scratch directory.
+// WriteFile writes a file next to its destination and renames it into place.
+func (Workspace) WriteFile(path string, data []byte, perm uint32, force bool) error {
+	if !force {
+		if _, err := os.Lstat(path); err == nil {
+			return fmt.Errorf("%s: %w", path, iofs.ErrExist)
+		}
+	}
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		return err
+	}
+	tmp, err := os.CreateTemp(filepath.Dir(path), "."+filepath.Base(path)+".wdyapppack-*")
+	if err != nil {
+		return err
+	}
+	defer os.Remove(tmp.Name())
+	// Restrict before writing, so that a key is never readable by others,
+	// not even for a moment.
+	if err := tmp.Chmod(iofs.FileMode(perm)); err != nil {
+		tmp.Close()
+		return err
+	}
+	if _, err := tmp.Write(data); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err := tmp.Close(); err != nil {
+		return err
+	}
+	return os.Rename(tmp.Name(), path)
+}
+
+// TempDir returns a scratch directory that only this user can read.
 func (Workspace) TempDir() (string, func(), error) {
 	d, err := os.MkdirTemp("", "wdyapppack-*")
 	if err != nil {

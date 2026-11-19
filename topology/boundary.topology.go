@@ -79,8 +79,8 @@ var DistributionCommands = spec.Channel{
 	To:        "app/distribution/cli",
 	Label:     "sign, notarize, dmg, zip",
 	Protocol:  "Command line, arguments and the sign, notarize and dmg sections of wdyapppack.json",
-	Data:      "Bundle paths, signing identities, notarization credentials (never passwords: those come from the keychain or a named environment variable)",
-	Auth:      "none of its own; the rights of the operating system user and the keychain they can open",
+	Data:      "Bundle paths, signing identities, notarization credentials; on a build server a .p12 certificate and an App Store Connect API key from fixed environment variables (never options)",
+	Auth:      "none of its own; the rights of the operating system user, and the keychain they can open or the certificate the environment hands over",
 	Crypto:    "none, local",
 	Satisfies: []spec.Requirement{dist.RDistNotarizeSecrets, guide.RGuideJson},
 }
@@ -116,10 +116,10 @@ var Codesign = spec.Channel{
 	To:        "apple-toolchain",
 	Label:     "codesign and security",
 	Protocol:  "Process execution",
-	Data:      "Paths of code to sign and verify, identity fingerprints, entitlements; signatures and identity lists back",
-	Auth:      "The user's keychain holds the private keys; codesign may ask macOS to unlock it",
+	Data:      "Paths of code to sign and verify, identity fingerprints, entitlements, a .p12 certificate for a temporary keychain; signatures and identity lists back",
+	Auth:      "The user's keychain holds the private keys; on a build server a temporary keychain with a random password, created and deleted by the command",
 	Crypto:    "Signatures by codesign; secure timestamps fetched by codesign from Apple over TLS",
-	Satisfies: []spec.Requirement{dist.RDistSignAdhoc, dist.RDistSignIdentity, dist.RDistSignVerify, cst.RCstAppleToolsForSigning},
+	Satisfies: []spec.Requirement{dist.RDistSignAdhoc, dist.RDistSignIdentity, dist.RDistSignVerify, dist.RDistTemporaryKeychain, cst.RCstAppleToolsForSigning},
 }
 
 // DiskImages is the way to hdiutil.
@@ -141,7 +141,7 @@ var Notarization = spec.Channel{
 	Label:     "notarytool and stapler",
 	Protocol:  "Process execution of xcrun notarytool, which speaks HTTPS to Apple",
 	Data:      "A zip archive or disk image of signed software; a verdict, a log of issues and a ticket back",
-	Auth:      "A keychain profile, an App Store Connect API key, or an Apple ID with an app specific password",
+	Auth:      "A keychain profile, an App Store Connect API key (from a file or the environment, written to a private temporary file), or an Apple ID with an app specific password",
 	Crypto:    "TLS between notarytool and Apple",
 	Satisfies: []spec.Requirement{dist.RDistNotarize, dist.RDistNotarizeLog, dist.RDistStaple},
 }

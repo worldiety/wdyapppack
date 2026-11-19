@@ -22,7 +22,10 @@ type SignRequest struct {
 	Entitlements string
 	// HardenedRuntime overrides the default: on with a Developer ID, off ad hoc.
 	HardenedRuntime *bool
-	DryRun          bool
+	// Certificate, when set, is imported into a temporary keychain that
+	// lives as long as this request; the identity must be in it.
+	Certificate *Certificate
+	DryRun      bool
 }
 
 // Signed describes what was signed.
@@ -36,13 +39,16 @@ type Signed struct {
 	// the bundle.
 	Order    []string `json:"order"`
 	Verified bool     `json:"verified"`
-	DryRun   bool     `json:"dryRun"`
+	// TemporaryKeychain reports that the certificate came from the
+	// environment and was signed with from a keychain of its own.
+	TemporaryKeychain bool `json:"temporaryKeychain"`
+	DryRun            bool `json:"dryRun"`
 	Report
 }
 
 var fingerprint = regexp.MustCompile(`^[0-9A-Fa-f]{40}$`)
 
-func signBundle(ws Workspace, signer Signer, req SignRequest) (Signed, error) {
+func signBundle(ws Workspace, signer Signer, req SignRequest) (res Signed, err error) {
 	adhoc := req.AdHoc || req.Identity == "-"
 	if adhoc == (req.Identity != "" && req.Identity != "-") || (!adhoc && req.Identity == "") {
 		return Signed{}, problem.Misuse(msg("WAP-SIGN-MODE", "Give either --adhoc or --identity."))
@@ -60,15 +66,21 @@ func signBundle(ws Workspace, signer Signer, req SignRequest) (Signed, error) {
 		return Signed{}, err
 	}
 
+	var notes problem.Collector
 	opts := SignOptions{Identity: "-", Entitlements: req.Entitlements}
-	res := Signed{Path: req.App, Identity: "-", AdHoc: adhoc, DryRun: req.DryRun}
+	res = Signed{Path: req.App, Identity: "-", AdHoc: adhoc, DryRun: req.DryRun}
 	if !adhoc {
-		id, err := resolveIdentity(signer, req.Identity)
+		kc, closeKC, err := openKeychain(ws, signer, req.Certificate, &notes)
 		if err != nil {
 			return Signed{}, err
 		}
-		opts.Identity, opts.HardenedRuntime, opts.Timestamp = id.Hash, true, true
-		res.Identity = id.Name
+		defer func() { closeKC(); res.Notes = notes.Notes() }()
+		id, err := resolveIdentity(signer, kc, req.Identity, req.Certificate)
+		if err != nil {
+			return Signed{}, err
+		}
+		opts.Identity, opts.HardenedRuntime, opts.Timestamp, opts.Keychain = id.Hash, true, true, kc.Path
+		res.Identity, res.TemporaryKeychain = id.Name, kc.Path != ""
 	}
 	if req.HardenedRuntime != nil {
 		opts.HardenedRuntime = *req.HardenedRuntime
@@ -106,10 +118,11 @@ func signBundle(ws Workspace, signer Signer, req SignRequest) (Signed, error) {
 	return res, nil
 }
 
-// resolveIdentity finds the identity meant: by fingerprint, by exact name, or
-// by a part of a name that only one identity contains.
-func resolveIdentity(signer Signer, want string) (Identity, error) {
-	ids, err := signer.Identities()
+// resolveIdentity finds the identity meant in a keychain: by fingerprint, by
+// exact name, or by a part of a name that only one identity contains.
+
+func resolveIdentity(signer Signer, kc Keychain, want string, cert *Certificate) (Identity, error) {
+	ids, err := signer.Identities(kc)
 	if err != nil {
 		return Identity{}, problem.Fail(msg("WAP-SIGN-FAILED", fmt.Sprintf("The signing identities cannot be listed: %v", err)))
 	}
@@ -141,7 +154,18 @@ func resolveIdentity(signer Signer, want string) (Identity, error) {
 	if len(matches) > 1 {
 		return Identity{}, problem.Misuse(msg("WAP-IDENTITY-AMBIGUOUS", fmt.Sprintf("%q matches %d identities. %s", want, len(matches), list(matches))))
 	}
-	return Identity{}, problem.Fail(msg("WAP-IDENTITY-NOT-FOUND", fmt.Sprintf("No signing identity matches %q. %s", want, list(ids))))
+	if kc.Path != "" {
+		found := list(ids)
+		if len(ids) == 0 {
+			found = "It contains no valid signing identity: it has to be a Developer ID Application certificate exported together with its private key."
+		}
+		source := EnvCertificate
+		if cert != nil && cert.File != "" {
+			source = cert.File
+		}
+		return Identity{}, problem.Fail(msg("WAP-IDENTITY-NOT-FOUND", fmt.Sprintf("No signing identity in the certificate in %s matches %q. %s", source, want, found)))
+	}
+	return Identity{}, problem.Fail(msg("WAP-IDENTITY-NOT-FOUND", fmt.Sprintf("No signing identity in the keychain matches %q. %s", want, list(ids))))
 }
 
 // signingOrder lists the code in a bundle from the inside out: libraries,

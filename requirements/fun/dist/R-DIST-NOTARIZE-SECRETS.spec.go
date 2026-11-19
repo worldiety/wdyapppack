@@ -9,7 +9,7 @@ var RDistNotarizeSecrets = spec.Declare(spec.Requirement{
 	Discipline: spec.Business,
 	Status:     spec.Normative,
 	Title:      "Secrets",
-	Text:       "A password MUST NOT be accepted as an option value; it MUST come from the keychain or from an environment variable whose name is given.",
+	Text:       "Certificates and keys MUST be given as files or environment variables, never as option content, and passwords MUST come from the keychain or environment variables, except that the password of a signing certificate MAY be given as an option, with the help warning that it then ends up in the shell history.",
 	Sources: []spec.Source{
 		{Doc: "requirements/_sources/wdyapppack/product.md", Anchor: "86-secrets"},
 	},

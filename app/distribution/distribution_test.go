@@ -247,7 +247,7 @@ func TestDiskImage(t *testing.T) {
 	ws := bundleWS(t)
 	img := &fakeImager{}
 	s := &fakeSigner{ids: []Identity{devID}}
-	res, err := NewCreateDiskImage(ws, img, s)(auth.System(), DiskImageRequest{App: app, Identity: "Example"})
+	res, err := NewCreateDiskImage(ws, &writingImager{fakeImager: img, ws: ws}, s)(auth.System(), DiskImageRequest{App: app, Identity: "Example"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -258,7 +258,7 @@ func TestDiskImage(t *testing.T) {
 		t.Fatal("the image was not signed")
 	}
 	ws.put(res.Path, []byte("dmg"))
-	_, err = NewCreateDiskImage(ws, img, s)(auth.System(), DiskImageRequest{App: app})
+	_, err = NewCreateDiskImage(ws, &writingImager{fakeImager: img, ws: ws}, s)(auth.System(), DiskImageRequest{App: app})
 	wantCode(t, err, "WAP-ARTIFACT-EXISTS")
 	spec.Verified(t, dist.RDistDmg)
 }

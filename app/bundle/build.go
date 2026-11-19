@@ -150,7 +150,7 @@ func build(files Files, req BuildRequest) (BuildResult, error) {
 		c.Note(msg("WAP-NAME-LONG", fmt.Sprintf("The name %q has %d characters.", meta.name, utf8Len(meta.name))))
 	}
 
-	dest := filepath.Join(cmp.Or(cfg.Out, "dist"), meta.name+".app")
+	dest := cfg.BundlePath()
 	if meta.name != "" && !req.Force {
 		if st, err := files.Stat(dest); err == nil && st.Exists {
 			c.Error(problem.Failed, msg("WAP-OUTPUT-EXISTS", fmt.Sprintf("%s exists already.", dest)))

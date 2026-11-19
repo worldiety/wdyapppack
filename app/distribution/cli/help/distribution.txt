@@ -1,9 +1,11 @@
 Handing an application to other people takes four steps. wdyapppack does each of them; the order matters.
 
   1. wdyapppack build                                     create the bundle
-  2. wdyapppack sign <app> --identity <Developer ID>       sign it
-  3. wdyapppack notarize <app> --keychain-profile <p>      have Apple notarize it, staple the ticket
-  4. wdyapppack dmg <app>   or   wdyapppack zip <app>      wrap it for download
+  2. wdyapppack sign --identity <Developer ID>             sign it
+  3. wdyapppack notarize --keychain-profile <p>            have Apple notarize it, staple the ticket
+  4. wdyapppack dmg   or   wdyapppack zip                  wrap it for download
+
+Without a path, steps 2 to 4 work on the bundle wdyapppack.json describes. dmg and zip also write <file>.sha256 with the checksum to publish next to the download.
 
 Steps 2 and 3 need macOS. Steps 1 and 4 (zip) work everywhere, so a Linux build server can build the bundle and a Mac sign and notarize it.
 

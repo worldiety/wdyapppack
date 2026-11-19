@@ -54,6 +54,45 @@ type Settings struct {
 	DMG      DMGSettings      `json:"dmg"`
 }
 
+// The environment variables a build server hands its secrets over in. They are
+// fixed so that a pipeline needs no configuration beyond setting them: the
+// pipeline maps its own secrets onto these names.
+const (
+	EnvCertificate         = "WDYAPPPACK_CERTIFICATE"
+	EnvCertificatePassword = "WDYAPPPACK_CERTIFICATE_PASSWORD"
+	EnvAPIKey              = "WDYAPPPACK_API_KEY"
+	EnvAPIKeyID            = "WDYAPPPACK_API_KEY_ID"
+	EnvAPIIssuer           = "WDYAPPPACK_API_ISSUER"
+)
+
+// Certificate is a signing certificate handed over through the environment
+// or named on the command line, to sign from a temporary keychain.
+type Certificate struct {
+	// File is a PKCS#12 file. When it is empty, Base64 holds the file's
+	// content, base64 encoded, as a CI secret holds it.
+	File   string
+	Base64 string
+	// Password unlocks the PKCS#12 file. HasPassword tells an empty password
+	// from a variable that is not set at all.
+	Password    string
+	HasPassword bool
+}
+
+// APIKey is an App Store Connect API key handed over through the
+// environment.
+type APIKey struct {
+	// Data is the .p8 file, base64 encoded or as its text.
+	Data   string
+	KeyID  string
+	Issuer string
+}
+
+// Keychain names the keychain to sign from. The zero value means the user's
+// own keychains.
+type Keychain struct {
+	Path string
+}
+
 // Identity is a code signing certificate in the keychain.
 type Identity struct {
 	// Hash is the SHA-1 fingerprint.
@@ -68,6 +107,8 @@ type SignOptions struct {
 	HardenedRuntime bool
 	Timestamp       bool
 	Entitlements    string
+	// Keychain is the keychain to sign from; empty for the user's own.
+	Keychain string
 }
 
 // Signature describes the signature of a piece of code.

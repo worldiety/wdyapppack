@@ -380,3 +380,38 @@ func TestConfigFieldsAreConsistent(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+// A build server's steps need no paths: build writes the bundle the
+// configuration describes, and zip finds it there.
+func TestStepsWithoutPaths(t *testing.T) {
+	if testing.Short() {
+		t.Skip("compiles a program")
+	}
+	dir := t.TempDir()
+	prog := goBuild(t, dir, "arm64")
+	cfg := `{"name": "Hello", "identifier": "com.example.hello", "version": "2.0",
+  "binaries": [{"path": "` + filepath.Base(prog) + `"}], "out": "release"}`
+	if err := os.WriteFile(filepath.Join(dir, "wdyapppack.json"), []byte(cfg), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if code, _, e := invoke(t, dir, "build"); code != 0 {
+		t.Fatal(e)
+	}
+	if code, _, e := invoke(t, dir, "zip"); code != 0 {
+		t.Fatal(e)
+	}
+	sum, err := os.ReadFile(filepath.Join(dir, "release", "Hello-2.0.zip.sha256"))
+	if err != nil || !strings.HasSuffix(string(sum), "  Hello-2.0.zip\n") {
+		t.Fatalf("%q %v", sum, err)
+	}
+	if _, err := exec.LookPath("shasum"); err == nil {
+		cmd := exec.Command("shasum", "-a", "256", "-c", "Hello-2.0.zip.sha256")
+		cmd.Dir = filepath.Join(dir, "release")
+		if out, err := cmd.CombinedOutput(); err != nil {
+			t.Fatalf("shasum does not accept the checksum file: %s", out)
+		}
+	}
+	if code, out, e := invoke(t, dir, "sign", "--adhoc", "--dry-run"); code != 0 && code != 3 {
+		t.Fatalf("exit %d: %s %s", code, out, e)
+	}
+}

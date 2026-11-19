@@ -22,7 +22,15 @@ notarytool asks for the app specific password and keeps it in the keychain. Then
 
   wdyapppack notarize "dist/My Tool.app" --key AuthKey_ABC123.p8 --key-id ABC123 --issuer <issuer uuid>
 
-3. An Apple ID with an app specific password (made at account.apple.com). The password is never accepted as an option, because options end up in the shell history and the process list. Put it into an environment variable and name the variable:
+On a build server, the API key can come from the environment instead, and nothing else has to be given:
+
+  WDYAPPPACK_API_KEY       the .p8 file, as its text or base64 encoded
+  WDYAPPPACK_API_KEY_ID    the ID of the key
+  WDYAPPPACK_API_ISSUER    the issuer ID, for a team key
+
+It is used only when no other way is given on the command line or in the configuration, and written to a private temporary file only while notarize runs.
+
+3. An Apple ID with an app specific password (made at account.apple.com). This password is never accepted as an option, because options end up in the shell history and the process list. Put it into an environment variable and name the variable:
 
   export AC_PASSWORD=abcd-efgh-ijkl-mnop
   wdyapppack notarize "dist/My Tool.app" --apple-id dev@example.com --team-id TEAM123456 --password-env AC_PASSWORD

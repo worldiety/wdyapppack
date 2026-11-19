@@ -13,13 +13,16 @@ import (
 )
 
 type memWS struct {
-	files map[string]fileEntry
-	zips  []string
+	files   map[string]fileEntry
+	zips    []string
+	written []writtenFile
+	removed []string
 }
 
 type fileEntry struct {
 	data []byte
 	dir  bool
+	perm uint32
 }
 
 func newWS() *memWS { return &memWS{files: map[string]fileEntry{}} }
@@ -66,20 +69,69 @@ func (m *memWS) Zip(dir, out string, o ZipOptions) error {
 	return nil
 }
 
-func (m *memWS) TempDir() (string, func(), error) { return "tmp", func() {}, nil }
+func (m *memWS) TempDir() (string, func(), error) {
+	m.put("tmp/.keep", nil)
+	return "tmp", func() {
+		for k := range m.files {
+			if strings.HasPrefix(k, "tmp/") || k == "tmp" {
+				m.removed = append(m.removed, k)
+				delete(m.files, k)
+			}
+		}
+	}, nil
+}
 
-// fakeSigner records what it signs.
+func (m *memWS) WriteFile(p string, data []byte, perm uint32, force bool) error {
+	if st, _ := m.Stat(p); st.Exists && !force {
+		return fs.ErrExist
+	}
+	m.put(p, data)
+	e := m.files[filepath.Clean(p)]
+	e.perm = perm
+	m.files[filepath.Clean(p)] = e
+	m.written = append(m.written, writtenFile{path: p, data: data, perm: perm})
+	return nil
+}
+
+type writtenFile struct {
+	path string
+	data []byte
+	perm uint32
+}
+
+// fakeSigner records what it signs. Identities in a temporary keychain are
+// those of the certificate imported into it.
 type fakeSigner struct {
 	unavailable error
 	ids         []Identity
+	certIDs     []Identity
 	signed      []string
 	opts        []SignOptions
 	verifyErr   error
 	sig         Signature
+	importErr   error
+	imported    [][]byte
+	passwords   []string
+	opened      int
+	closed      int
 }
 
-func (f *fakeSigner) Ready() error                    { return f.unavailable }
-func (f *fakeSigner) Identities() ([]Identity, error) { return f.ids, nil }
+func (f *fakeSigner) Ready() error { return f.unavailable }
+func (f *fakeSigner) OpenKeychain(p12 []byte, pw string) (Keychain, func() error, error) {
+	if f.importErr != nil {
+		return Keychain{}, nil, f.importErr
+	}
+	f.opened++
+	f.imported = append(f.imported, p12)
+	f.passwords = append(f.passwords, pw)
+	return Keychain{Path: "/tmp/kc/signing.keychain-db"}, func() error { f.closed++; return nil }, nil
+}
+func (f *fakeSigner) Identities(k Keychain) ([]Identity, error) {
+	if k.Path != "" {
+		return f.certIDs, nil
+	}
+	return f.ids, nil
+}
 func (f *fakeSigner) Sign(p string, o SignOptions) error {
 	f.signed = append(f.signed, p)
 	f.opts = append(f.opts, o)

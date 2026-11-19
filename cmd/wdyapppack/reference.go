@@ -41,17 +41,25 @@ WHAT IT MAKES
                       /Resources/AppIcon.icns  your icon in every size`
 
 const outro = `TYPICAL WAY TO A DOWNLOAD
-  wdyapppack build                                         everywhere
-  wdyapppack sign <app> --identity "Developer ID ..."      macOS
-  wdyapppack notarize <app> --keychain-profile <profile>   macOS
-  wdyapppack dmg <app>   or   wdyapppack zip <app>         macOS / everywhere
+  wdyapppack build                                   everywhere
+  wdyapppack sign --identity "Developer ID ..."      macOS
+  wdyapppack notarize --keychain-profile <profile>   macOS
+  wdyapppack dmg   or   wdyapppack zip               macOS / everywhere
 
+  Without a path, these work on the bundle wdyapppack.json describes.
   Complete command sequences: wdyapppack help recipes
+  On a build server, with the secrets in the environment: wdyapppack help ci
 
 ENVIRONMENT
-  WDYAPPPACK_CONFIG   the configuration file, instead of ./wdyapppack.json
-  SOURCE_DATE_EPOCH   the file time for reproducible bundles and archives
-  ${NAME}             any variable, inside text values of the configuration`
+  WDYAPPPACK_CONFIG                the configuration file, instead of
+                                   ./wdyapppack.json
+  WDYAPPPACK_CERTIFICATE           a .p12 certificate, base64: sign from a
+  WDYAPPPACK_CERTIFICATE_PASSWORD  temporary keychain (wdyapppack help ci)
+  WDYAPPPACK_API_KEY, _KEY_ID,     an App Store Connect API key for notarize
+  WDYAPPPACK_API_ISSUER
+  SOURCE_DATE_EPOCH                the file time for reproducible output
+  ${NAME}                          any variable, inside text values of the
+                                   configuration`
 
 const agentHint = `Every command accepts --format json and then prints exactly one JSON document on standard output: {"ok":true,"result":…,"notes":[…],"next":[…]} or {"ok":false,"exitCode":…,"errors":[{"code","what","why","how","see"}]}. Nothing ever asks a question. Try writing commands with --dry-run first. The whole interface, including every option, topic, error code and configuration field, is in: wdyapppack help --format json. A step by step guide: wdyapppack help agents`
 
@@ -169,7 +177,7 @@ func generalTopics(app *cli.App) []cli.Topic {
 	return []cli.Topic{
 		{Name: "config", Summary: "wdyapppack.json, field by field", Body: configTopic},
 		{Name: "recipes", Summary: "complete command sequences for typical cases", Body: wrapped("recipes")},
-		{Name: "ci", Summary: "building on a server: Linux for the bundle, macOS for signing", Body: wrapped("ci")},
+		{Name: "ci", Summary: "a build server: secrets in the environment, no keychain setup", Body: wrapped("ci")},
 		{Name: "agents", Summary: "how an AI agent or a script should use wdyapppack", Body: wrapped("agents")},
 		{Name: "errors", Summary: "every error and note code, with what it means", Body: app.ErrorsTopic},
 		{Name: "exit-codes", Summary: "what each exit code means", Body: app.ExitCodesTopic},

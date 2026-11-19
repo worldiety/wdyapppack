@@ -23,15 +23,23 @@ A chapter with nothing in it says which of two things happened. _Not declared_ m
 
 |  | measured | complete |
 |---|---:|---:|
-| Source segments accounted for | 59 | 100% |
-| Normative requirements covered | 63 | 100% |
-| … claimed by a test | 63 | 100% |
-| … demonstrated by a run | 63 | 100% |
-| … read by a person | 63 | 100% |
+| Source segments accounted for | 63 | 100% |
+| Normative requirements covered | 68 | 100% |
+| … claimed by a test | 68 | 100% |
+| … demonstrated by a run | 68 | 100% |
+| … read by a person | 68 | 90% |
 
 ## Gaps
 
-None.
+### Requirements nobody has read
+
+- R-CONFIG-DEFAULT-BUNDLE
+- R-DEC-TEMPORARY-KEYCHAIN
+- R-DIST-API-KEY-ENV
+- R-DIST-CHECKSUM
+- R-DIST-DMG
+- R-DIST-NOTARIZE-SECRETS
+- R-DIST-TEMPORARY-KEYCHAIN
 
 ## What has actually been run
 
@@ -39,9 +47,9 @@ A test that claims a requirement is a claim. Evidence that the test ran is somet
 
 |  | count | of normative |
 |---|---:|---:|
-| Normative requirements | 63 |  |
-| … a test claims | 63 | 100% |
-| … a run demonstrated | 63 | 100% |
+| Normative requirements | 68 |  |
+| … a test claims | 68 | 100% |
+| … a run demonstrated | 68 | 100% |
 
 ### How much of the code a run went through
 
@@ -51,7 +59,7 @@ _no coverage profile has been handed to speclink evidence, so nothing is known a
 
 | Document | Kind | Segments | Cited | Read | Drifted |
 |---|---|---:|---:|---:|---:|
-| `requirements/_sources/wdyapppack/product.md` | markdown | 59 | 59 | 59 | 0 |
+| `requirements/_sources/wdyapppack/product.md` | markdown | 63 | 63 | 57 | 0 |
 
 ## Themes
 
@@ -140,7 +148,7 @@ A handler holding everything has no readable dependencies, so nothing can be sai
 
 ## How the code is composed
 
-36 packages in 2 bounded contexts, and 97 dependencies between them. Only this module's own packages: a dependency on the standard library or on a third party is not a fact about the shape of this system.
+36 packages in 2 bounded contexts, and 99 dependencies between them. Only this module's own packages: a dependency on the standard library or on a third party is not a fact about the shape of this system.
 
 11 packages declare this specification rather than the system — the requirements, the courses of business, the boundary. They are left out of the drawing below: in a project that uses this tool properly they are most of the nodes and most of the arrows, and the architecture disappears underneath its own documentation.
 
@@ -223,14 +231,14 @@ _permission_ — `app/bundle/perm.go:13`
 
 _use case_ — `app/distribution/uc_create_archive.go:6–16`
 
-**Answers to** [R-DIST-ZIP](#req-R-DIST-ZIP), [R-GUIDE-NO-OVERWRITE](#req-R-GUIDE-NO-OVERWRITE), [R-NFR-CROSS-PLATFORM-CORE](#req-R-NFR-CROSS-PLATFORM-CORE)
+**Answers to** [R-DIST-CHECKSUM](#req-R-DIST-CHECKSUM), [R-DIST-ZIP](#req-R-DIST-ZIP), [R-GUIDE-NO-OVERWRITE](#req-R-GUIDE-NO-OVERWRITE), [R-NFR-CROSS-PLATFORM-CORE](#req-R-NFR-CROSS-PLATFORM-CORE)
 
 <a id="req-code-github-com-worldiety-wdyapppack-app-distribution-creatediskimage"></a>
 #### CreateDiskImage
 
 _use case_ — `app/distribution/uc_create_disk_image.go:6–16`
 
-**Answers to** [R-CST-APPLE-TOOLS-FOR-SIGNING](#req-R-CST-APPLE-TOOLS-FOR-SIGNING), [R-DIST-DMG](#req-R-DIST-DMG), [R-DIST-PLATFORM](#req-R-DIST-PLATFORM), [R-GUIDE-NO-OVERWRITE](#req-R-GUIDE-NO-OVERWRITE)
+**Answers to** [R-CST-APPLE-TOOLS-FOR-SIGNING](#req-R-CST-APPLE-TOOLS-FOR-SIGNING), [R-DIST-CHECKSUM](#req-R-DIST-CHECKSUM), [R-DIST-DMG](#req-R-DIST-DMG), [R-DIST-PLATFORM](#req-R-DIST-PLATFORM), [R-DIST-TEMPORARY-KEYCHAIN](#req-R-DIST-TEMPORARY-KEYCHAIN), [R-GUIDE-NO-OVERWRITE](#req-R-GUIDE-NO-OVERWRITE)
 
 <a id="req-code-github-com-worldiety-wdyapppack-app-distribution-loadsettings"></a>
 #### LoadSettings
@@ -244,14 +252,14 @@ _use case_ — `app/distribution/uc_load_settings.go:6–16`
 
 _use case_ — `app/distribution/uc_notarize_artifact.go:6–16`
 
-**Answers to** [R-CST-APPLE-TOOLS-FOR-SIGNING](#req-R-CST-APPLE-TOOLS-FOR-SIGNING), [R-DIST-NOTARIZE](#req-R-DIST-NOTARIZE), [R-DIST-NOTARIZE-LOG](#req-R-DIST-NOTARIZE-LOG), [R-DIST-NOTARIZE-SECRETS](#req-R-DIST-NOTARIZE-SECRETS), [R-DIST-PLATFORM](#req-R-DIST-PLATFORM), [R-DIST-STAPLE](#req-R-DIST-STAPLE)
+**Answers to** [R-CST-APPLE-TOOLS-FOR-SIGNING](#req-R-CST-APPLE-TOOLS-FOR-SIGNING), [R-DIST-API-KEY-ENV](#req-R-DIST-API-KEY-ENV), [R-DIST-NOTARIZE](#req-R-DIST-NOTARIZE), [R-DIST-NOTARIZE-LOG](#req-R-DIST-NOTARIZE-LOG), [R-DIST-NOTARIZE-SECRETS](#req-R-DIST-NOTARIZE-SECRETS), [R-DIST-PLATFORM](#req-R-DIST-PLATFORM), [R-DIST-STAPLE](#req-R-DIST-STAPLE)
 
 <a id="req-code-github-com-worldiety-wdyapppack-app-distribution-signbundle"></a>
 #### SignBundle
 
 _use case_ — `app/distribution/uc_sign_bundle.go:6–16`
 
-**Answers to** [R-CST-APPLE-TOOLS-FOR-SIGNING](#req-R-CST-APPLE-TOOLS-FOR-SIGNING), [R-DIST-PLATFORM](#req-R-DIST-PLATFORM), [R-DIST-SIGN-ADHOC](#req-R-DIST-SIGN-ADHOC), [R-DIST-SIGN-IDENTITY](#req-R-DIST-SIGN-IDENTITY), [R-DIST-SIGN-ORDER](#req-R-DIST-SIGN-ORDER), [R-DIST-SIGN-VERIFY](#req-R-DIST-SIGN-VERIFY), [R-GUIDE-DRY-RUN](#req-R-GUIDE-DRY-RUN)
+**Answers to** [R-CST-APPLE-TOOLS-FOR-SIGNING](#req-R-CST-APPLE-TOOLS-FOR-SIGNING), [R-DEC-TEMPORARY-KEYCHAIN](#req-R-DEC-TEMPORARY-KEYCHAIN), [R-DIST-PLATFORM](#req-R-DIST-PLATFORM), [R-DIST-SIGN-ADHOC](#req-R-DIST-SIGN-ADHOC), [R-DIST-SIGN-IDENTITY](#req-R-DIST-SIGN-IDENTITY), [R-DIST-SIGN-ORDER](#req-R-DIST-SIGN-ORDER), [R-DIST-SIGN-VERIFY](#req-R-DIST-SIGN-VERIFY), [R-DIST-TEMPORARY-KEYCHAIN](#req-R-DIST-TEMPORARY-KEYCHAIN), [R-GUIDE-DRY-RUN](#req-R-GUIDE-DRY-RUN)
 
 <a id="req-code-distribution-dmg-create"></a>
 #### distribution.dmg.create
@@ -335,12 +343,12 @@ A change to a recorded structure is reported the next run, which is the only war
 | Channel | Protocol | Data | Authentication | In transit |
 |---|---|---|---|---|
 | **init, build, icon, universal**<br>operator → app/bundle/cli | Command line, arguments and wdyapppack.json; text or JSON on standard output | Program paths, metadata, icon images, the configuration file | none of its own; the rights of the operating system user who runs it | none, local |
-| **sign, notarize, dmg, zip**<br>operator → app/distribution/cli | Command line, arguments and the sign, notarize and dmg sections of wdyapppack.json | Bundle paths, signing identities, notarization credentials (never passwords: those come from the keychain or a named environment variable) | none of its own; the rights of the operating system user and the keychain they can open | none, local |
+| **sign, notarize, dmg, zip**<br>operator → app/distribution/cli | Command line, arguments and the sign, notarize and dmg sections of wdyapppack.json | Bundle paths, signing identities, notarization credentials; on a build server a .p12 certificate and an App Store Connect API key from fixed environment variables (never options) | none of its own; the rights of the operating system user, and the keychain they can open or the certificate the environment hands over | none, local |
 | **Programs, images and bundles**<br>app/bundle/adapter/fs → filesystem | File system | Programs, images and property lists read; bundles, icons, universal programs and configuration files written, each moved into place whole | Rights of the process user | none, local |
 | **Bundles and archives**<br>app/distribution/adapter/fs → filesystem | File system | Bundles read; zip archives written | Rights of the process user | none, local |
-| **codesign and security**<br>app/distribution/adapter/codesign → apple-toolchain | Process execution | Paths of code to sign and verify, identity fingerprints, entitlements; signatures and identity lists back | The user's keychain holds the private keys; codesign may ask macOS to unlock it | Signatures by codesign; secure timestamps fetched by codesign from Apple over TLS |
+| **codesign and security**<br>app/distribution/adapter/codesign → apple-toolchain | Process execution | Paths of code to sign and verify, identity fingerprints, entitlements, a .p12 certificate for a temporary keychain; signatures and identity lists back | The user's keychain holds the private keys; on a build server a temporary keychain with a random password, created and deleted by the command | Signatures by codesign; secure timestamps fetched by codesign from Apple over TLS |
 | **hdiutil**<br>app/distribution/adapter/hdiutil → apple-toolchain | Process execution | A staging directory with the bundle and a link to /Applications; a compressed disk image back | Rights of the process user | none, local |
-| **notarytool and stapler**<br>app/distribution/adapter/notarytool → apple-notary | Process execution of xcrun notarytool, which speaks HTTPS to Apple | A zip archive or disk image of signed software; a verdict, a log of issues and a ticket back | A keychain profile, an App Store Connect API key, or an Apple ID with an app specific password | TLS between notarytool and Apple |
+| **notarytool and stapler**<br>app/distribution/adapter/notarytool → apple-notary | Process execution of xcrun notarytool, which speaks HTTPS to Apple | A zip archive or disk image of signed software; a verdict, a log of issues and a ticket back | A keychain profile, an App Store Connect API key (from a file or the environment, written to a private temporary file), or an Apple ID with an app specific password | TLS between notarytool and Apple |
 
 ## What answers from outside
 
@@ -451,6 +459,7 @@ Every requirement that was read, and how far each one has got. A mark states wha
 | [R-BUNDLE-SAFE-WRITE](#req-R-BUNDLE-SAFE-WRITE) | functional | business | normative | yes | yes | yes | yes |
 | [R-BUNDLE-SELF-CHECK](#req-R-BUNDLE-SELF-CHECK) | functional | business | normative | yes | yes | yes | yes |
 | [R-BUNDLE-STRICT](#req-R-BUNDLE-STRICT) | functional | business | normative | yes | yes | yes | yes |
+| [R-CONFIG-DEFAULT-BUNDLE](#req-R-CONFIG-DEFAULT-BUNDLE) | functional | business | normative | yes | yes | yes | no |
 | [R-CONFIG-ENV](#req-R-CONFIG-ENV) | functional | business | normative | yes | yes | yes | yes |
 | [R-CONFIG-FILE](#req-R-CONFIG-FILE) | functional | business | normative | yes | yes | yes | yes |
 | [R-CONFIG-INIT](#req-R-CONFIG-INIT) | functional | business | normative | yes | yes | yes | yes |
@@ -465,16 +474,20 @@ Every requirement that was read, and how far each one has got. A mark states wha
 | [R-DEC-JSON-CONFIG](#req-R-DEC-JSON-CONFIG) | decision | technical | normative | yes | yes | yes | yes |
 | [R-DEC-NO-LOADPATH-REWRITE](#req-R-DEC-NO-LOADPATH-REWRITE) | decision | technical | normative | yes | yes | yes | yes |
 | [R-DEC-PURE-GO-ICNS](#req-R-DEC-PURE-GO-ICNS) | decision | technical | normative | yes | yes | yes | yes |
-| [R-DIST-DMG](#req-R-DIST-DMG) | functional | business | normative | yes | yes | yes | yes |
+| [R-DEC-TEMPORARY-KEYCHAIN](#req-R-DEC-TEMPORARY-KEYCHAIN) | decision | technical | normative | yes | yes | yes | no |
+| [R-DIST-API-KEY-ENV](#req-R-DIST-API-KEY-ENV) | functional | business | normative | yes | yes | yes | no |
+| [R-DIST-CHECKSUM](#req-R-DIST-CHECKSUM) | functional | business | normative | yes | yes | yes | no |
+| [R-DIST-DMG](#req-R-DIST-DMG) | functional | business | normative | yes | yes | yes | no |
 | [R-DIST-NOTARIZE](#req-R-DIST-NOTARIZE) | functional | business | normative | yes | yes | yes | yes |
 | [R-DIST-NOTARIZE-LOG](#req-R-DIST-NOTARIZE-LOG) | functional | business | normative | yes | yes | yes | yes |
-| [R-DIST-NOTARIZE-SECRETS](#req-R-DIST-NOTARIZE-SECRETS) | functional | business | normative | yes | yes | yes | yes |
+| [R-DIST-NOTARIZE-SECRETS](#req-R-DIST-NOTARIZE-SECRETS) | functional | business | normative | yes | yes | yes | no |
 | [R-DIST-PLATFORM](#req-R-DIST-PLATFORM) | functional | business | normative | yes | yes | yes | yes |
 | [R-DIST-SIGN-ADHOC](#req-R-DIST-SIGN-ADHOC) | functional | business | normative | yes | yes | yes | yes |
 | [R-DIST-SIGN-IDENTITY](#req-R-DIST-SIGN-IDENTITY) | functional | business | normative | yes | yes | yes | yes |
 | [R-DIST-SIGN-ORDER](#req-R-DIST-SIGN-ORDER) | functional | business | normative | yes | yes | yes | yes |
 | [R-DIST-SIGN-VERIFY](#req-R-DIST-SIGN-VERIFY) | functional | business | normative | yes | yes | yes | yes |
 | [R-DIST-STAPLE](#req-R-DIST-STAPLE) | functional | business | normative | yes | yes | yes | yes |
+| [R-DIST-TEMPORARY-KEYCHAIN](#req-R-DIST-TEMPORARY-KEYCHAIN) | functional | business | normative | yes | yes | yes | no |
 | [R-DIST-ZIP](#req-R-DIST-ZIP) | functional | business | normative | yes | yes | yes | yes |
 | [R-GUIDE-COMMAND-HELP](#req-R-GUIDE-COMMAND-HELP) | functional | business | normative | yes | yes | yes | yes |
 | [R-GUIDE-DRY-RUN](#req-R-GUIDE-DRY-RUN) | functional | business | normative | yes | yes | yes | yes |
@@ -737,6 +750,18 @@ _functional, business, normative._
 - **Demonstrated by** TestNotesFailOnlyInStrictMode
 - **Read by** Timo
 
+<a id="req-R-CONFIG-DEFAULT-BUNDLE"></a>
+### R-CONFIG-DEFAULT-BUNDLE — The bundle from the configuration
+
+Signing, notarizing and wrapping MUST use the bundle the configuration file describes when no bundle is named.
+
+_functional, business, normative._
+
+- **Asked for in** requirements/\_sources/wdyapppack/product.md#47-the-bundle-from-the-configuration
+- **Implemented by**
+  - `github.com/worldiety/wdyapppack/app/distribution/cli.target`
+- **Demonstrated by** TestTheBundleComesFromTheConfiguration
+
 <a id="req-R-CONFIG-ENV"></a>
 ### R-CONFIG-ENV — Environment variables
 
@@ -953,18 +978,58 @@ _decision, technical, normative._
 - **Demonstrated by** TestEveryIconSizeInGo
 - **Read by** Timo
 
+<a id="req-R-DEC-TEMPORARY-KEYCHAIN"></a>
+### R-DEC-TEMPORARY-KEYCHAIN — A temporary keychain per command
+
+A command that signs with a certificate from the environment MUST create its own temporary keychain and delete it before it ends, rather than keep one between commands.
+
+_decision, technical, normative._
+
+**Why.** A keychain kept between commands is state a build server has to set up before the first step and tear down after the last, also when a step fails in between; that is exactly the scripting this was meant to remove. A keychain that lives as long as one command leaves nothing behind and needs no step of its own.
+
+**What it costs.** Every command that signs imports the certificate again, which costs about a second, so sign followed by a signed disk image does it twice. While a command runs, its temporary keychain is in the user's keychain search list. A process killed outright (SIGKILL) cannot clean up and leaves a keychain file in the temporary directory.
+
+- **Asked for in** requirements/\_sources/wdyapppack/product.md#812-signing-on-a-build-server
+- **Implemented by**
+  - [SignBundle](#req-code-github-com-worldiety-wdyapppack-app-distribution-signbundle) — `app/distribution/uc_sign_bundle.go:6–16`
+- **Demonstrated by** TestSigningFromACertificateInTheEnvironment
+
+<a id="req-R-DIST-API-KEY-ENV"></a>
+### R-DIST-API-KEY-ENV — Notarization key from the environment
+
+When no other way to reach the notary service is given, the App Store Connect API key MUST be taken from WDYAPPPACK\_API\_KEY, base64 encoded or as text, with WDYAPPPACK\_API\_KEY\_ID and optionally WDYAPPPACK\_API\_ISSUER, and written to a private temporary file only while the command runs.
+
+_functional, business, normative._
+
+- **Asked for in** requirements/\_sources/wdyapppack/product.md#813-notarization-key-from-the-environment
+- **Implemented by**
+  - [NotarizeArtifact](#req-code-github-com-worldiety-wdyapppack-app-distribution-notarizeartifact) — `app/distribution/uc_notarize_artifact.go:6–16`
+- **Demonstrated by** TestAPIKeyFromTheEnvironment
+
+<a id="req-R-DIST-CHECKSUM"></a>
+### R-DIST-CHECKSUM — Checksums
+
+Next to every disk image and zip archive a SHA-256 checksum file MUST be written in the format of shasum -a 256.
+
+_functional, business, normative._
+
+- **Asked for in** requirements/\_sources/wdyapppack/product.md#814-checksums
+- **Implemented by**
+  - [CreateArchive](#req-code-github-com-worldiety-wdyapppack-app-distribution-createarchive) — `app/distribution/uc_create_archive.go:6–16`
+  - [CreateDiskImage](#req-code-github-com-worldiety-wdyapppack-app-distribution-creatediskimage) — `app/distribution/uc_create_disk_image.go:6–16`
+- **Demonstrated by** TestChecksumsNextToImagesAndArchives
+
 <a id="req-R-DIST-DMG"></a>
 ### R-DIST-DMG — Disk images
 
-A bundle MUST be wrappable into a compressed disk image that contains a link to the Applications folder.
+A bundle MUST be wrappable into a disk image with the highest compression the format offers that contains a link to the Applications folder.
 
 _functional, business, normative._
 
 - **Asked for in** requirements/\_sources/wdyapppack/product.md#89-disk-images
 - **Implemented by**
   - [CreateDiskImage](#req-code-github-com-worldiety-wdyapppack-app-distribution-creatediskimage) — `app/distribution/uc_create_disk_image.go:6–16`
-- **Demonstrated by** TestDiskImage
-- **Read by** Timo
+- **Demonstrated by** TestDiskImage, TestHdiutilIsAskedForACompressedImage
 
 <a id="req-R-DIST-NOTARIZE"></a>
 ### R-DIST-NOTARIZE — Notarization
@@ -995,15 +1060,14 @@ _functional, business, normative._
 <a id="req-R-DIST-NOTARIZE-SECRETS"></a>
 ### R-DIST-NOTARIZE-SECRETS — Secrets
 
-A password MUST NOT be accepted as an option value; it MUST come from the keychain or from an environment variable whose name is given.
+Certificates and keys MUST be given as files or environment variables, never as option content, and passwords MUST come from the keychain or environment variables, except that the password of a signing certificate MAY be given as an option, with the help warning that it then ends up in the shell history.
 
 _functional, business, normative._
 
 - **Asked for in** requirements/\_sources/wdyapppack/product.md#86-secrets
 - **Implemented by**
   - [NotarizeArtifact](#req-code-github-com-worldiety-wdyapppack-app-distribution-notarizeartifact) — `app/distribution/uc_notarize_artifact.go:6–16`
-- **Demonstrated by** TestPasswordsComeFromTheEnvironment
-- **Read by** Timo
+- **Demonstrated by** TestAPIKeyFromTheEnvironment, TestPasswordsComeFromTheEnvironment, TestSecretsComeFromTheEnvironment
 
 <a id="req-R-DIST-PLATFORM"></a>
 ### R-DIST-PLATFORM — Commands that need macOS
@@ -1084,6 +1148,19 @@ _functional, business, normative._
   - [NotarizeArtifact](#req-code-github-com-worldiety-wdyapppack-app-distribution-notarizeartifact) — `app/distribution/uc_notarize_artifact.go:6–16`
 - **Demonstrated by** TestStapling
 - **Read by** Timo
+
+<a id="req-R-DIST-TEMPORARY-KEYCHAIN"></a>
+### R-DIST-TEMPORARY-KEYCHAIN — Signing on a build server
+
+When a PKCS#12 certificate is given, base64 encoded in WDYAPPPACK\_CERTIFICATE or as a file by option, with its password from WDYAPPPACK\_CERTIFICATE\_PASSWORD or by option, every command that signs MUST sign from a temporary keychain holding it, which the command creates and deletes itself, also when it fails or is interrupted, and the named identity MUST be one the certificate contains.
+
+_functional, business, normative._
+
+- **Asked for in** requirements/\_sources/wdyapppack/product.md#812-signing-on-a-build-server
+- **Implemented by**
+  - [CreateDiskImage](#req-code-github-com-worldiety-wdyapppack-app-distribution-creatediskimage) — `app/distribution/uc_create_disk_image.go:6–16`
+  - [SignBundle](#req-code-github-com-worldiety-wdyapppack-app-distribution-signbundle) — `app/distribution/uc_sign_bundle.go:6–16`
+- **Demonstrated by** TestSecretsComeFromTheEnvironment, TestSigningFromACertificateInTheEnvironment, TestTemporaryKeychainSteps
 
 <a id="req-R-DIST-ZIP"></a>
 ### R-DIST-ZIP — Zip archives
@@ -1418,6 +1495,7 @@ What people wrote, and what became of each part of it.
 | 4.4 Environment variables | R-CONFIG-ENV |
 | 4.5 Starter configuration | R-CONFIG-INIT |
 | 4.6 Schema | R-CONFIG-SCHEMA |
+| 4.7 The bundle from the configuration | R-CONFIG-DEFAULT-BUNDLE |
 | 5. Building a bundle | _nothing, and says so_ |
 | 5.1 Bundle layout | R-BUNDLE-LAYOUT |
 | 5.2 Required metadata | R-BUNDLE-METADATA-REQUIRED |
@@ -1456,6 +1534,9 @@ What people wrote, and what became of each part of it.
 | 8.9 Disk images | R-DIST-DMG |
 | 8.10 Zip archives | R-DIST-ZIP |
 | 8.11 Platform | R-DIST-PLATFORM |
+| 8.12 Signing on a build server | R-DEC-TEMPORARY-KEYCHAIN, R-DIST-TEMPORARY-KEYCHAIN |
+| 8.13 Notarization key from the environment | R-DIST-API-KEY-ENV |
+| 8.14 Checksums | R-DIST-CHECKSUM |
 | 9. Operation | _nothing, and says so_ |
 | 9.1 Who runs it | R-DEC-CLI-RUNS-AS-SYSTEM |
 | 10. Out of scope | _nothing, and says so_ |

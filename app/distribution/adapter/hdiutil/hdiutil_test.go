@@ -1,6 +1,8 @@
 package hdiutil
 
 import (
+	"github.com/worldiety/speclink/spec"
+	"github.com/worldiety/wdyapppack/requirements/fun/dist"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -36,9 +38,10 @@ func TestHdiutilIsAskedForACompressedImage(t *testing.T) {
 		t.Fatal(err)
 	}
 	c := h.Calls(t)[0]
-	if c[0] != "create" || !slices.Contains(c, "UDZO") || c[len(c)-1] != out || c[slices.Index(c, "-volname")+1] != "My" {
+	if c[0] != "create" || !slices.Contains(c, "UDZO") || !slices.Contains(c, "zlib-level=9") || c[len(c)-1] != out || c[slices.Index(c, "-volname")+1] != "My" {
 		t.Fatalf("%q", c)
 	}
+	spec.Verified(t, dist.RDistDmg)
 }
 
 // On a Mac, the real hdiutil makes an image that holds the bundle and a link

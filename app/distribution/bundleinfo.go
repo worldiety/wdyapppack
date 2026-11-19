@@ -52,6 +52,12 @@ func readBundle(ws Workspace, app string) (bundleInfo, error) {
 	return b, nil
 }
 
+// NoBundle reports that a command was given no bundle and the configuration
+// file named none either.
+func NoBundle(why string) error {
+	return problem.Misuse(msg("WAP-NO-BUNDLE", "No bundle was named, and "+why+"."))
+}
+
 // unavailable turns an adapter's report that it cannot work here into a
 // message.
 func unavailable(err error) error {

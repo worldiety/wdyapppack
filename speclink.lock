@@ -104,6 +104,11 @@
       "from": "requirements/_sources/wdyapppack/product.md#511-notes-and-strict-mode",
       "reviewedBy": "Timo"
     },
+    "R-CONFIG-DEFAULT-BUNDLE": {
+      "text": "4fc6b71fa51e3facd1f04eda473d3bee33ecb765000e7597bebc3d4b05b5e804",
+      "title": "The bundle from the configuration",
+      "from": "requirements/_sources/wdyapppack/product.md#47-the-bundle-from-the-configuration"
+    },
     "R-CONFIG-ENV": {
       "text": "2ad5cc501d39c8f64309d8d292cf593a03c8ea1f39cf8bec6b0f3dad25622e8d",
       "title": "Environment variables",
@@ -188,11 +193,25 @@
       "from": "requirements/_sources/wdyapppack/product.md#72-sizes",
       "reviewedBy": "Timo"
     },
+    "R-DEC-TEMPORARY-KEYCHAIN": {
+      "text": "6d9e640584e2647c50fe5717b82af542f008074a21b77e2580651bf7fefe19bd",
+      "title": "A temporary keychain per command",
+      "from": "requirements/_sources/wdyapppack/product.md#812-signing-on-a-build-server"
+    },
+    "R-DIST-API-KEY-ENV": {
+      "text": "f84709d449e7f731bd00c11ed9a40babc69dd2601718c7bd392ccfc6ce49d1bc",
+      "title": "Notarization key from the environment",
+      "from": "requirements/_sources/wdyapppack/product.md#813-notarization-key-from-the-environment"
+    },
+    "R-DIST-CHECKSUM": {
+      "text": "3106a1d04b10cad973e7cde4578e502c9a17045c843d5eb443c6fa90619fe443",
+      "title": "Checksums",
+      "from": "requirements/_sources/wdyapppack/product.md#814-checksums"
+    },
     "R-DIST-DMG": {
-      "text": "0c489e4fd7c49447d1f43838fb635342cbe5f633086db12a5e41ac7c2215fd53",
+      "text": "e504be093b49cb916295b3174426ed8718645bf974d2177844166bb0810f263c",
       "title": "Disk images",
-      "from": "requirements/_sources/wdyapppack/product.md#89-disk-images",
-      "reviewedBy": "Timo"
+      "from": "requirements/_sources/wdyapppack/product.md#89-disk-images"
     },
     "R-DIST-NOTARIZE": {
       "text": "e5570250f0daa18ca00fa04ec4c0b03d8d791a5881aaff26da6930e1637a7f78",
@@ -207,10 +226,9 @@
       "reviewedBy": "Timo"
     },
     "R-DIST-NOTARIZE-SECRETS": {
-      "text": "9e1973e92b4a8c71d8fdfccfe1f53cb379716c7a5b33bbf914db250bcc9e5c39",
+      "text": "07ea6929c0340e2498b80b82f0a32091b021843c9a88e6e429dddedf63a7a8c2",
       "title": "Secrets",
-      "from": "requirements/_sources/wdyapppack/product.md#86-secrets",
-      "reviewedBy": "Timo"
+      "from": "requirements/_sources/wdyapppack/product.md#86-secrets"
     },
     "R-DIST-PLATFORM": {
       "text": "ae89ee2cb6cca93d69d8f41b97b502a81d626f45edde9960899984348a4ce759",
@@ -247,6 +265,11 @@
       "title": "Stapling",
       "from": "requirements/_sources/wdyapppack/product.md#88-stapling",
       "reviewedBy": "Timo"
+    },
+    "R-DIST-TEMPORARY-KEYCHAIN": {
+      "text": "75e44ce5a26fe305e8798d0ffc7866338951a80c8ba26910e2e0e4ef843d7e41",
+      "title": "Signing on a build server",
+      "from": "requirements/_sources/wdyapppack/product.md#812-signing-on-a-build-server"
     },
     "R-DIST-ZIP": {
       "text": "a305c96b0945ccb1568ae1a700f75462fb280462f3b539322de8c3c27caa848c",
@@ -498,6 +521,10 @@
       "fingerprint": "8afd2e320e1f12da3b986b5ca7c6f5d3e448a4d47ac71ca58f74685b64422491",
       "kind": "markdown"
     },
+    "requirements/_sources/wdyapppack/product.md#47-the-bundle-from-the-configuration": {
+      "fingerprint": "5a5630058d2484a9717e2ec8ddf37a7238428ca02c6a327004656227f496983c",
+      "kind": "markdown"
+    },
     "requirements/_sources/wdyapppack/product.md#5-building-a-bundle": {
       "fingerprint": "b66c7de23e5145734f15a6fdaa32c4388f3687b4846b2b80dd4abd0cabf552ec",
       "kind": "markdown"
@@ -618,6 +645,18 @@
       "fingerprint": "a6608a11a15ad0a123c5a8c8e736be6868f1a762e34531214f8bc5ba7d1a3ea1",
       "kind": "markdown"
     },
+    "requirements/_sources/wdyapppack/product.md#812-signing-on-a-build-server": {
+      "fingerprint": "7566ac4ebabf25109574a49fe08cd616933ace76dc4059a9d0a3046316c8fc45",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#813-notarization-key-from-the-environment": {
+      "fingerprint": "37e215a5490ce14900bc92ed97e00d78c28933657765fb4b86827131f5ff98ee",
+      "kind": "markdown"
+    },
+    "requirements/_sources/wdyapppack/product.md#814-checksums": {
+      "fingerprint": "ac48912a1cbbd0f56d74e595fbebcc4a50e4a612dc7da8b1dbb2b7fdae43a433",
+      "kind": "markdown"
+    },
     "requirements/_sources/wdyapppack/product.md#82-developer-id-signing": {
       "fingerprint": "fd60a08bfb4fd5bb6320635041e22cda120e77ff0e26c4568b9f7bb6b1cc6252",
       "kind": "markdown"
@@ -635,7 +674,7 @@
       "kind": "markdown"
     },
     "requirements/_sources/wdyapppack/product.md#86-secrets": {
-      "fingerprint": "af8cc7429772cf8921fa7f33dcdfb8037523dc3c311c8fc375f1f5a37951236f",
+      "fingerprint": "51788ab9256bb9066dcbea3e7b777941ac69bc07338ad1af79723b406282d691",
       "kind": "markdown"
     },
     "requirements/_sources/wdyapppack/product.md#87-rejections": {
@@ -647,7 +686,7 @@
       "kind": "markdown"
     },
     "requirements/_sources/wdyapppack/product.md#89-disk-images": {
-      "fingerprint": "c8deea340ea9094ef41f0ec153475c560f1ecf7091fc954238f1a836fccec12d",
+      "fingerprint": "52166396ff90d8a2f4a4dbb731f772c147878da45a50d93149a70ba38a584cc1",
       "kind": "markdown"
     },
     "requirements/_sources/wdyapppack/product.md#9-operation": {
@@ -910,6 +949,12 @@
         "text": "e351576a4e1990e5e52dd21b93bff90dd8125f16c1370b25cb628f5317c3ee33"
       }
     ],
+    "R-CONFIG-DEFAULT-BUNDLE": [
+      {
+        "test": "TestTheBundleComesFromTheConfiguration",
+        "text": "4fc6b71fa51e3facd1f04eda473d3bee33ecb765000e7597bebc3d4b05b5e804"
+      }
+    ],
     "R-CONFIG-ENV": [
       {
         "test": "TestEnvironmentVariables",
@@ -1006,10 +1051,32 @@
         "text": "ff31251a8d5f785abfa8244e113524a6e30d9fb996d221753a58a11254058c3f"
       }
     ],
+    "R-DEC-TEMPORARY-KEYCHAIN": [
+      {
+        "test": "TestSigningFromACertificateInTheEnvironment",
+        "text": "6d9e640584e2647c50fe5717b82af542f008074a21b77e2580651bf7fefe19bd"
+      }
+    ],
+    "R-DIST-API-KEY-ENV": [
+      {
+        "test": "TestAPIKeyFromTheEnvironment",
+        "text": "f84709d449e7f731bd00c11ed9a40babc69dd2601718c7bd392ccfc6ce49d1bc"
+      }
+    ],
+    "R-DIST-CHECKSUM": [
+      {
+        "test": "TestChecksumsNextToImagesAndArchives",
+        "text": "3106a1d04b10cad973e7cde4578e502c9a17045c843d5eb443c6fa90619fe443"
+      }
+    ],
     "R-DIST-DMG": [
       {
         "test": "TestDiskImage",
-        "text": "0c489e4fd7c49447d1f43838fb635342cbe5f633086db12a5e41ac7c2215fd53"
+        "text": "e504be093b49cb916295b3174426ed8718645bf974d2177844166bb0810f263c"
+      },
+      {
+        "test": "TestHdiutilIsAskedForACompressedImage",
+        "text": "e504be093b49cb916295b3174426ed8718645bf974d2177844166bb0810f263c"
       }
     ],
     "R-DIST-NOTARIZE": [
@@ -1026,8 +1093,16 @@
     ],
     "R-DIST-NOTARIZE-SECRETS": [
       {
+        "test": "TestAPIKeyFromTheEnvironment",
+        "text": "07ea6929c0340e2498b80b82f0a32091b021843c9a88e6e429dddedf63a7a8c2"
+      },
+      {
         "test": "TestPasswordsComeFromTheEnvironment",
-        "text": "9e1973e92b4a8c71d8fdfccfe1f53cb379716c7a5b33bbf914db250bcc9e5c39"
+        "text": "07ea6929c0340e2498b80b82f0a32091b021843c9a88e6e429dddedf63a7a8c2"
+      },
+      {
+        "test": "TestSecretsComeFromTheEnvironment",
+        "text": "07ea6929c0340e2498b80b82f0a32091b021843c9a88e6e429dddedf63a7a8c2"
       }
     ],
     "R-DIST-PLATFORM": [
@@ -1064,6 +1139,20 @@
       {
         "test": "TestStapling",
         "text": "83a9d826ed044413b21d43167f7ba1a386dc83a0217d17282fa20e285a523f86"
+      }
+    ],
+    "R-DIST-TEMPORARY-KEYCHAIN": [
+      {
+        "test": "TestSecretsComeFromTheEnvironment",
+        "text": "75e44ce5a26fe305e8798d0ffc7866338951a80c8ba26910e2e0e4ef843d7e41"
+      },
+      {
+        "test": "TestSigningFromACertificateInTheEnvironment",
+        "text": "75e44ce5a26fe305e8798d0ffc7866338951a80c8ba26910e2e0e4ef843d7e41"
+      },
+      {
+        "test": "TestTemporaryKeychainSteps",
+        "text": "75e44ce5a26fe305e8798d0ffc7866338951a80c8ba26910e2e0e4ef843d7e41"
       }
     ],
     "R-DIST-ZIP": [

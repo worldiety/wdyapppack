@@ -59,7 +59,7 @@ func TestIdentitiesAreRead(t *testing.T) {
   2) 1111111111111111111111111111111111111111 "Apple Development: someone@example.com (ABC)"
      2 valid identities found
 `)
-	ids, err := s.Identities()
+	ids, err := s.Identities(distribution.Keychain{})
 	if err != nil || len(ids) != 2 || ids[0].Name != "Developer ID Application: Example GmbH (TEAM123456)" || ids[1].Hash != "1111111111111111111111111111111111111111" {
 		t.Fatalf("%+v %v", ids, err)
 	}

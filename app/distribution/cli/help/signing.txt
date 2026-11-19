@@ -41,6 +41,23 @@ The hardened runtime forbids things some programs need: just-in-time compilation
 
 Pass it with --entitlements file. It is applied to the program and the bundle, not to libraries and helpers. Go programs need no entitlements.
 
+ON A BUILD SERVER
+
+A build server has no keychain with your certificate. Put the certificate into the environment instead:
+
+  WDYAPPPACK_CERTIFICATE           the .p12 (certificate with private key), base64 encoded
+  WDYAPPPACK_CERTIFICATE_PASSWORD  its password
+
+At a terminal, the same works with options, which win over the environment:
+
+  wdyapppack sign --identity "Developer ID Application: ..." --certificate developer-id.p12 --certificate-password <password>
+
+A password typed as an option ends up in the shell history and is visible in the process list while the command runs. To keep it out of both, set WDYAPPPACK_CERTIFICATE_PASSWORD instead, for example with: read -s WDYAPPPACK_CERTIFICATE_PASSWORD && export WDYAPPPACK_CERTIFICATE_PASSWORD
+
+Either way, sign (and dmg, when it signs the image) creates a temporary keychain for itself, imports the certificate, signs from it and deletes the keychain before it ends — also when it fails or is interrupted. Nothing has to be prepared or cleaned up. The identity is still named with --identity or in the sign section, and must be one the certificate contains; if it is not, the identities the certificate does contain are listed.
+
+To make the secret on a Mac: export the "Developer ID Application" certificate with its private key from Keychain Access as .p12, then run base64 -i certificate.p12 and store the output. See: wdyapppack help ci
+
 AFTER SIGNING
 
 Do not change anything inside the bundle: any change breaks the seal. Notarize it next (see: wdyapppack help notarization), then wrap it into a disk image or a zip archive.

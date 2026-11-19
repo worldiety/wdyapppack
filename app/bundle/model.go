@@ -9,8 +9,10 @@
 package bundle
 
 import (
+	"cmp"
 	"encoding/json"
 	"io/fs"
+	"path/filepath"
 	"time"
 
 	"github.com/worldiety/wdyapppack/foundation/problem"
@@ -51,6 +53,12 @@ type Config struct {
 	Sign     json.RawMessage `json:"sign,omitempty"`
 	Notarize json.RawMessage `json:"notarize,omitempty"`
 	DMG      json.RawMessage `json:"dmg,omitempty"`
+}
+
+// BundlePath is where build writes the bundle this configuration describes:
+// <out>/<name>.app.
+func (c Config) BundlePath() string {
+	return filepath.Join(cmp.Or(c.Out, "dist"), c.Name+".app")
 }
 
 // Binary is one program to package.

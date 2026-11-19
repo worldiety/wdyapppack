@@ -48,7 +48,11 @@ A TYPICAL SESSION
   wdyapppack build --format json
   wdyapppack sign "dist/My Tool.app" --adhoc --format json          (macOS)
 
-To hand the bundle to others, see: wdyapppack help distribution.
+To hand the bundle to others, see: wdyapppack help distribution. Without a path, sign, notarize, dmg and zip work on the bundle the configuration describes.
+
+SECRETS
+
+Prefer the environment for secrets: an option value ends up in the shell history and the process list. Certificates and keys are given as files (--certificate, --key), never as content; the only password accepted as an option is --certificate-password. On a build server they come from the environment: WDYAPPPACK_CERTIFICATE and WDYAPPPACK_CERTIFICATE_PASSWORD for signing, WDYAPPPACK_API_KEY, WDYAPPPACK_API_KEY_ID and WDYAPPPACK_API_ISSUER for notarization. sign and dmg then use a temporary keychain they create and delete themselves. See: wdyapppack help ci
 
 WHAT NEEDS MACOS
 
