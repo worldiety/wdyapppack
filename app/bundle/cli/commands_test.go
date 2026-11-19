@@ -108,6 +108,27 @@ func TestBinaryPrefixIsOnlyAnArchitectureWhenItIsOne(t *testing.T) {
 	}
 }
 
+func TestHelpersOfOneNameAreGathered(t *testing.T) {
+	got := ParseHelpers([]string{"arm64=dist/agent-arm64", "tool=dist/tool", "amd64=dist/agent-amd64", "tool=x86_64=dist/tool-intel", "dist/a=b"})
+	if len(got) != 3 {
+		t.Fatalf("%+v", got)
+	}
+	if got[0].FileName() != "agent" || len(got[0].Binaries) != 2 || got[0].Binaries[1].Arch != "amd64" {
+		t.Errorf("agent: %+v", got[0])
+	}
+	if got[1].Name != "tool" || len(got[1].Binaries) != 2 || got[1].Binaries[1].Arch != "x86_64" || got[1].Binaries[1].Path != "dist/tool-intel" {
+		t.Errorf("tool: %+v", got[1])
+	}
+	if got[2].Name != "" || got[2].Binaries[0].Path != "dist/a=b" {
+		t.Errorf("a path with = was read as a name: %+v", got[2])
+	}
+
+	c := run(t, "--helper", "arm64=dist/agent-arm64", "--helper", "amd64=dist/agent-amd64").Config
+	if len(c.Helpers) != 1 || len(c.Helpers[0].Binaries) != 2 {
+		t.Fatalf("--helper not applied: %+v", c.Helpers)
+	}
+}
+
 func TestTopicsRender(t *testing.T) {
 	for _, topic := range Topics() {
 		body := topic.Body()

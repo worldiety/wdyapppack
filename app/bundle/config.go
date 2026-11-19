@@ -66,8 +66,16 @@ func ConfigFields() []confdoc.Field {
 			Description: "Where to put it below Contents/Resources."},
 		{Path: "frameworks", Kind: confdoc.Strings, Flag: "framework",
 			Description: "Libraries (.dylib) and frameworks (.framework) copied into Contents/Frameworks."},
-		{Path: "helpers", Kind: confdoc.Strings, Flag: "helper",
-			Description: "Further programs copied into Contents/Helpers. They are checked like the main program."},
+		{Path: "helpers", Kind: confdoc.Objects, Flag: "helper",
+			Description: "Further programs copied into Contents/Helpers. They are checked like the main program and must be built for every architecture it is built for."},
+		{Path: "helpers.name", Kind: confdoc.String, Default: "the file name of the first program, without an architecture suffix", Example: `"mytool-agent"`,
+			Description: "The file name of the helper inside Contents/Helpers. The main program starts it as ../Helpers/<name>, relative to its own directory."},
+		{Path: "helpers.binaries", Kind: confdoc.Objects, Required: true,
+			Description: "The helper program. Give one program, or one per architecture: several are merged into one universal program."},
+		{Path: "helpers.binaries.arch", Kind: confdoc.String, Enum: []string{"arm64", "amd64", "x86_64"},
+			Description: "The architecture the helper is built for. Optional: it is read from the program and only checked when given."},
+		{Path: "helpers.binaries.path", Kind: confdoc.String, Required: true, Example: `"dist/mytool-agent-darwin-arm64"`,
+			Description: "Path to the helper program, relative to the configuration file."},
 		{Path: "urlSchemes", Kind: confdoc.Strings, Flag: "url-scheme", Example: `["mytool"]`,
 			Description: "URL schemes the application opens (CFBundleURLTypes), without ://."},
 		{Path: "usageDescriptions", Kind: confdoc.StringMap, Flag: "usage", Example: `{"camera": "Scans QR codes."}`,
@@ -106,6 +114,10 @@ func decodeConfig(path string, data []byte, extraSections []string) (Config, err
 	case errors.As(err, &syntax):
 		return c, problem.Misuse(msg("WAP-CONFIG-SYNTAX",
 			fmt.Sprintf("%s, line %d: %s.", path, lineOf(data, syntax.Offset), syntax.Error())))
+	case errors.As(err, &typ) && strings.HasPrefix(typ.Field, "helpers") && typ.Value == "string":
+		return c, problem.Misuse(msgHow("WAP-CONFIG-TYPE",
+			fmt.Sprintf("%s, line %d: the field helpers holds a path, but each helper is an object.", path, lineOf(data, typ.Offset)),
+			`Write each helper as {"binaries": [{"path": "dist/helper"}]}, with one entry under binaries per architecture. Every field is listed by: wdyapppack help config`))
 	case errors.As(err, &typ):
 		return c, problem.Misuse(msg("WAP-CONFIG-TYPE",
 			fmt.Sprintf("%s, line %d: the field %s holds %s, but must hold %s.", path, lineOf(data, typ.Offset), typ.Field, typ.Value, typ.Type)))
@@ -164,6 +176,13 @@ func expand(c *Config, lookup func(string) (string, bool)) error {
 		sub("binaries.path", &c.Binaries[i].Path)
 		sub("binaries.arch", &c.Binaries[i].Arch)
 	}
+	for i := range c.Helpers {
+		sub("helpers.name", &c.Helpers[i].Name)
+		for j := range c.Helpers[i].Binaries {
+			sub("helpers.binaries.path", &c.Helpers[i].Binaries[j].Path)
+			sub("helpers.binaries.arch", &c.Helpers[i].Binaries[j].Arch)
+		}
+	}
 	if c.Icon != nil {
 		sub("icon.path", &c.Icon.Path)
 	}
@@ -174,7 +193,7 @@ func expand(c *Config, lookup func(string) (string, bool)) error {
 	for _, list := range []struct {
 		name string
 		s    []string
-	}{{"frameworks", c.Frameworks}, {"helpers", c.Helpers}, {"urlSchemes", c.URLSchemes}} {
+	}{{"frameworks", c.Frameworks}, {"urlSchemes", c.URLSchemes}} {
 		for i := range list.s {
 			sub(list.name, &list.s[i])
 		}
@@ -233,7 +252,9 @@ func resolve(c *Config, dir string) {
 		join(&c.Frameworks[i])
 	}
 	for i := range c.Helpers {
-		join(&c.Helpers[i])
+		for j := range c.Helpers[i].Binaries {
+			join(&c.Helpers[i].Binaries[j].Path)
+		}
 	}
 	join(&c.PlistFile)
 	if c.Out != "" {

@@ -42,7 +42,7 @@ type Config struct {
 	BackgroundOnly    bool              `json:"backgroundOnly,omitempty"`
 	Resources         []Resource        `json:"resources,omitempty"`
 	Frameworks        []string          `json:"frameworks,omitempty"`
-	Helpers           []string          `json:"helpers,omitempty"`
+	Helpers           []Helper          `json:"helpers,omitempty"`
 	URLSchemes        []string          `json:"urlSchemes,omitempty"`
 	UsageDescriptions map[string]string `json:"usageDescriptions,omitempty"`
 	Environment       map[string]string `json:"environment,omitempty"`
@@ -67,6 +67,23 @@ type Binary struct {
 	// from the program and only checked against it when given.
 	Arch string `json:"arch,omitempty"`
 	Path string `json:"path"`
+}
+
+// Helper is a further program copied into Contents/Helpers: one program, or
+// one per architecture, merged into a universal one like the main program.
+type Helper struct {
+	// Name is the file name inside Contents/Helpers. When empty, it is the
+	// file name of the first program without an architecture suffix.
+	Name     string   `json:"name,omitempty"`
+	Binaries []Binary `json:"binaries"`
+}
+
+// FileName is the name the helper is written under in Contents/Helpers.
+func (h Helper) FileName() string {
+	if h.Name != "" || len(h.Binaries) == 0 {
+		return h.Name
+	}
+	return trimArchSuffix(filepath.Base(h.Binaries[0].Path))
 }
 
 // Icon names the image the icon is made from.

@@ -52,7 +52,7 @@ Paths in the configuration file are relative to the file; paths given as options
 			{Name: "background-only", Type: cli.Bool, Config: "backgroundOnly", Usage: "Mark a program without any user interface."},
 			{Name: "resource", Type: cli.List, Value: "path[:dest]", Config: "resources", Usage: "A file or directory to copy into Contents/Resources, optionally under another name."},
 			{Name: "framework", Type: cli.List, Value: "path", Config: "frameworks", Usage: "A library (.dylib) or framework to copy into Contents/Frameworks."},
-			{Name: "helper", Type: cli.List, Value: "path", Config: "helpers", Usage: "Another program to copy into Contents/Helpers. It is checked like the main program."},
+			{Name: "helper", Type: cli.List, Value: "[name=][arch=]path", Config: "helpers", Usage: "Another program to copy into Contents/Helpers, checked like the main program. Give it once per architecture of the main program: values with the same name are merged into one universal helper. The name defaults to the file name without architecture suffix."},
 			{Name: "url-scheme", Type: cli.List, Value: "scheme", Config: "urlSchemes", Usage: "A URL scheme the application opens, without ://."},
 			{Name: "usage", Type: cli.List, Value: "kind=text", Config: "usageDescriptions", Usage: "Why the application needs a kind of access, e.g. camera=\"Scans QR codes.\". Kinds: wdyapppack help info-plist."},
 			{Name: "env", Type: cli.List, Value: "KEY=VALUE", Config: "environment", Usage: "An environment variable macOS sets when it starts the application."},
@@ -194,7 +194,7 @@ func applyFlags(inv *cli.Invocation, c *bundle.Config) error {
 		c.Frameworks = inv.List("framework")
 	}
 	if inv.IsSet("helper") {
-		c.Helpers = inv.List("helper")
+		c.Helpers = ParseHelpers(inv.List("helper"))
 	}
 	if inv.IsSet("url-scheme") {
 		c.URLSchemes = inv.List("url-scheme")
@@ -237,6 +237,31 @@ func ParseBinary(v string) bundle.Binary {
 		}
 	}
 	return bundle.Binary{Path: v}
+}
+
+// ParseHelpers reads the values of --helper, each [name=][arch=]path, and
+// gathers the values of the same name into one helper, in the order the names
+// first appear.
+func ParseHelpers(values []string) []bundle.Helper {
+	var out []bundle.Helper
+	index := map[string]int{}
+	for _, v := range values {
+		name, rest := "", v
+		if n, r, ok := strings.Cut(v, "="); ok && n != "" && !strings.ContainsAny(n, `/\`) {
+			if _, known := macho.NormalizeArch(n); !known {
+				name, rest = n, r
+			}
+		}
+		h := bundle.Helper{Name: name, Binaries: []bundle.Binary{ParseBinary(rest)}}
+		key := h.FileName()
+		if i, ok := index[key]; ok {
+			out[i].Binaries = append(out[i].Binaries, h.Binaries...)
+			continue
+		}
+		index[key] = len(out)
+		out = append(out, h)
+	}
+	return out
 }
 
 // ParsePlistValue reads key[:type]=value.

@@ -103,7 +103,7 @@ type starter struct {
 	BackgroundOnly    bool              `json:"backgroundOnly"`
 	Resources         []Resource        `json:"resources"`
 	Frameworks        []string          `json:"frameworks"`
-	Helpers           []string          `json:"helpers"`
+	Helpers           []Helper          `json:"helpers"`
 	URLSchemes        []string          `json:"urlSchemes"`
 	UsageDescriptions map[string]string `json:"usageDescriptions"`
 	Environment       map[string]string `json:"environment"`
@@ -125,7 +125,7 @@ func writeConfig(files Files, req WriteConfigRequest) (WrittenConfig, error) {
 		Icon:              Icon{Shape: ShapeNone},
 		Resources:         []Resource{},
 		Frameworks:        []string{},
-		Helpers:           []string{},
+		Helpers:           []Helper{},
 		URLSchemes:        []string{},
 		UsageDescriptions: map[string]string{},
 		Environment:       map[string]string{},
